@@ -1,0 +1,335 @@
+/*
+Copyright (c) 2018 Qualcomm Technologies, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Qualcomm Technologies, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/* loading */
+.page-loader {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.2);
+	display: -ms-flexbox;
+	display: flex;
+	-ms-align-items: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-ms-justify-content: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+.loading {
+	display: inline-block;
+	position: relative;
+	width: 64px;
+	height: 64px;
+
+	&:after {
+		content: attr(data-app-name);
+		position: absolute;
+		top: 0;
+		left: 50%;
+		display: block;
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: #3f51b5;
+		white-space: nowrap;
+		-ms-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		-webkit-transform: translateX(-50%);
+		transform: translateX(-50%);
+
+		@media (max-width: 479px) {
+			font-size: 0.85rem;
+		}
+
+	}
+
+	> div,
+	.loading-ite {
+		position: absolute;
+		top: 27px;
+		width: 11px;
+		height: 11px;
+		display: block;
+		-ms-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border-radius: 50%;
+		background: #3f51b5;
+		-ms-animation-timing-function: cubic-bezier(0, 1, 1, 0);
+		-moz-animation-timing-function: cubic-bezier(0, 1, 1, 0);
+		-webkit-animation-timing-function: cubic-bezier(0, 1, 1, 0);
+		animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+		&:nth-child(1) {
+			left: 6px;
+			-ms-animation: load-ellipsis1 0.6s infinite;
+			-moz-animation: load-ellipsis1 0.6s infinite;
+			-webkit-animation: load-ellipsis1 0.6s infinite;
+			animation: load-ellipsis1 0.6s infinite;
+		}
+
+		&:nth-child(2) {
+			left: 6px;
+			-ms-animation: load-ellipsis2 0.6s infinite;
+			-moz-animation: load-ellipsis2 0.6s infinite;
+			-webkit-animation: load-ellipsis2 0.6s infinite;
+			animation: load-ellipsis2 0.6s infinite;
+		}
+
+		&:nth-child(3) {
+			left: 26px;
+			-ms-animation: load-ellipsis2 0.6s infinite;
+			-moz-animation: load-ellipsis2 0.6s infinite;
+			-webkit-animation: load-ellipsis2 0.6s infinite;
+			animation: load-ellipsis2 0.6s infinite;
+		}
+
+		&:nth-child(4) {
+			left: 45px;
+			-ms-animation: load-ellipsis3 0.6s infinite;
+			-moz-animation: load-ellipsis3 0.6s infinite;
+			-webkit-animation: load-ellipsis3 0.6s infinite;
+			animation: load-ellipsis3 0.6s infinite;
+		}
+
+	}
+
+}
+
+@keyframes load-ellipsis1 {
+  0% {
+    -ms-transform: scale(0);
+    -moz-transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  100% {
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes load-ellipsis3 {
+  0% {
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  100% {
+    -ms-transform: scale(0);
+    -moz-transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+@keyframes load-ellipsis2 {
+  0% {
+    -ms-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  100% {
+    -ms-transform: translate(19px, 0);
+    -moz-transform: translate(19px, 0);
+    -webkit-transform: translate(19px, 0);
+    transform: translate(19px, 0);
+  }
+}
+
+.loader-center {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-align-items: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-ms-justify-content: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.lds-roller {
+	display: inline-block;
+	position: relative;
+	width: 64px;
+	height: 64px;
+	-ms-transform: scale(0.5);
+	-webkit-transform: scale(0.5);
+	transform: scale(0.5);
+
+	> div {
+		animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		transform-origin: 32px 32px;
+
+		&:after {
+			content: " ";
+			display: block;
+			position: absolute;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			background: #fff;
+			margin: -3px 0 0 -3px;
+		}
+
+		&:nth-child(1) {
+			animation-delay: -0.036s;
+
+			&:after {
+				top: 50px;
+				left: 50px;
+			}
+
+		}
+
+		&:nth-child(2) {
+			animation-delay: -0.072s;
+
+			&:after {
+				top: 54px;
+				left: 45px;
+			}
+
+		}
+
+		&:nth-child(3) {
+			animation-delay: -0.108s;
+
+			&:after {
+				top: 57px;
+				left: 39px;
+			}
+
+		}
+
+		&:nth-child(4) {
+			animation-delay: -0.144s;
+
+			&:after {
+				top: 58px;
+				left: 32px;
+			}
+
+		}
+
+		&:nth-child(5) {
+			animation-delay: -0.18s;
+
+			&:after {
+				top: 57px;
+				left: 25px;
+			}
+
+		}
+
+		&:nth-child(6) {
+			animation-delay: -0.216s;
+
+			&:after {
+				top: 54px;
+				left: 19px;
+			}
+
+		}
+
+		&:nth-child(7) {
+			animation-delay: -0.252s;
+
+			&:after {
+				top: 50px;
+				left: 14px;
+			}
+
+		}
+
+		&:nth-child(8) {
+			animation-delay: -0.288s;
+
+			&:after {
+				top: 45px;
+				left: 10px;
+			}
+
+		}
+
+	}
+}
+
+@keyframes lds-roller {
+
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+
+}
+
+/* steps-loading */
+.steps-loading {
+    position: relative;
+
+    .controler-box {
+    	position: absolute;
+    	top: 0;
+    	right: 0;
+    	bottom: 0;
+    	left: 0;
+    	/*background: rgba(63, 81, 181, 0.8);*/
+    	background: rgba(251, 251, 251, 0.85);
+    	display: none;
+    	-ms-justify-content: center;
+    	-webkit-justify-content: center;
+    	justify-content: center;
+    	-ms-align-items: center;
+    	-webkit-align-items: center;
+    	align-items: center;
+    	z-index: 111;
+
+    	&.show-loading {
+    		display: -ms-flexbox;
+	    	display: -ms-flex;
+	    	display: -webkit-flex;
+	    	display: flex;
+    	}
+
+    	.lds-roller {
+    		-ms-transform: translateY(-55%);
+    		-moz-transform: translateY(-55%);
+    		-webkit-transform: translateY(-55%);
+    		transform: translateY(-55%);
+
+    		&:after {
+    			color: #212529;
+    		}
+
+    		> div {
+
+    			&:after {
+    				background: #212529;
+    			}
+
+    		}
+
+    	}
+
+    }
+
+}
+/* /steps-loading */
+
+/* /loading */

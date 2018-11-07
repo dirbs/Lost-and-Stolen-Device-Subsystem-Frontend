@@ -1,0 +1,6 @@
+{
+  "name": "CaseBox",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CaseBox.js"
+}

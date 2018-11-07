@@ -1,0 +1,55 @@
+{
+  "name": "lsds",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "http://192.168.100.20/lsds",
+  "dependencies": {
+    "airbnb-browser-shims": "^3.0.0",
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "base-64": "^0.1.0",
+    "bootstrap": "^4.1.1",
+    "classnames": "^2.2.6",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "font-awesome": "4.7.0",
+    "formik": "^0.11.11",
+    "i18next": "^11.2.3",
+    "i18next-browser-languagedetector": "^2.2.0",
+    "immutability-helper": "^2.7.1",
+    "jwt-decode": "^2.2.0",
+    "keycloak-js": "^4.1.0",
+    "node-sass": "^4.9.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.0",
+    "react-content-loader": "^3.1.2",
+    "react-dates": "^17.0.0",
+    "react-dom": "^16.6.0",
+    "react-i18next": "^7.6.1",
+    "react-js-pagination": "^3.0.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "4.2.2",
+    "react-scripts": "2.1.1",
+    "react-select": "^1.2.1",
+    "react-test-renderer": "^16.6.0",
+    "react-toastify": "^4.1.0",
+    "react-transition-group": "^2.4.0",
+    "reactstrap": "5.0.0-beta",
+    "redux": "^4.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

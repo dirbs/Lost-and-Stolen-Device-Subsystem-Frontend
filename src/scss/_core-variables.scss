@@ -1,0 +1,49 @@
+// core overrides
+$navbar-bg:                           #3f51b5 !default;
+$navbar-height:                       55px !default;
+$sidebar-width:                       230px;
+$mobile-sidebar-width:                230px !default;
+$navbar-brand-logo:                   transparent !default;
+$navbar-brand-minimized-logo:         transparent !default;
+$sidebar-bg:                          #e4e5e6 !default;
+// $sidebar-bg:                          #4d394b !default;
+// $sidebar-bg:                          #fff !default;
+// $sidebar-nav-link-active-bg:          #4d394b !default;
+$sidebar-nav-link-color:              #212121 !default;
+$sidebar-nav-link-active-color:       $navbar-bg !default;
+$sidebar-nav-link-hover-color:        #000 !default;
+$sidebar-nav-link-hover-bg:           darken($sidebar-bg, 10%) !default;
+$sidebar-nav-title-color:             #555 !default;
+$sidebar-nav-link-active-bg:          darken($sidebar-bg, 5%) !default;
+
+// header border
+$navbar-border: (
+  bottom: (
+    size:                             0px,
+    style:                            solid,
+    color:                            $border-color
+  )
+)  !default;
+
+// navbar brand border
+$navbar-brand-border: (
+  bottom: (
+    size:                             0px,
+    style:                            solid,
+    color:                            $border-color
+  )
+)  !default;
+
+// breadcrumb border
+$breadcrumb-borders: (
+  bottom: (
+    size:                             1px,
+    style:                            solid,
+    color:                            $border-color
+  )
+) !default;
+
+$navbar-color:                        $white-800 !default;
+$navbar-hover-color:                  $white-900 !default;
+$navbar-active-color:                 $white-900 !default;
+$navbar-disabled-color:               $white-300 !default;

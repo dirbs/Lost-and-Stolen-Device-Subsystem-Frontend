@@ -1,0 +1,30 @@
+@each $color, $value in $theme-colors {
+  .modal-#{$color} {
+
+    .modal-content {
+      border-color: $value;
+    }
+
+    .modal-header {
+      color: #fff;
+      background-color: $value;
+    }
+  }
+}
+
+.modal-xl {
+    max-width: 1040px;
+    width: calc(100% - 30px);
+}
+
+.modal-lg {
+
+  &.modal-dialog {
+
+    @include media-breakpoint-down(md) {
+      max-width: calc(100% - 30px);
+    }
+
+  }
+
+}

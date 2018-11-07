@@ -1,0 +1,368 @@
+
+/*input:focus::-webkit-input-placeholder,
+.form-control:focus::-webkit-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:focus::-webkit-input-placeholder {
+	color:transparent;
+}
+input:focus:-moz-placeholder,
+.form-control:focus:-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:focus:-moz-placeholder {
+	color:transparent;
+}
+input:focus::-moz-placeholder,
+.form-control:focus::-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:focus::-moz-placeholder {
+	color:transparent;
+}
+input:focus:-ms-input-placeholder,
+.form-control:focus:-ms-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:focus:-ms-input-placeholder {
+	color:transparent;
+}*/
+input:focus:-ms-input-placeholder { /* IE10–11 */
+    color: #495057 !important;
+}
+
+input:focus::-ms-input-placeholder { /* Edge */
+    color: #495057;
+}
+
+
+.input-group-prepend,
+.input-group-append {
+  white-space: nowrap;
+  vertical-align: middle; // Match the inputs
+}
+
+.disabled,
+[disabled] {
+	cursor: not-allowed;
+}
+
+.form-control:-ms-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:-ms-input-placeholder {  
+   color: #666;
+   opacity: 1;
+}
+
+.form-control:-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:-moz-placeholder {
+   color: #666;
+   opacity: 1;
+}
+
+.form-control::-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small::-moz-placeholder {
+   color: #666;
+   opacity: 1; 
+}
+
+.form-control::-webkit-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small::-webkit-input-placeholder {
+   color: #666;
+   opacity: 1;
+}
+
+.form-control,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small {
+	color: #666;
+	font-size: inherit;
+	font-weight: 400;
+	height: 38px;
+	opacity: 1;
+}
+
+.Select .Select-control .Select-placeholder {
+	color: #666;
+	font-size: inherit;
+	font-weight: 400;
+	opacity: 1;
+	height: 38px;
+	line-height: 24px;
+}
+
+.Select-control {
+	height: 38px;
+}
+
+textarea.form-control {
+	height: auto;
+}
+
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+	padding: 0.375rem 0.75rem;
+}
+
+select [disabled]:selected {
+	color: #bcbdbe;
+}
+
+select.form-control {
+	color: #666;
+
+	&:not([size]) {
+		height: 38px;
+
+		&:not([multiple]) {
+			height: 38px;
+		}
+
+	}
+
+}
+
+button.btn-link {
+	border: 0;
+	outline: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.btn {
+	text-transform: uppercase;
+
+	@include media-breakpoint-down(xs) {
+		font-size: 0.75rem;
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+
+	&.btn-link {
+		text-transform: none;
+	}
+
+}
+
+.btn-next-prev {
+	min-width: 140px;
+}
+
+.btn-default {
+	background: #f0f0f0;
+}
+
+label {
+	
+	&[data-after] {
+
+		&:after {
+			content: attr(data-after);
+			color: red;
+		}
+
+	}
+}
+
+.txtarehei {
+	height: 0.35rem;
+}
+
+.was-validated {
+
+	.form-control {
+		
+		&:valid {
+
+			&.read-field,
+			&.read-field[readonly] {
+				border: transparent 1px solid;
+				background: transparent;
+				opacity: 1;
+
+				&:readonly,
+				&:disabled {
+					background: transparent;
+					opacity: 1;
+				}
+
+			}
+			
+		}
+
+		&.read-field,
+		&.read-field[readonly] {
+			border: transparent 1px solid;
+			background: transparent;
+			opacity: 1;
+
+			&:readonly,
+			&:disabled {
+				background: transparent;
+				opacity: 1;
+			}
+
+		}
+
+	}
+
+}
+
+.form-control {
+	
+	&.read-field,
+	&.read-field[readonly] {
+		border: transparent 1px solid;
+		background: transparent;
+		opacity: 1;
+
+		&:readonly,
+		&:disabled {
+			background: transparent;
+			opacity: 1;
+		}
+
+	}
+
+}
+
+.asitfield {
+	padding: 0.375rem 0.375rem;
+	border: #ced4da 1px solid;
+	border-radius: 0.25rem;
+	position: relative;
+	height: 38px;
+
+	input[type="file"] {
+		width: calc(100% - 17px);
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		-ms-word-break: break-all;
+		word-break: break-all;
+		word-break: break-word;
+		-ms-hyphens: auto;
+		-moz-hyphens: auto;
+		-webkit-hyphens: auto;
+		hyphens: auto;
+		overflow: hidden;
+	}
+
+	.filespan {
+		display: -ms-flexbox;
+		display: flex;
+		width: calc(100% - 17px);
+		line-height: normal;
+		margin-top: -1px;
+
+		.selectedfile {
+			width: 100%;
+			padding: 3px 0 0 0.2rem;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+	}
+
+	a {
+
+		&.text-danger {
+			position: absolute;
+			top: 7px;
+			right: 0.375rem;
+			display: block;
+		}
+
+	}
+
+	&.checkfield {
+
+		label {
+			color: #666;
+			margin-bottom: 0;
+			margin-right: 1rem;
+			line-height: 24px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+		}
+
+	}
+
+	&.btn-add {
+		position: relative;
+		font-size: 1rem;
+		line-height: 1.5;
+
+		.btn {
+			position: absolute;
+			top: 1px;
+			right: 1px;
+			bottom: 1px;
+			display: block;
+			line-height: 1;
+		}
+
+	}
+
+}
+
+input[type="file"] {
+	background: transparent;
+	border: 0;
+	outline: 0;
+	-ms-box-shadow: none;
+	box-shadow: none;
+	text-align: left;
+
+	/* style only for IE 10 + */
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		direction: rtl;
+	}
+
+	/* style only for edge browser */
+	@supports (-ms-ime-align: auto) {
+		direction: rtl;
+	}
+
+	&::-ms-value {
+		background: transparent;
+		border: 0;
+		outline: 0;
+		-ms-box-shadow: none;
+		box-shadow: none;
+	}
+
+	&::-ms-browse {
+		color: #000;
+		padding: 1px 10px;
+		background: rgba(0, 0, 0, 0.12);
+		border: rgba(0, 0, 0, 0.25) 1px solid;
+		-ms-box-shadow: none;
+		box-shadow: none;
+	}
+
+}
+
+.DateRangePicker_picker {
+	z-index: 3;
+}
+
+.CalendarMonth_caption {
+	font-size: 13px;
+}
+
+.DayPickerNavigation_svg__vertical {
+	height: 16px;
+	width: 16px;
+	margin: 0 auto;
+}
+
+.DayPickerNavigation_button__verticalDefault {
+	box-shadow: none;
+	background: #e4e7e7;
+}
+
+.DayPickerNavigation__verticalDefault {
+	height: 28px;
+}
+
+.DayPicker_weekHeader_ul {
+	font-size: 12px;
+
+	small {
+		font-weight: 700;
+	}
+
+}

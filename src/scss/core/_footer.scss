@@ -1,0 +1,54 @@
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 $spacer;
+  color: $footer-color;
+  background: $footer-bg;
+  @include borders($footer-borders);
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+
+  @include media-breakpoint-down(xs) {
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: $spacer;
+  }
+
+  @include media-breakpoint-up(sm) {
+    flex: 0 0 $footer-height;
+  }
+
+  > div {
+    padding: 0.5rem 0;
+
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+      text-align: center;
+      padding: 0;
+
+    }
+
+  }
+
+}
+
+//
+// Footer
+//
+.footer-fixed {
+
+  .app-footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-sticky;
+    height: $footer-height;
+  }
+
+  .app-body {
+    margin-bottom: $footer-height;
+  }
+
+}

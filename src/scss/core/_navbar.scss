@@ -1,0 +1,423 @@
+.app-header.navbar {
+  position: relative;
+  flex-direction: row;
+  height: $navbar-height;
+  padding: 0;
+  margin: 0;
+  background-color: $navbar-bg;
+  @include borders($navbar-border);
+
+  .navbar-brand {
+    display: inline-block;
+    padding: $navbar-padding-y $navbar-padding-x;
+    margin-right: 0;
+    background-color: $navbar-brand-bg;
+    background-image: $navbar-brand-logo;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: $navbar-brand-logo-size;
+    @include borders($navbar-brand-border);
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+  }
+
+  .navbar-toggler {
+    min-width: 50px;
+    padding: $navbar-toggler-padding-y 0;
+
+    &:hover .navbar-toggler-icon {
+      background-image: $navbar-toggler-icon-hover;
+    }
+
+  }
+
+  .navbar-toggler-icon {
+    height: 23px;
+    background-image: $navbar-toggler-icon;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-item {
+    position: relative;
+    min-width: 50px;
+    margin: 0 !important;
+    text-align: center;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    .dropdown-menu-right {
+      margin-right: 0px;
+      left: auto;
+      right: 0;
+    }
+
+    button {
+      margin: 0 auto;
+    }
+
+    .nav-link {
+      padding-top: 0;
+      padding-bottom: 0;
+      background: 0;
+      border: 0;
+
+      .badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -12px;
+        margin-left: 2px;
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        display: block;
+
+        &.badge-danger {
+          color: #fff;
+          background-color: #ff0000;
+        }
+
+      }
+
+      > .img-avatar {
+        height: $navbar-height - 20px;
+        margin: 0;
+      }
+
+    }
+
+    @include media-breakpoint-down(sm) {
+
+      &.dd-itereg {
+        padding-left: 0;
+        display: inline-block;
+
+        .nav-link {
+          white-space: nowrap;
+
+          span {
+
+            &.h6 {
+              max-width: 100px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              margin-top: 0;
+              margin-bottom: 0;
+              vertical-align: top;
+              display: inline-block;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  .dropdown-menu {
+    padding-bottom: 0;
+    line-height: $line-height-base;
+
+    &.dropdown-menu-lg {
+      width: 290px;
+
+      @media (min-width: 576px) {
+        transform: none !important;
+        left: auto !important;
+        right: 15px !important;
+        top: 100% !important;
+      }
+
+    }
+
+  }
+
+  .dropdown-item {
+    min-width: 100%;
+  }
+
+  .hiuser {
+    display: none !important;
+    text-align: center;
+    padding: 0.75rem;
+    margin: 0;
+
+    @include media-breakpoint-down(md) {
+      display: block !important;
+    }
+
+  }
+
+}
+
+.navbar-brand {
+  color: $navbar-active-color;
+
+  @include hover-focus {
+    color: $navbar-active-color;
+  }
+
+  h5 {
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+.navbar-nav {
+
+  .nav-link {
+    color: $navbar-color;
+
+    @include hover-focus {
+      color: $navbar-hover-color;
+    }
+
+  }
+
+  .open > .nav-link,
+  .active > .nav-link,
+  .nav-link.open,
+  .nav-link.active {
+
+    @include plain-hover-focus {
+      color: $navbar-active-color;
+    }
+
+  }
+
+}
+
+.navbar-divider {
+  background-color: rgba(0,0,0,.075);
+}
+
+@include media-breakpoint-up(lg) {
+
+  .brand-minimized {
+
+    .app-header.navbar {
+
+      .navbar-brand {
+        /*width: $navbar-brand-minimized-width;*/
+        background-color: $navbar-brand-minimized-bg;
+        background-image: $navbar-brand-minimized-logo;
+        background-size: $navbar-brand-minimized-logo-size;
+        @include borders($navbar-brand-minimized-border);
+        padding-right: 3px;
+        padding-left: 1rem;
+      }
+
+    }
+
+  }
+
+}
+
+// app-dashboard and app-root are Angular2+ selectors. You can add here your own selectors if you need.
+.app,
+app-dashboard,
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  flex: 0 0 $navbar-height;
+}
+
+//
+// header
+//
+.header-fixed {
+
+  .app-header {
+    position: fixed;
+    z-index: $zindex-sticky;
+    width: 100%;
+  }
+
+  .app-body {
+    margin-top: $navbar-height;
+  }
+
+}
+
+@include media-breakpoint-down(md) {
+
+  .app-header.navbar {
+    position: fixed !important;
+    z-index: $zindex-sticky;
+    width: 100%;
+    text-align: center;
+    @include borders($navbar-brand-border);
+
+    .navbar-toggler {
+
+      @if (lightness( $navbar-brand-bg ) > 40) {
+        color: $navbar-color;
+      } @else {
+        color: #fff;
+      }
+
+    }
+
+  }
+
+  .app-body {
+    margin-top: $navbar-height;
+  }
+
+}
+
+.app-header {
+
+  .navbar-brand {
+
+    .navbar-brand-minimized {
+      display: none;
+      font-size: 1.1rem;
+
+      @include media-breakpoint-down(xs) {
+        display: block;
+      }
+
+    }
+
+    .navbar-brand-full {
+
+      @include media-breakpoint-down(xs) {
+        display: none;
+      }
+
+    }
+
+  }
+
+}
+
+.brand-minimized {
+
+  .app-header {
+
+    .navbar-brand {
+      -ms-justify-content: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+
+      /*.navbar-brand-minimized {
+        display: block;
+      }
+
+      .navbar-brand-full {
+        display: none;
+      }*/
+
+    }
+
+  }
+
+}
+
+.hide-up-md {
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+
+}
+
+.dropdown-notify {
+  max-height: 363px;
+  overflow-y: auto;
+
+  p {
+
+    &.no-data {
+      color: #999;
+      font-size: 12px;
+      font-style: italic;
+      padding: 0.5rem;
+      margin: 0;
+    }
+
+  }
+
+}
+
+.itenotify {
+
+  &.dropdown-item {
+    padding: 0.85rem 0.5rem;
+  }
+
+  &.unread {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .notifymessage {
+
+    p {
+      margin: 0;
+      padding: 0;
+      white-space: pre-wrap;
+      font-size: 14px;
+      color: #333;
+    }
+
+  }
+
+  .notifyfoot {
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      margin: 0;
+      padding: 0.25rem 0 0;
+      text-align: right;
+      font-size: 11px;
+
+      &.reqdate {
+        color: #999;
+        font-weight: 600;
+      }
+
+      &.reqstatus {
+
+        .badge {
+          padding: 0.2rem 0.25rem;
+          font-weight: 600;
+          letter-spacing: 0.02rem;
+          font-size: inherit;
+        }
+
+      }
+
+    }
+
+  }
+
+}

@@ -1,0 +1,23 @@
+// Bootstrap overrides
+
+//
+// Color system
+//
+
+$blue:    #3f51b5 !default;
+
+$white-100:                        rgba(255, 255, 255, 0.1);
+$white-200:                        rgba(255, 255, 255, 0.2);
+$white-300:                        rgba(255, 255, 255, 0.3);
+$white-400:                        rgba(255, 255, 255, 0.4);
+$white-500:                        rgba(255, 255, 255, 0.5);
+$white-600:                        rgba(255, 255, 255, 0.6);
+$white-700:                        rgba(255, 255, 255, 0.7);
+$white-800:                        rgba(255, 255, 255, 0.8);
+$white-900:                        rgba(255, 255, 255, 0.9);
+
+$def-dark:                         #4d394b !default;
+$warning:       #fd7e14 !default;
+
+$breadcrumb-active-color:          $def-dark !default;
+$dropdown-padding-y:               0 !default;

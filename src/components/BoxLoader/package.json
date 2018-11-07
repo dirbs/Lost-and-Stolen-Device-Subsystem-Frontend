@@ -1,0 +1,6 @@
+{
+  "name": "BoxLoader",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./BoxLoader.js"
+}

@@ -1,0 +1,905 @@
+/*
+Copyright (c) 2018 Qualcomm Technologies, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Qualcomm Technologies, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+body {
+	background: #fff;
+	font-size: 0.875rem;
+}
+
+.disabled,
+[disabled] {
+	cursor: not-allowed;
+}
+
+.form-control:-ms-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:-ms-input-placeholder {  
+   color: #666;
+   opacity: 1;
+}
+.form-control:-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small:-moz-placeholder {
+   color: #666;
+   opacity: 1;
+}
+.form-control::-moz-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small::-moz-placeholder {
+   color: #666;
+   opacity: 1; 
+}
+.form-control::-webkit-input-placeholder,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small::-webkit-input-placeholder {
+   color: #666;
+   opacity: 1;
+}
+
+.form-control,
+.DateRangePicker .DateRangePickerInput.DateRangePickerInput__withBorder .DateInput .DateInput_input__small {
+	color: #666;
+	font-size: inherit;
+	font-weight: 400;
+	height: 38px;
+	opacity: 1;
+}
+
+.Select .Select-control .Select-placeholder {
+	color: #666;
+	font-size: inherit;
+	font-weight: 400;
+	opacity: 1;
+	height: 38px;
+	line-height: 24px;
+}
+
+.Select-control {
+	height: 38px;
+}
+
+textarea.form-control {
+	height: auto;
+}
+
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+	padding: 0.375rem 0.75rem;
+}
+
+select [disabled]:selected {
+	color: #bcbdbe;
+}
+
+select.form-control {
+	color: #666;
+
+	&:not([size]) {
+		height: 38px;
+
+		&:not([multiple]) {
+			height: 38px;
+		}
+
+	}
+
+}
+
+.main {
+	padding-bottom: 2rem;
+}
+
+.btn {
+	text-transform: uppercase;
+
+	@include media-breakpoint-down(xs) {
+		font-size: 0.75rem;
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+
+}
+
+.btn-next-prev {
+	min-width: 140px;
+}
+
+.breadcrumb {
+	background: #fff;
+}
+
+.dropdown-header {
+	border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.react-bootstrap-table-page-btns-ul {
+    float: right;
+    margin-top: 0;
+}
+
+label {
+	
+	&[data-after] {
+
+		&:after {
+			content: attr(data-after);
+			color: red;
+		}
+
+	}
+}
+
+.txtarehei {
+	height: 0.35rem;
+}
+
+.card-body {
+	
+	&.p0 {
+		padding: 0;
+	}
+
+}
+
+.was-validated {
+
+	.form-control {
+		
+		&:valid {
+
+			&.read-field,
+			&.read-field[readonly] {
+				border: transparent 1px solid;
+				background: transparent;
+				opacity: 1;
+
+				&:readonly,
+				&:disabled {
+					background: transparent;
+					opacity: 1;
+				}
+
+			}
+			
+		}
+
+		&.read-field,
+		&.read-field[readonly] {
+			border: transparent 1px solid;
+			background: transparent;
+			opacity: 1;
+
+			&:readonly,
+			&:disabled {
+				background: transparent;
+				opacity: 1;
+			}
+
+		}
+
+	}
+
+}
+
+.form-control {
+	color: #888;
+	
+	&.read-field,
+	&.read-field[readonly] {
+		border: transparent 1px solid;
+		background: transparent;
+		opacity: 1;
+
+		&:readonly,
+		&:disabled {
+			background: transparent;
+			opacity: 1;
+		}
+
+	}
+
+}
+
+ .listbox {
+ 	list-style-type: none;
+ 	margin: 0;
+ 	padding: 0 0 0 0;
+
+ 	.casebox {
+ 		margin: 0.5rem 0 0 0;
+ 		padding: 0;
+ 		border: #aaa 1px solid;
+
+ 		.case-head {
+ 			padding: 15px;
+
+ 			&:after {
+ 				content: '';
+ 				display: table;
+ 				clear: both;
+ 			}
+
+ 			.case-actions {
+ 				float: right;
+
+ 				@include media-breakpoint-down(sm) {
+ 					text-align: center;
+ 					float: none;
+ 					margin-bottom: 0.7rem;
+ 				}
+
+ 				p {
+ 					text-align: right;
+ 					margin: 0;
+ 					padding: 0;
+ 					display: inline-block;
+
+ 					@include media-breakpoint-down(sm) {
+ 						text-align: center;
+ 						display: inline-block;
+ 					}
+
+ 					& + p {
+ 						margin-top: 0.25rem;
+ 					}
+
+ 					a {
+ 						display: inline-block;
+ 					}
+
+ 					.btn {
+
+ 						& + .btn {
+ 							margin-left: 0.5rem;
+ 						}
+
+ 					}
+
+ 				}
+
+ 			}
+
+ 			.case-content {
+ 				margin-right: 205px;
+
+ 				@include media-breakpoint-down(sm) {
+ 					margin-right: 0;
+ 					text-align: center;
+ 				}
+
+ 				.incident-status {
+ 					text-transform: uppercase;
+ 					color: #777;
+ 					font-size: 0.7rem;
+ 					margin-bottom: 0;
+
+ 					span {
+ 						display: inline-block;
+ 						vertical-align: middle;
+ 					}
+
+ 					.incident {
+
+ 						b {
+ 							color: #000;
+ 						}
+
+ 					}
+
+ 					.dot-sep {
+
+ 						&:after {
+ 							content:'';
+ 							width: 6px;
+ 							height: 6px;
+ 							background: #000;
+ 							display: inline-block;
+ 							margin: 0 0.6rem;
+ 							-moz-border-radius: 50%;
+ 							-webkit-border-radius: 50%;
+ 							border-radius: 50%;
+ 						}
+
+ 					}
+
+ 					.status {
+
+ 						b {
+ 							color: #aaa;
+ 						}
+
+ 					}
+
+ 					.creater {
+
+ 						b {
+ 							color: #000;
+ 						}
+
+ 					}
+
+ 				}
+
+ 				.case-title {
+ 					font-size: 1.3rem;
+ 					color: #212121;
+ 					margin: 0;
+ 					padding: 0 0 0.2rem 0;
+
+ 					a {
+ 						color: #212121;
+ 						text-decoration: none;
+
+ 						&:hover {
+ 							color: #000;
+ 						}
+
+ 					}
+
+ 				}
+
+ 			}
+
+ 		}
+
+ 		&.case-pending {
+ 			border: $blue 1px solid;
+
+ 			.case-head {
+
+ 				.case-content {
+
+ 					.case-title {
+
+ 						a {
+
+ 							&:hover {
+ 								color: $blue;
+ 							}
+
+ 						}
+
+ 					}
+
+ 					.incident-status {
+
+ 						.status {
+
+ 							b {
+ 								color: $blue;
+ 							}
+
+ 						}
+						
+ 					}
+
+ 				}
+
+ 			}
+
+ 		}
+
+ 		&.case-blocked {
+ 			border: $red 1px solid;
+
+ 			.case-head {
+
+ 				.case-content {
+
+ 					.case-title {
+
+ 						a {
+
+ 							&:hover {
+ 								color: $red;
+ 							}
+
+ 						}
+
+ 					}
+
+ 					.incident-status {
+
+ 						.status {
+
+ 							b {
+ 								color: $red;
+ 							}
+
+ 						}
+
+ 					}
+
+ 				}
+
+ 			}
+
+ 		}
+
+ 		&.case-recovered {
+ 			border: $green 1px solid;
+
+ 			.case-head {
+
+ 				.case-content {
+
+ 					.case-title {
+
+ 						a {
+
+ 							&:hover {
+ 								color: $green;
+ 							}
+
+ 						}
+
+ 					}
+
+ 					.incident-status {
+
+ 						.status {
+
+ 							b {
+ 								color: $green;
+ 							}
+
+ 						}
+
+ 					}
+
+ 				}
+
+ 			}
+
+ 		}
+
+ 	}
+
+ }
+
+ .more-detail {
+ 	list-style-type: none;
+ 	margin: 0 0;
+ 	padding: 0;
+ 	display: -ms-flexbox;
+ 	display: flex;
+ 	-ms-flex-wrap: wrap;
+ 	flex-wrap: wrap;
+
+ 	li {
+ 		margin: 0;
+ 		padding: 0 0;
+ 		-ms-flex: 0 0 25%;
+ 		flex: 0 0 25%;
+ 		max-width: 25%;
+ 		background: rgba(0,0,0,0.1);
+
+ 		@include media-breakpoint-down(sm) {
+
+ 			-ms-flex: 0 0 50%;
+ 			flex: 0 0 50%;
+ 			max-width: 50%;
+
+ 			&:nth-child(n + 3) {
+ 				border-top: #fff 1px solid;
+ 			}
+
+ 		}
+
+ 		& + li {
+ 			border-left: #fff 1px solid;
+ 		}
+
+ 		p {
+ 			text-align: center;
+ 			line-height: normal;
+ 			font-weight: 700;
+ 			color: #999;
+ 			font-size: 0.7rem;
+ 			margin: 0;
+ 			padding: 0.3rem 0.5rem;
+
+ 			span {
+ 				display: block;
+ 				line-height: normal;
+ 				color: #212121;
+ 				font-size: 0.8rem;
+ 				width: 100%;
+
+ 				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+ 			}
+
+ 			a {
+ 				color: #212121;
+ 				text-decoration: none;
+ 			}
+
+ 		}
+
+ 		a {
+			color: #212121;
+			text-decoration: none;
+		}
+
+ 	}
+
+ }
+
+.modal {
+	
+	.modal-header {
+		background: rgba(0,0,0,0.1);
+	}
+
+	.modal-footer {
+		border-top: 0;
+		padding-top: 0;
+	}
+
+}
+
+.min-hei52 {
+	min-height: 52px !important;
+}
+
+.imeiknown-card,
+.imeilist-card,
+.fetchimeis,
+.verifyimeis {
+	display: none;
+}
+
+.dd-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+
+	li {
+		margin: 0;
+		padding: 1px 6px 2px;
+		background: transparent;
+
+		&:nth-child(odd) {
+			background: rgba(0,0,0,0.1);
+		}
+
+	}
+
+}
+
+.mb-1p5rem {
+	margin-bottom: 1.5rem !important;
+}
+
+.mb-0 {
+	margin-bottom: 0 !important;
+}
+
+.m-r-20 {
+	margin-right: 20px 	!important;
+}
+
+.pt-7 {
+	padding-top: 7px !important;
+}
+.pb-7 {
+	padding-bottom: 7px !important;
+}
+
+// @include media-breakpoint-down(md) {
+// 	.app-header.navbar {
+//     	background-color: $navbar-bg;
+// 	}
+// }
+a {
+	&.btn-light {
+		background: lighten($black, 85%);
+		&:hover {
+			background: lighten($black, 75%)
+		}
+	}
+}
+
+.p401 {
+    background: rgba(0,0,0,0.05);
+    b {
+        font-weight: 700;
+    }
+    h1 {
+        font-size: 12rem;
+        color: #f2f2f2;
+        text-shadow: 2px 0px 0px #3f51b5, -2px 0px 0px #3f51b5, 0px 2px 0px #3f51b5, 0px -2px 0px #3f51b5;
+        @media (max-width: 480px) {
+            font-size: 9rem;
+        }
+    }
+    h2 {
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        color: #535353;
+        margin-top: -2rem;
+        @media (max-width: 480px) {
+            margin-top: -1.4rem;
+        }
+    }
+    h6 {
+        margin: 0 0 0 0;
+        padding: 2rem 0 0 0;
+        b {
+            text-transform: uppercase;
+        }
+    }
+    .formbox {
+        display: inline-block;
+        text-align: left;
+        margin: 0.6rem auto 0;
+    }
+    ul {
+        list-style-type: circle;
+        margin: 0 0 0 1.5rem;
+        padding: 0.5rem 0 2rem;
+        li {
+            margin: 0;
+            padding: 0.25rem 0;
+            a {
+                text-decoration: none;
+                &:hover {
+                    color: $primary;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .inline-support {
+        ul {
+            list-style-type: disclosure-closed;
+            display: inline-block;
+            margin-right: 0.8rem;
+            padding-bottom: 0;
+        }
+    }
+}
+
+.nodata {
+	padding: 0.5rem 0.5rem;
+	margin: 0;
+
+	.card-body & {
+		padding: 1.25rem;
+		margin: 0;
+	}
+
+}
+
+.nospace-wrap {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+.DateRangePicker_picker {
+	z-index: 3;
+}
+
+.mt--1p5rem {
+	margin-top: -1.5rem !important;
+}
+
+
+.CalendarMonth_caption {
+	font-size: 13px;
+}
+
+.DayPickerNavigation_svg__vertical {
+	height: 16px;
+	width: 16px;
+	margin: 0 auto;
+}
+.DayPickerNavigation_button__verticalDefault {
+	box-shadow: none;
+	background: #e4e7e7;
+}
+.DayPickerNavigation__verticalDefault {
+	height: 28px;
+}
+.DayPicker_weekHeader_ul {
+	font-size: 12px;
+
+	small {
+		font-weight: 700;
+	}
+
+}
+
+.submitted {
+	text-align: center;
+	width: 100%;
+	margin: 50px 0 0;
+
+	.icon-box {
+		display: -ms-flex;
+		display: flex;
+		-ms-align-items: center;
+		-webkit-align-items: center;
+		align-items: center;
+		-ms-justify-content: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		margin: 0 auto;
+		padding: 0;
+		line-height: 0;
+		width: 60px;
+		height: 60px;
+		overflow: hidden;
+		border: #dee2e6 2px solid;
+		-ms-border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border-radius: 50%;
+
+		i {
+			font-size: 1.6rem;
+			line-height: 1;
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+
+	}
+
+	h4 {
+		color: #000;
+		font-weight: 700;
+		margin: 30px 0 0;
+		padding: 0;
+
+		span {
+			color: #28a745;
+			font-weight: 400;
+		}
+
+	}
+
+	.msg {
+		margin: 20px 0 0;
+		padding: 0;
+
+		p {
+			font-size: 1rem;
+			color: #4d394b;
+			margin: 0 0 0;
+			padding: 0;
+			line-height: 1.8;
+			font-weight: 400;
+		}
+
+		span {
+			color: #3f51b5;
+		}
+
+	}
+
+	.link-box {
+		margin: 30px 0 0;
+	}
+
+}
+
+.nofile-selected {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 90px;
+	-ms-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+
+	@media all and (-ms-high-contrast:none) {
+		display: block;
+	}
+
+	@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+		display: block;
+	}
+
+}
+
+/* Toaster custom style full width on top */
+.Toastify__toast-container {
+	width: 100%;
+	padding: 0;
+}
+
+.Toastify__toast-container--top-right,
+.Toastify__toast-container--top-left {
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+.Toastify__toast {
+	min-height: 55px;
+	padding: 0px 15px 0;
+	margin-bottom: 5px;
+	text-align: center;
+}
+.Toastify__close-button {
+	margin-top: 8px;
+} /* /Toaster custom style full width on top */
+
+article.bglite {
+	display: block;
+	/*border: rgba(0, 0, 0, 0.125) 1px solid;*/
+	background: rgba(0, 0, 0, 0.015);
+	padding: 1.25rem;
+}
+.comment-item {
+	margin: 0;
+	padding: 0.5rem 0 0.65rem;
+	display: -webkit-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	& + .comment-item {
+		border-top: rgba(0, 0, 0, 0.125) 1px solid;
+	}
+
+	&:nth-of-type(odd) {
+		/*background: rgba(255, 255, 255, 1);*/
+	}
+
+	h6 {
+		margin: 0 0 0 0;
+		padding: 0.2rem 0rem 0 0;
+		font-weight: 700;
+		font-size: 14px;
+
+		@include media-breakpoint-up(md) {
+			white-space: nowrap;
+		}
+
+	}
+
+	.commentbox {
+		padding: 0 0 0 1rem;
+
+		p {
+			margin: 0;
+			padding: 0;
+
+			&.comment-txt {
+				font-size: 16px;
+			}
+
+			&.comment-date {
+
+				span {
+					color: #fff;
+					font-size: 13px;
+					background: #aaa;
+					padding: 0 0.25rem;
+					display: inline-block;
+					border-radius: 3px;
+				}
+			}
+
+		}
+
+	}
+
+}
