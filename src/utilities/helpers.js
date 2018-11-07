@@ -19,7 +19,6 @@ import settings from './../settings';
  * Create API, Keycloak and Tyk URLs based on settings.json file
  */
 const {host: apiHost, port: apiPort, version: apiVersion, use: apiUse} = settings.api;
-const {host: tykHost, port: tykPort, clientId: tykClientId, use: tykUse} = settings.tyk;
 const {host: apimanHost, port: apimanPort, clientId: apimanClientId, use: apimanUse} = settings.apiman;
 const {appName} = settings.appDetails;
 
@@ -27,8 +26,6 @@ let BASE_URL = '';
 
 if(apiUse) {
  BASE_URL = `${apiHost}${apiPort ? ':'+ apiPort: ''}${apiVersion}`;
-} else if(tykUse) {
- BASE_URL = `${tykHost}${tykPort ? ':'+ tykPort: ''}${tykClientId}`;
 } else if(apimanUse) {
  BASE_URL = `${apimanHost}${apimanPort ? ':'+ apimanPort: ''}${apimanClientId}`;
 }
