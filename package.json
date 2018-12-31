@@ -10,8 +10,6 @@
     "base-64": "^0.1.0",
     "bootstrap": "^4.1.1",
     "classnames": "^2.2.6",
-    "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
     "font-awesome": "4.7.0",
     "formik": "^0.11.11",
     "i18next": "^11.2.3",
@@ -34,14 +32,24 @@
     "react-test-renderer": "^16.6.0",
     "react-toastify": "^4.1.0",
     "react-transition-group": "^2.4.0",
-    "reactstrap": "5.0.0-beta",
-    "redux": "^4.0.0"
+    "reactstrap": "^6.5.0",
+    "redux": "^4.0.0",
+    "sinon": "^7.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!/node_modules/",
+      "!src/index.js",
+      "!src/i18n.js",
+      "!src/registerServiceWorker.js"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -51,5 +59,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "jest-mock-axios": "^2.1.11",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0"
+  }
 }
