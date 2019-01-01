@@ -31,7 +31,6 @@ class HeaderDropdown extends Component {
           <span className="fa fa-caret-down"></span>
         </DropdownToggle>
         <DropdownMenu right>
-          {/*<DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>*/}
           <DropdownItem onClick={this.props.kc.logout}><i className="fa fa-lock"></i> Logout</DropdownItem>
         </DropdownMenu>
       </Dropdown>

@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer Component if renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Footer />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div>
+          © Copyright 2018 
+          <i>
+            DIRBS
+          </i>
+          . All Rights Reserved.
+        </div>,
+        <div>
+          <b>
+            Version: 
+          </b>
+          1.0.0
+        </div>,
+      ],
+      "className": "app-footer",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            "© Copyright 2018 ",
+            <i>
+              DIRBS
+            </i>,
+            ". All Rights Reserved.",
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          "© Copyright 2018 ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "DIRBS",
+            },
+            "ref": null,
+            "rendered": "DIRBS",
+            "type": "i",
+          },
+          ". All Rights Reserved.",
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <b>
+              Version: 
+            </b>,
+            "1.0.0",
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Version: ",
+            },
+            "ref": null,
+            "rendered": "Version: ",
+            "type": "b",
+          },
+          "1.0.0",
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "footer",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div>
+            © Copyright 2018 
+            <i>
+              DIRBS
+            </i>
+            . All Rights Reserved.
+          </div>,
+          <div>
+            <b>
+              Version: 
+            </b>
+            1.0.0
+          </div>,
+        ],
+        "className": "app-footer",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              "© Copyright 2018 ",
+              <i>
+                DIRBS
+              </i>,
+              ". All Rights Reserved.",
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            "© Copyright 2018 ",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "DIRBS",
+              },
+              "ref": null,
+              "rendered": "DIRBS",
+              "type": "i",
+            },
+            ". All Rights Reserved.",
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <b>
+                Version: 
+              </b>,
+              "1.0.0",
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Version: ",
+              },
+              "ref": null,
+              "rendered": "Version: ",
+              "type": "b",
+            },
+            "1.0.0",
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "footer",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
