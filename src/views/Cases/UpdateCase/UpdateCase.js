@@ -26,6 +26,8 @@ import {Date_Format} from "./../../../utilities/constants";
 import renderError from "../../../components/Form/RenderError";
 import {getUserInfo} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
+import switchToggleButton from "../../../components/Form/SwitchToggleButton";
+import i18n from './../../../i18n';
 
 /**
  * This Stateful component Provides an update functionality of Personal Details related with Case.
@@ -45,14 +47,14 @@ class UpdateForm extends Component {
       <div>
         <Prompt
           when={dirty && !caseSubmitted}
-          message={"You have unsaved changes, are you sure you want to leave?"}
+          message={i18n.t('unsavedChangesLeave')}
         />
         <Form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-12 col-lg-8 mb-3">
-              <h4>Update Case - <small> {values.tracking_id} </small></h4>
-              <p className="last-updated mb-0">Creator: <b>{values.username}</b></p>
-              <p className="last-updated">Last updated: <b>{values.updated_at}</b></p>
+              <h4>{i18n.t('pagetitle.updateCase')} - <small> {values.tracking_id} </small></h4>
+              <p className="last-updated mb-0">{i18n.t('caseBox.creator')}: <b>{values.username}</b></p>
+              <p className="last-updated">{i18n.t('caseBox.lastUpdated')}: <b>{values.updated_at}</b></p>
           </div>
           <div className="col-12 col-lg-4">
           </div>
@@ -61,21 +63,21 @@ class UpdateForm extends Component {
             <Col xs={12}>
                 <Card>
                     <CardHeader>
-                        <b>Device Description</b>
+                        <b>{i18n.t('newCase.deviceDescription')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
                             <tbody>
                                 <tr>
-                                    <th>Brand</th>
+                                    <th>{i18n.t('newCase.deviceBrand')}</th>
                                     <td>{values.brand}</td>
                                 </tr>
                                 <tr>
-                                    <th>Model name</th>
+                                    <th>{i18n.t('newCase.deviceModelName')}</th>
                                     <td>{values.model_name}</td>
                                 </tr>
                                 <tr>
-                                    <th>Physical description</th>
+                                    <th>{i18n.t('newCase.devicePhysical')}</th>
                                     <td>{values.physical_description}</td>
                                 </tr>
                             </tbody>
@@ -88,7 +90,7 @@ class UpdateForm extends Component {
             <Col xs="12" sm="6">
                 <Card>
                     <CardHeader>
-                        <b>Affected MSISDN(s)</b>
+                        <b>{i18n.t('newCase.affectedMSISDNs')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
@@ -106,7 +108,7 @@ class UpdateForm extends Component {
             <Col xs="12" sm="6">
                 <Card>
                     <CardHeader>
-                        <b>Affected IMEI(s)</b>
+                        <b>{i18n.t('newCase.affectedIMEIs')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
@@ -126,34 +128,42 @@ class UpdateForm extends Component {
               <Col xs="12" xl="6">
                   <Card>
                     <CardHeader>
-                        <b>Incident Details</b>
+                        <b>{i18n.t('newCase.incidentDetails')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
                             <tbody>
                                 <tr>
-                                    <th>Date of Incident</th>
+                                    <th>{i18n.t('newCase.incidentDate')}</th>
                                     <td>{values.incident_date}</td>
                                 </tr>
                                <tr>
-                                    <th>Nature of Incident</th>
-                                    <td>{values.incident_nature}</td>
+                                    <th>{i18n.t('newCase.incidentNature')}</th>
+                                    <td>{i18n.t(values.incident_nature)}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </CardBody>
                 </Card>
+                <Card>
+                  <CardHeader>
+                    <b>{i18n.t('newCase.blockStatus')}</b>
+                  </CardHeader>
+                  <CardBody>
+                    <Field name="get_blocked" component={switchToggleButton} label={i18n.t('blockSwitch.label')} dataBefore={i18n.t('blockSwitch.dataBefore')} dataAfter={i18n.t('blockSwitch.dataAfter')} />
+                  </CardBody>
+                </Card>
               </Col>
               <Col xl="6" xs="12">
                     <Card>
                         <CardHeader>
-                            <b>Personal Details</b>
+                            <b>{i18n.t('newCase.personalDetails')}</b>
                         </CardHeader>
                         <CardBody className="p-2">
                             <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="full_name" component={renderInput} label="Full Name" type="text" placeholder="Full Name" requiredStar />
+                                        <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
                                     </Col>
                                 </Row>
                             </Card>
@@ -161,7 +171,7 @@ class UpdateForm extends Component {
                                 <Row>
                                     <Col md="6">
                                         <FormGroup>
-                                            <Label>Date of Birth <span className="text-warning">*</span></Label>
+                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
                                             <RenderDatePicker
                                                 name="dob"
                                                 value={values.dob}
@@ -173,20 +183,20 @@ class UpdateForm extends Component {
                                         </FormGroup>
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="gin" component={renderInput} label="Govt. Identification No." type="text" placeholder="Govt. Identification Number" warningStar />
+                                        <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label="Alternate Phone No." type="text" placeholder="Alternate Phone No." warningStar />
+                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label="E-mail Address" type="text" placeholder="E-mail Address" warningStar />
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label="Address" type="text" placeholder="Address" warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -203,12 +213,12 @@ class UpdateForm extends Component {
                 <Col xs="12">
                   <Card>
                     <CardHeader>
-                        <b>Comment</b>
+                        <b>{i18n.t('comments.title')}</b>
                     </CardHeader>
                     <CardBody>
                       <Row>
                         <Col xs="12" xl="6">
-                          <Field name="case_comment" component={renderInput} label="Comments" type="textarea" placeholder="Type your reason for updating" requiredStar />
+                          <Field name="case_comment" component={renderInput} label={i18n.t('comments.updateReason')} type="textarea" placeholder={i18n.t('comments.typeReason')} requiredStar />
                         </Col>
                       </Row>
                     </CardBody>
@@ -218,13 +228,13 @@ class UpdateForm extends Component {
         <Row className="justify-content-end mb-1p5rem">
           <Col md={6} lg={3}>
             <Link className="btn btn-light btn-block"
-                            to={'/search-cases'}>Cancel</Link>
+                            to={'/search-cases'}>{i18n.t('newCase.cancelButton')}</Link>
             {/*<Button color="default" onClick={handleReset} disabled={!dirty || isSubmitting} block>*/}
               {/*Reset*/}
             {/*</Button>*/}
           </Col>
           <Col md={6} lg={3}>
-            <Button color="primary" type="submit" block  disabled={isSubmitting}>Submit</Button>
+            <Button color="primary" type="submit" block  disabled={isSubmitting}>{i18n.t('newCase.submitButton')}</Button>
           </Col>
         </Row>
       </Form>
@@ -252,6 +262,7 @@ const MyEnhancedUpdateForm = withFormik({
       dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
       alternate_number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
+      get_blocked: props.info.get_blocked,
       case_comment: ''
     };
   },
@@ -261,19 +272,19 @@ const MyEnhancedUpdateForm = withFormik({
     let errors = {};
 
     if (!values.full_name) {
-        errors.full_name= 'This field is Required'
+        errors.full_name= `${i18n.t('forms.fieldError')}`
     }
     if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = 'One of the fields is required'
+        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
     }
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
     if (!values.dob) {
 
     } else if (today < values.dob) {
-      errors.dob = 'Date of Birth can\'t be in future';
+      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
     } else if (paste >= values.dob) {
-      errors.dob = 'Date of Birth can\'t be that old';
+      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
     if (!values.email) {
 
@@ -282,12 +293,12 @@ const MyEnhancedUpdateForm = withFormik({
         values.email
       )
     ) {
-      errors.email = 'Invalid email address';
+      errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
     if (!values.case_comment) {
-        errors.case_comment= 'This field is Required'
+        errors.case_comment= `${i18n.t('forms.fieldError')}`
     } else if(values.case_comment.length > 1000) {
-      errors.case_comment = 'Must be 1000 characters or less'
+      errors.case_comment = `${i18n.t('forms.charactersWithinTh')}`
     }
     return errors;
   },
@@ -325,6 +336,13 @@ function prepareAPIRequest(values) {
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;
+    }
+    searchParams.case_details = {};
+    if(values.get_blocked) {
+        searchParams.case_details.get_blocked = values.get_blocked;
+    }
+    if(!values.get_blocked) {
+        searchParams.case_details.get_blocked = false;
     }
     return searchParams;
 }
@@ -389,8 +407,8 @@ class UpdateCase extends Component {
                 const statusDetails = {
                   id: response.data.tracking_id,
                   icon: 'fa fa-check',
-                  status: 'Pending',
-                  action: 'Updated'
+                  status: `${i18n.t('Pending')}`,
+                  action: `${i18n.t('Updated')}`
                 }
                 this.props.history.push({
                   pathname: '/case-status',

@@ -11,6 +11,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -23,13 +24,18 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        "Showing ",
+        "Showing",
+        " ",
         <span>
           1
-           to 
+           
+          to
+           
           10
         </span>,
-        " of ",
+        " ",
+        "of",
+        " ",
         <span>
           100
         </span>,
@@ -40,7 +46,8 @@ ShallowWrapper {
     },
     "ref": null,
     "rendered": Array [
-      "Showing ",
+      "Showing",
+      " ",
       Object {
         "instance": null,
         "key": undefined,
@@ -48,19 +55,25 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             1,
-            " to ",
+            " ",
+            "to",
+            " ",
             10,
           ],
         },
         "ref": null,
         "rendered": Array [
           1,
-          " to ",
+          " ",
+          "to",
+          " ",
           10,
         ],
         "type": "span",
       },
-      " of ",
+      " ",
+      "of",
+      " ",
       Object {
         "instance": null,
         "key": undefined,
@@ -84,13 +97,18 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          "Showing ",
+          "Showing",
+          " ",
           <span>
             1
-             to 
+             
+            to
+             
             10
           </span>,
-          " of ",
+          " ",
+          "of",
+          " ",
           <span>
             100
           </span>,
@@ -101,7 +119,8 @@ ShallowWrapper {
       },
       "ref": null,
       "rendered": Array [
-        "Showing ",
+        "Showing",
+        " ",
         Object {
           "instance": null,
           "key": undefined,
@@ -109,19 +128,25 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               1,
-              " to ",
+              " ",
+              "to",
+              " ",
               10,
             ],
           },
           "ref": null,
           "rendered": Array [
             1,
-            " to ",
+            " ",
+            "to",
+            " ",
             10,
           ],
           "type": "span",
         },
-        " of ",
+        " ",
+        "of",
+        " ",
         Object {
           "instance": null,
           "key": undefined,
@@ -143,9 +168,13 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
           },
           "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,

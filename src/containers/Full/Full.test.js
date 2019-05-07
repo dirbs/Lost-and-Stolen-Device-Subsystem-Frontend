@@ -6,6 +6,7 @@ import i18n from "./../../i18nTest";
 import sinon from 'sinon';
 import mockAxios from 'jest-mock-axios';
 import { MemoryRouter } from 'react-router';
+import Dashboard from './../../views/Dashboard/Dashboard';
 import NewCase from './../../views/NewCase/NewCase';
 import SearchCases from "../../views/SearchCases";
 import View from "../../views/Cases/View";
@@ -201,7 +202,45 @@ describe('Full component', () => {
         </I18nextProvider>
       </MemoryRouter>
     );
-    expect(wrapper.find(SearchCases)).toHaveLength(1);
+    expect(wrapper.find(Dashboard)).toHaveLength(1);
   });
 
+  test('case update functionality should work', () => {
+    const wrapper = mount(
+      <Router>
+        <I18nextProvider i18n={i18n}>
+          <Full match={match} userDetails={userDetails} kc={mockKcProps} location={location} showModal={true}/>
+        </I18nextProvider>
+      </Router>
+    );
+    wrapper.find('Full').setState({ showModal: true, caseTrackingId: 'IUJ34ET5', status: 1});
+    expect(wrapper.find('Full').state().showModal).toBe(true);
+    const commentEvent = {
+      target: {
+        value: 'test-comment',
+        name: 'comments'
+      }
+    };
+    wrapper.find('RenderModal').find('textarea').at(0).simulate('change', commentEvent);
+
+    const submittedComment = {
+      status_args: {
+        user_id : '9a4403c2-5a48-4b79-9f30-02c0cc7799e0',
+        username : 'qualcomm',
+        case_comment: 'test-comment',
+        case_status: 1
+      }
+    }
+    const updateCaseStatusResponse = {
+      data: {"tracking_id": "IUJ34ET5", "message": "Case status updated"}
+    }
+    wrapper.update();
+
+    const submitButton = wrapper.find('RenderModal').find('button').at(0);
+    submitButton.simulate('submit');
+    expect(mockAxios.patch).toHaveBeenCalledWith('/case/IUJ34ET5', submittedComment, mockHeader);
+    mockAxios.mockResponse(updateCaseStatusResponse)
+    wrapper.update()
+    expect(wrapper.find('Full').state().showModal).toBe(false);
+  });
 });

@@ -1,0 +1,436 @@
+/*
+Copyright (c) 2018 Qualcomm Technologies, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Qualcomm Technologies, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/* RTL */
+[dir="rtl"] {
+	text-align: right;
+
+	header {}
+
+	.app-header {
+
+		.navbar-nav {
+
+			.nav-item {
+
+				.dropdown-toggle::after {
+					margin-left: 0;
+					margin-right: 10px;
+				}
+
+			}
+
+		}
+
+		.dropdown-menu {
+
+			@media (min-width: 576px) {
+				transform: none !important;
+				left: 15px !important;
+				right: auto !important;
+				top: 100% !important;
+			}
+
+		}
+
+	}
+
+	&.aside-menu-fixed {
+
+		.main,
+		.app-footer {
+			margin-left: 0;
+			margin-right: 230px;
+
+			@include media-breakpoint-down(md) {
+				margin-right: 0px;
+			}
+
+		}
+
+	}
+
+	&.sidebar-fixed {
+
+		.main,
+		.app-footer {
+			margin-left: 0;
+			margin-right: 230px;
+		}
+
+		&.sidebar-minimized {
+
+			.main,
+			.app-footer {
+				margin-right: 50px;
+			}
+
+		}
+
+	}
+
+	.help {
+		right: auto;
+		left: 1rem;
+
+		&.help-page {
+			right: auto;
+			left: 0;
+		}
+
+	}
+
+	.instructions {
+		margin: 0 15px 0 0;
+
+		li {
+
+			> ul {
+				padding-right: 40px;
+			}
+
+		}
+
+	}
+
+	.selected-filters-header {
+
+		button {
+			float: left;
+		}
+
+	}
+
+	.selected-filters {
+
+		li {
+
+			> div {
+
+				button {
+					margin: 0 0.5rem 0 0;
+				}
+
+			}
+
+		}
+
+	}
+
+	.data-footer {
+
+		.pagination {
+			float: left;
+		}
+
+		.hand-limit {
+			float: left;
+		}
+
+		.selectbox {
+
+			&:before {
+				left: 0.7rem;
+				right: auto;
+				margin-top: -2px;
+			}
+
+		}
+
+	}
+
+	&.pagination-fixed {
+
+		.data-footer {
+
+			@include media-breakpoint-up(lg) {
+				left: 30px;
+				right: 260px;
+			}
+
+		}
+
+	}
+
+	.selectbox {
+
+		&:before {
+			left: 0.7rem;
+			right: auto;
+		}
+
+	}
+
+	.Select {
+
+		.Select-arrow-zone {
+			left: 0.7rem;
+			right: auto;
+		}
+
+	}
+
+	.sidebar {
+
+		.nav-item {
+
+			button {
+
+				&.btn {
+
+					&.nav-link {
+						text-align: right;
+					}
+
+				}
+
+			}
+
+		}
+
+		.sidebar-minimizer {
+
+			&::before {
+				right: auto;
+				left: 0;
+				transform: rotate(180deg);
+			}
+
+		}
+
+	}
+
+	&.sidebar-fixed {
+
+		.sidebar {
+
+			@include media-breakpoint-down(md) {
+				margin-left: 0;
+				margin-right: -($sidebar-width);
+			}
+
+		}
+
+		&.sidebar-mobile-show {
+
+			.sidebar {
+
+				@include media-breakpoint-down(md) {
+					margin-right: 0;
+				}
+
+			}
+
+		}
+
+	}
+
+	@include media-breakpoint-down(md) {
+
+		.sidebar {
+			margin-left: 0;
+			margin-right: - $mobile-sidebar-width;
+		}
+
+		.main, .app-footer {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+
+	}
+
+	&.sidebar-minimized {
+
+		&.pagination-fixed {
+
+			.data-footer {
+
+				@include media-breakpoint-up(lg) {
+					right: 80px;
+				}
+
+			}
+
+		}
+
+		.sidebar {
+
+			.nav {
+
+				> .nav-dropdown {
+
+					&:hover {
+
+						> .nav-dropdown-items {
+							left: auto;
+							right: 50px;
+						}
+
+					}
+
+				}
+
+			}
+
+			.nav-link {
+				padding-right: 0;
+
+				i {
+					float: right;
+				}
+
+			}
+
+			.sidebar-minimizer {
+
+				&::before {
+					transform: rotate(0deg);
+				}
+
+			}
+
+		}
+
+	}
+
+	@include media-breakpoint-up(lg) {
+
+		&.brand-minimized {
+
+			.app-header.navbar {
+
+				.navbar-brand {
+					/*width: $navbar-brand-minimized-width;*/
+					padding-right: 1rem;
+					padding-left: 3px;
+				}
+
+			}
+
+		}
+
+	}
+
+	.listbox {
+
+		.casebox {
+
+			.case-head {
+
+				.case-actions {
+
+					@include media-breakpoint-up(md) {
+						float: left;
+					}
+
+					p {
+
+						.btn + .btn {
+							margin-right: 0.5rem;
+							margin-left: 0;
+						}
+
+					}
+
+				}
+
+				.case-content {
+
+					@include media-breakpoint-up(md) {
+						margin-left: 205px;
+						margin-right: 0;
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	.more-detail {
+
+		li + li {
+			border-left: 0;
+			border-right: #fff 1px solid;
+		}
+
+	}
+
+	.text-right {
+		text-align: left !important;
+	}
+
+	.modal-footer {
+
+		> :not(:first-child) {
+			margin-right: .25rem;
+			margin-left: 0;
+		}
+
+		> :not(:last-child) {
+			margin-right: 0;
+			margin-left: .25rem;
+		}
+
+	}
+
+	.radio-wrap {
+
+		label {
+
+			&.mr-4 {
+				margin-left: 1.5rem !important;
+				margin-right: 0 !important;
+			}
+
+		}
+
+	}
+
+	.float-right {
+		float: left !important;
+	}
+
+	.listing {
+
+		> li {
+
+			.dflex {
+
+				.fitem {
+
+					&:nth-of-type(2) {
+
+						button + button {
+							margin-left: 0;
+							margin-right: 0.4rem;
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	.SingleDatePickerInput_clearDate {
+		right: auto;
+		left: 0;
+	}
+
+}
+/* /RTL */

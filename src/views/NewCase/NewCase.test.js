@@ -62,6 +62,7 @@ describe('NewCase component', () => {
     expect(wrapper.find('Modal')).toHaveLength(4);
     expect(wrapper.find('button')).toHaveLength(1);
   });
+
   test("when values are entered show more form inputs", () => {
     const wrapper = mount(
       <Router>
@@ -205,14 +206,17 @@ describe('NewCase component', () => {
     wrapper.find('Card').at(5).find('input').at(0).simulate('change', inputtedData.incident_date);
     wrapper.find('Card').at(5).find('select').at(0).simulate('change', inputtedData.incident);
     // Find the 6th box and input values of Personal Details
-    wrapper.find('Card').at(6).find('input').at(0).simulate('change', inputtedData.full_name);
-    wrapper.find('Card').at(6).find('input').at(1).simulate('change', inputtedData.dob);
-    wrapper.find('Card').at(6).find('input').at(2).simulate('change', inputtedData.gin);
-    wrapper.find('Card').at(6).find('input').at(3).simulate('change', inputtedData.alternate_number);
-    wrapper.find('Card').at(6).find('input').at(4).simulate('change', inputtedData.email);
-    wrapper.find('Card').at(6).find('input').at(5).simulate('change', inputtedData.address);
+    wrapper.find('Card').at(7).find('input').at(0).simulate('change', inputtedData.full_name);
+    wrapper.find('Card').at(7).find('input').at(1).simulate('change', inputtedData.dob);
+    wrapper.find('Card').at(7).find('input').at(2).simulate('change', inputtedData.gin);
+    wrapper.find('Card').at(7).find('input').at(3).simulate('change', inputtedData.alternate_number);
+    wrapper.find('Card').at(7).find('input').at(4).simulate('change', inputtedData.email);
+    wrapper.find('Card').at(7).find('input').at(5).simulate('change', inputtedData.address);
 
     const submittedCase = {
+      "case_details": {
+        "get_blocked": true,
+      },
       loggedin_user: {
         user_id : '9a4403c2-5a48-4b79-9f30-02c0cc7799e0',
         username : 'qualcomm'

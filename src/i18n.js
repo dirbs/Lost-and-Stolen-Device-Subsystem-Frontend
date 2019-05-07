@@ -12,78 +12,45 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
- 
+
+//Translations Import
+import translationEN from './locales/en/translation.json';
+import translationES from './locales/es/translation.json';
+import translationID from './locales/id/translation.json';
+
 i18n
-  .use(LanguageDetector)
-  .init({
-    // we init with resources
-    resources: {
-      en: {
-        translations: {
-          "welcomeApp": "Welcome to LSMS",
-          "homeLink"  : "Home",
-          "dashboardLink": "Dashboard",
-          "newCaseLink": "New Case",
-          "viewCaseLink": "View Case",
-          "updateCaseLink": "Update Case",
-          "searchCaseLink": "Search Cases",
-          "allCasesLink"  : "All Cases",
-          "pendingCaseLink": "Pending Cases",
-          "blockedCaseLink": 'Blocked Cases',
-          "recoveredCaseLink": 'Recovered Cases',
-          "CaseStatusLink": "Case Status",
+    .use(LanguageDetector)
+    .init({
+      // we init with resources
+      resources: {
+        en: {
+          translations: translationEN
+        },
+        es: {
+          translations: translationES
+        },
+        id: {
+          translations: translationID
         }
+        //id: translationID
       },
-      es: {
-        translations: {
-          "welcomeApp": "Bienvenido a LSMS",
-          "homeLink"  : "Casa",
-          "dashboardLink": "Tablero",
-          "newCaseLink"  : "Nuevo caso",
-          "viewCaseLink": "Ver caso",
-          "updateCaseLink": "Actualizar caso",
-          "searchCaseLink"  : "Casos de búsqueda",
-          "allCasesLink"  : "Todos los casos",
-          "pendingCaseLink": "Casos pendientes",
-          "blockedCaseLink": 'Casos bloqueados',
-          "recoveredCaseLink": 'Casos recuperados',
-          "CaseStatusLink": "Estado del caso",
-        }
+      fallbackLng: 'en',
+      debug: false,
+
+      // have a common namespace used around the full app
+      ns: ['translations'],
+      defaultNS: 'translations',
+
+      keySeparator: false, // we use content as keys
+
+      interpolation: {
+        escapeValue: false, // not needed for react!!
+        formatSeparator: ','
       },
-      id: {
-        translations: {
-          "welcomeApp": "Selamat datang di LSMS",
-          "homeLink"  : "Rumah",
-          "dashboardLink": "Dasbor",
-          "newCaseLink"  : "Kasus baru",
-          "viewCaseLink": "Lihat Kasus",
-          "updateCaseLink": "Perbarui Kasus",
-          "searchCaseLink"  : "Kasus Pencarian",
-          "allCasesLink"  : "Semua Kasus",
-          "pendingCaseLink": "Kasus yang Tertunda",
-          "blockedCaseLink": 'Kasus yang Diblokir',
-          "recoveredCaseLink": 'Kasus yang Dipulihkan',
-          "CaseStatusLink": "Status Kasus",
-        }
+
+      react: {
+        wait: true
       }
-    },
-    fallbackLng: 'en',
-    debug: true,
- 
-    // have a common namespace used around the full app
-    ns: ['translations'],
-    defaultNS: 'translations',
- 
-    keySeparator: false, // we use content as keys
- 
-    interpolation: {
-      escapeValue: false, // not needed for react!!
-      formatSeparator: ','
-    },
- 
-    react: {
-      wait: true
-    }
-  });
- 
+    });
+
 export default i18n;

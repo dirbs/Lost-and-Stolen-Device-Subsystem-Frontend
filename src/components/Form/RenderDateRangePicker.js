@@ -14,6 +14,7 @@ import React, {Component} from "react";
 import moment from "moment";
 import { DateRangePicker } from "react-dates";
 import {Date_Format} from './../../utilities/constants';
+import i18n from './../../i18n';
 
 /**
  * A Stateful component used to Create a Date Range Picker
@@ -99,6 +100,9 @@ export default class RenderDateRangePicker extends Component {
         readOnly
         orientation={window.matchMedia("(max-width: 575px)").matches?"vertical":"horizontal"}
         daySize={28}
+        startDatePlaceholderText={i18n.t('dateRangePicker.startDate')}
+        endDatePlaceholderText={i18n.t('dateRangePicker.endDate')}
+        hideKeyboardShortcutsPanel
       />
     );
   }

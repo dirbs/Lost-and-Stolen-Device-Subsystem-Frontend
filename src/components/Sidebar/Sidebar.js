@@ -55,7 +55,7 @@ class Sidebar extends Component {
     // nav list section title
     const title =  (title, key) => {
       const classes = classNames( 'nav-title', title.class);
-      return (<li key={key} className={ classes }>{wrapper(title)} </li>);
+      return (<li key={key} className={ classes }>{this.props.t(wrapper(title))} </li>);
     };
 
     // nav list divider

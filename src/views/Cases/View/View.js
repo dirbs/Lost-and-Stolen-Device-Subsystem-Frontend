@@ -17,6 +17,7 @@ import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
 import {RECOVERED_CASE, BLOCKED_CASE} from './../../../utilities/constants';
 import { Button, Row, Col, Card, CardBody, CardHeader} from 'reactstrap';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
+import i18n from './../../../i18n';
 
 /**
  * This Stateful component provides View functionality of a Case.
@@ -74,7 +75,7 @@ class View extends Component {
   render() {
     let view_case = null;
     if(this.state.data) {
-        const {tracking_id, updated_at, status, device_details, incident_details, personal_details, comments, creator} = this.state.data;
+        const {tracking_id, updated_at, status, device_details, incident_details, personal_details, get_blocked, comments, creator} = this.state.data;
         const statusClass =
         (status === 'Pending')
         ?
@@ -85,21 +86,23 @@ class View extends Component {
         view_case = <div key={tracking_id}>
           <Row >
             <Col xs="12" lg="8">
-              <h4>Case Identifier: {tracking_id} - <small>Status <span className={statusClass}>{status}</span></small></h4>
-              <p className="last-updated mb-0">Creator: <b>{creator.username}</b></p>
-              <p className="last-updated">Last updated: <b>{updated_at}</b></p>
+              <h4>{i18n.t('caseBox.caseIdentifier')}: {tracking_id} - <small>{i18n.t('caseBox.status')} <span className={statusClass}>{i18n.t(status)}</span></small></h4>
+              <p className="last-updated mb-0">{i18n.t('caseBox.creator')}: <b>{creator.username}</b></p>
+              <p className="last-updated">{i18n.t('caseBox.lastUpdated')}: <b>{updated_at}</b></p>
             </Col>
               <Col xs="12" lg="4">
                   {(status === 'Pending') ?
                       <div className="text-right pb-4">
                         <Link className="btn-sm btn btn-primary"
-                            to={`/case-update/${ tracking_id }`}>Update</Link>{' '}
-                        <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>Recover</Button>{' '}
-                        <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>Block</Button>
+                            to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
+                        <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
+                        {get_blocked === true ?
+                            <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                            : ''}
                       </div>
                       : (status === 'Blocked') ?
                           <div className="text-right pb-4">
-                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>Recover</Button>
+                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
                           </div>
                       : ''
                   }
@@ -109,21 +112,21 @@ class View extends Component {
             <Col xs="12">
                 <Card>
                     <CardHeader>
-                        <b>Device Description</b>
+                        <b>{i18n.t('newCase.deviceDescription')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
                             <tbody>
                                 <tr>
-                                    <th>Brand</th>
+                                    <th>{i18n.t('newCase.deviceBrand')}</th>
                                     <td>{device_details.brand}</td>
                                 </tr>
                                 <tr>
-                                    <th>Model name</th>
+                                    <th>{i18n.t('newCase.deviceModelName')}</th>
                                     <td>{device_details.model_name}</td>
                                 </tr>
                                 <tr>
-                                    <th>Physical description</th>
+                                    <th>{i18n.t('newCase.devicePhysical')}</th>
                                     <td>{device_details.description}</td>
                                 </tr>
                             </tbody>
@@ -136,7 +139,7 @@ class View extends Component {
             <Col xs="12" sm="6">
                 <Card>
                     <CardHeader>
-                        <b>Affected MSISDN(s)</b>
+                        <b>{i18n.t('newCase.affectedMSISDNs')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
@@ -154,7 +157,7 @@ class View extends Component {
             <Col xs="12" sm="6">
                 <Card>
                     <CardHeader>
-                        <b>Affected IMEI(s)</b>
+                        <b>{i18n.t('newCase.affectedIMEIs')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
@@ -174,18 +177,18 @@ class View extends Component {
               <Col xs="12" md="6">
                   <Card>
                     <CardHeader>
-                        <b>Incident Details</b>
+                        <b>{i18n.t('newCase.incidentDetails')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
                             <tbody>
                                 <tr>
-                                    <th>Date of Incident</th>
+                                    <th>{i18n.t('newCase.incidentDate')}</th>
                                     <td>{incident_details.incident_date}</td>
                                 </tr>
                                 <tr>
-                                    <th>Nature of Incident</th>
-                                    <td>{incident_details.incident_nature}</td>
+                                    <th>{i18n.t('newCase.incidentNature')}</th>
+                                    <td>{i18n.t(incident_details.incident_nature)}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -195,33 +198,33 @@ class View extends Component {
               <Col xs="12" md="6">
                   <Card>
                     <CardHeader>
-                        <b>Personal Details</b>
+                        <b>{i18n.t('newCase.personalDetails')}</b>
                     </CardHeader>
                     <CardBody>
                         <table className="table table-bordered table-sm mb-0">
                             <tbody>
                                 <tr>
-                                    <th>Full Name</th>
+                                    <th>{i18n.t('userProfile.fullName')}</th>
                                     <td>{personal_details.full_name}</td>
                                 </tr>
                                 <tr>
-                                    <th>E-mail address</th>
+                                    <th>{i18n.t('userProfile.email')}</th>
                                     <td>{personal_details.email}</td>
                                 </tr>
                                 <tr>
-                                    <th>Date of Birth</th>
+                                    <th>{i18n.t('userProfile.dob')}</th>
                                     <td>{personal_details.dob}</td>
                                 </tr>
                                 <tr>
-                                    <th>Govt. Identification No.</th>
+                                    <th>{i18n.t('userProfile.gin')}</th>
                                     <td>{personal_details.gin}</td>
                                 </tr>
                                 <tr>
-                                    <th>Alternate Phone Number</th>
+                                    <th>{i18n.t('userProfile.alternatePhoneNo')}</th>
                                     <td>{personal_details.number}</td>
                                 </tr>
                                 <tr>
-                                    <th>Address</th>
+                                    <th>{i18n.t('userProfile.address')}</th>
                                     <td>{personal_details.address}</td>
                                 </tr>
                             </tbody>
@@ -234,7 +237,7 @@ class View extends Component {
               <Col xs="12">
                   <Card>
                     <CardHeader>
-                        <b>Comments</b>
+                        <b>{i18n.t('comments.title')}</b>
                     </CardHeader>
                     <CardBody className="p0">
                         {comments.length > 0 ? <article className="bglite">
@@ -247,7 +250,7 @@ class View extends Component {
                                     </div>
                                 </div>
                             ))}
-                        </article> : (<p className="nodata"> No comments found</p>)
+                        </article> : (<p className="nodata"> {i18n.t('comments.noComments')}</p>)
                         }
                     </CardBody>
                 </Card>

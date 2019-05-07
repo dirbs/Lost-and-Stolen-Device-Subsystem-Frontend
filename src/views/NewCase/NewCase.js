@@ -15,26 +15,29 @@ import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
 import {Collapse, Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { withFormik, Field, FieldArray } from 'formik';
-import 'react-select/dist/react-select.css';
 // Date Picker
 import "react-dates/initialize";
 import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import "react-dates/lib/css/_datepicker.css";
-import {errors, instance, getAuthHeader, getUserInfo} from "../../utilities/helpers";
-import RenderModal from '../../components/Form/RenderModal'
-import renderError from '../../components/Form/RenderError'
-import doubleEntryInput from '../../components/Form/DoubleEntryInput'
-import renderInput from '../../components/Form/RenderInput'
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert} from "../../utilities/helpers";
+import RenderModal from '../../components/Form/RenderModal';
+import renderError from '../../components/Form/RenderError';
+import doubleEntryInput from '../../components/Form/DoubleEntryInput';
+import renderInput from '../../components/Form/RenderInput';
 import update from 'immutability-helper';
 import moment from "moment";
-import { toast } from 'react-toastify';
 import {Date_Format} from "../../utilities/constants";
 import { Prompt } from 'react-router'
+import switchToggleButton from "../../components/Form/SwitchToggleButton";
+import i18n from "./../../i18n";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 /**
  * This Stateful component registers a new case reported by effected user.
  * It gets all required details from User, such as Device Description, affected IMEIs and MSISDNs, Case Incidents and Personal Details.
  */
+
 class CaseForm extends Component {
   constructor(props) {
     super(props);
@@ -94,25 +97,19 @@ class CaseForm extends Component {
       }
   }
 
-  handleMSISDNdelete(e, index) {
-      e.preventDefault();
-      if (window.confirm('Are you sure you wish to delete this item?')) {
-          let all = this.props.values.msisdns.filter((value, i) => {
-              return index !== i
-          })
+  handleMSISDNdelete(index) {
+      let all = this.props.values.msisdns.filter((value, i) => {
+          return index !== i
+      })
 
-          this.props.setFieldValue('msisdns', all, false);
-      }
+      this.props.setFieldValue('msisdns', all, false);
   }
 
-  handleIMEIdelete(e, index) {
-      e.preventDefault();
-      if (window.confirm('Are you sure you wish to delete this item?')) {
-          let all = this.props.values.imeis.filter((value, i) => {
-              return index !== i
-          })
-          this.props.setFieldValue('imeis', all, false);
-      }
+  handleIMEIdelete(index) {
+      let all = this.props.values.imeis.filter((value, i) => {
+          return index !== i
+      })
+      this.props.setFieldValue('imeis', all, false);
   }
 
   handleVerifyModalSaving() {
@@ -177,7 +174,7 @@ class CaseForm extends Component {
 
   handleShowModal(index) {
     if(index !== null) {
-      this.setState({ msisdnIndex: index, showModalTitle: 'Update an MSISDN' }, () => {
+      this.setState({ msisdnIndex: index, showModalTitle: `${i18n.t('title.updateMSISDN')}` }, () => {
         const oldValue = this.props.values.msisdns[index];
         if(oldValue) {
             this.props.setFieldValue('msisdnInput', oldValue, false)
@@ -185,7 +182,7 @@ class CaseForm extends Component {
         }
       })
     } else {
-      this.setState({ msisdnIndex: null, showModalTitle: 'Add an MSISDN' })
+      this.setState({ msisdnIndex: null, showModalTitle: `${i18n.t('title.addMSISDN')}` })
       this.props.setFieldValue('msisdnInput', '', false)
       this.props.setFieldValue('retypeMsisdnInput', '', false)
     }
@@ -194,7 +191,7 @@ class CaseForm extends Component {
 
   handleImeiModal(index) {
     if(index !== null) {
-      this.setState({ imeiIndex: index, imeiModalTitle: 'Update an IMEI' }, () => {
+      this.setState({ imeiIndex: index, imeiModalTitle: `${i18n.t('title.updateIMEI')}` }, () => {
         const oldValue = this.props.values.imeis[index];
         if(oldValue) {
             this.props.setFieldValue('imeiInput', oldValue, false)
@@ -202,7 +199,7 @@ class CaseForm extends Component {
         }
       })
     } else {
-      this.setState({ imeiIndex: null, imeiModalTitle: 'Add an IMEI' })
+      this.setState({ imeiIndex: null, imeiModalTitle: `${i18n.t('title.addIMEI')}` })
       this.props.setFieldValue('imeiInput', '', false)
       this.props.setFieldValue('retypeImeiInput', '', false)
     }
@@ -284,22 +281,22 @@ class CaseForm extends Component {
         <div>
             <Prompt
               when={dirty && !caseSubmitted}
-              message={"You have unsaved changes, are you sure you want to leave?"}
+              message={i18n.t('unsavedChangesLeave')}
             />
             <Form onSubmit={handleSubmit}>
           <Card>
             <CardHeader>
-              <b>Device Description</b>
+              <b>{i18n.t('newCase.deviceDescription')}</b>
             </CardHeader>
             <CardBody>
               <Row>
                  <Col md="6" xs="12">
-                     <Field name="brand" component={renderInput} label="Brand" type="text" placeholder="Brand" requiredStar />
+                     <Field name="brand" component={renderInput} label={i18n.t('newCase.deviceBrand')} type="text" placeholder={i18n.t('newCase.deviceBrand')} requiredStar />
                      <div className="txtarehei"></div>
-                     <Field name="model_name" component={renderInput} label="Model Name" type="text" placeholder="Model Name" requiredStar />
+                     <Field name="model_name" component={renderInput} label={i18n.t('newCase.deviceModelName')} type="text" placeholder={i18n.t('newCase.deviceModelName')} requiredStar />
                  </Col>
                  <Col md="6" xs="12">
-                     <Field name="physical_description" component={renderInput} label="Physical Description" type="textarea" placeholder="Physical Description" requiredStar helpText="Please specify Device color or condition" />
+                     <Field name="physical_description" component={renderInput} label={i18n.t('newCase.devicePhysical')} type="textarea" placeholder={i18n.t('newCase.devicePhysical')} requiredStar helpText={i18n.t('newCase.devicePhysicalHelp')} />
                  </Col>
               </Row>
             </CardBody>
@@ -311,7 +308,7 @@ class CaseForm extends Component {
                 <Col md={values.imei_known === 'yes' ? 12 : 6} xl={4} xs="12">
                     <Card>
                         <CardHeader className="min-hei52">
-                            <b>IMEI Known</b>
+                            <b>{i18n.t('newCase.imeiKnown')}</b>
                         </CardHeader>
                         <CardBody className="p0">
                           <div className="read-box radio-wrap">
@@ -324,7 +321,7 @@ class CaseForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {' '} Yes
+                                {' '} {i18n.t('newCase.yes')}
                             </label>
                             <label className="mb-0">
                                 <input
@@ -335,7 +332,7 @@ class CaseForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {' '} No
+                                {' '} {i18n.t('newCase.no')}
                             </label>
                             <Field name="imei_known" component={renderError}/>
                           </div>
@@ -345,10 +342,10 @@ class CaseForm extends Component {
                 {(values.imei_known === 'no' || values.imei_known === 'yes') &&
                 <Col md={6} xl={4} xs="12">
                     <Card>
-                        <CardHeader>
-                            <b>Affected MSISDN(s)</b>
+                        <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
-                                        className="float-right" disabled={values.msisdns.length >= 5}>Add New</Button>
+                                        disabled={values.msisdns.length >= 5}>{i18n.t('button.addNew')}</Button>
+                            <div><b>{i18n.t('newCase.affectedMSISDNs')}</b></div>
                         </CardHeader>
                         <CardBody className="p0">
                             <div className="read-box">
@@ -358,12 +355,25 @@ class CaseForm extends Component {
                                         <div className="dflex">
                                             <div className="fitem">{msisdn}</div>
                                             <div className="fitem">
-                                                <button className="btn btn-link p-0" onClick={(e) => this.handleMSISDNdelete(e, i)}><i
-                                                    className="fa fa-trash-o"></i></button>
+                                                <button className="btn btn-link p-0" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    MySwal.fire({
+                                                        title: i18n.t('alert.warning'),
+                                                        text: i18n.t('confirmation.delItem'),
+                                                        type: 'question',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: i18n.t('button.delete'),
+                                                        cancelButtonText: i18n.t('button.cancel')
+                                                    }).then((result)=>{
+                                                        if(result.value){
+                                                            this.handleMSISDNdelete(i);
+                                                        }
+                                                    })
+                                                }}><i className="fa fa-trash-o"></i></button>
                                                 <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
                                                     className="fa fa-pencil"></i></Button>{''}
                                                 {(values.imei_known === 'no' &&
-                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="sm" color="secondary">Fetch IMEIs</Button>)
+                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>)
                                                 }
                                             </div>
                                         </div>
@@ -380,9 +390,9 @@ class CaseForm extends Component {
                 {values.imei_known === 'yes' &&
                 <Col md={6} xl={4} xs="12">
                     <Card>
-                        <CardHeader>
-                            <b>Affected IMEI(s)</b>
-                            <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" className="float-right" disabled={values.imeis.length >= 5}>Add New</Button>
+                        <CardHeader className="wiri-btn">
+                            <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('button.addNew')}</Button>
+                            <div><b>{i18n.t('newCase.affectedIMEIs')}</b></div>
                         </CardHeader>
                         <CardBody className="p0">
                             <div className="read-box">
@@ -392,9 +402,23 @@ class CaseForm extends Component {
                                         <div className="dflex">
                                             <div className="fitem">{imei}</div>
                                             <div className="fitem">
-                                              <button className="btn btn-link p-0" onClick={(e) => this.handleIMEIdelete(e, i)}><i className="fa fa-trash-o"></i></button>
+                                              <button className="btn btn-link p-0" onClick={(e) => {
+                                                  e.preventDefault();
+                                                  MySwal.fire({
+                                                      title: i18n.t('alert.warning'),
+                                                      text: i18n.t('confirmation.delItem'),
+                                                      type: 'question',
+                                                      showCancelButton: true,
+                                                      confirmButtonText: i18n.t('button.delete'),
+                                                      cancelButtonText: i18n.t('button.cancel')
+                                                  }).then((result) => {
+                                                      if (result.value) {
+                                                          this.handleIMEIdelete(i);
+                                                      }
+                                                  })
+                                              }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="sm" color="secondary">Get Details</Button>
+                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
                                             </div>
                                         </div>
                                     </li>
@@ -413,7 +437,7 @@ class CaseForm extends Component {
                 <Col xs="12">
                     <Card>
                         <CardHeader>
-                            <b>Selected IMEIs</b>
+                            <b>{i18n.t('newCase.selectedIMEIs')}</b>
                         </CardHeader>
                         <CardBody className="p0">
                           <div className="read-box">
@@ -445,13 +469,13 @@ class CaseForm extends Component {
                 <Col xl="6" xs="12">
                     <Card>
                         <CardHeader>
-                            <b>Incident Details</b>
+                            <b>{i18n.t('newCase.incidentDetails')}</b>
                         </CardHeader>
                         <CardBody>
                             <Row>
                                 <Col md="6" xs="12">
                                     <FormGroup>
-                                        <Label>Date of Incident <span className="text-danger">*</span></Label>
+                                        <Label>{i18n.t('newCase.incidentDate')} <span className="text-danger">*</span></Label>
                                         <RenderDatePicker
                                             name="date_of_incident"
                                             value={values.date_of_incident}
@@ -464,12 +488,12 @@ class CaseForm extends Component {
                                 </Col>
                                 <Col md="6" xs="12">
                                     <FormGroup>
-                                    <Label> Nature of Incident <span className="text-danger">*</span></Label>
+                                    <Label>{i18n.t('newCase.incidentNature')} <span className="text-danger">*</span></Label>
                                     <div className="selectbox">
                                       <Field component="select" name="incident" className="form-control">
-                                        <option value="">Select Nature of Incident</option>
-                                        <option value="2">Lost</option>
-                                        <option value="1">Stolen</option>
+                                        <option value="">{i18n.t('incidentNature.selectNature')}</option>
+                                        <option value="2">{i18n.t('incidentNature.lost')}</option>
+                                        <option value="1">{i18n.t('incidentNature.stolen')}</option>
                                       </Field>
                                     </div>
                                     <Field name="incident" component={renderError} />
@@ -478,17 +502,25 @@ class CaseForm extends Component {
                             </Row>
                         </CardBody>
                     </Card>
+                    <Card>
+                        <CardHeader>
+                            <b>{i18n.t('newCase.blockStatus')}</b>
+                        </CardHeader>
+                        <CardBody>
+                            <Field name="get_blocked" component={switchToggleButton} label={i18n.t('blockSwitch.label')} dataBefore={i18n.t('blockSwitch.dataBefore')} dataAfter={i18n.t('blockSwitch.dataAfter')} value={true} />
+                        </CardBody>
+                    </Card>
                 </Col>
                 <Col xl="6" xs="12">
                     <Card>
                         <CardHeader>
-                            <b>Personal Details</b>
+                            <b>{i18n.t('newCase.personalDetails')}</b>
                         </CardHeader>
                         <CardBody className="p-2">
                             <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="full_name" component={renderInput} label="Full Name" type="text" placeholder="Full Name" requiredStar />
+                                        <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
                                     </Col>
                                 </Row>
                             </Card>
@@ -496,7 +528,7 @@ class CaseForm extends Component {
                                 <Row>
                                     <Col md="6">
                                         <FormGroup>
-                                            <Label>Date of Birth <span className="text-warning">*</span></Label>
+                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
                                             <RenderDatePicker
                                                 name="dob"
                                                 value={values.dob}
@@ -508,20 +540,20 @@ class CaseForm extends Component {
                                         </FormGroup>
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="gin" component={renderInput} label="Govt. Identification No." type="text" placeholder="Govt. Identification Number" warningStar />
+                                        <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label="Alternate Phone No." type="text" placeholder="Alternate Phone No." warningStar />
+                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label="E-mail Address" type="text" placeholder="E-mail Address" warningStar />
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label="Address" type="text" placeholder="Address" warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -543,13 +575,13 @@ class CaseForm extends Component {
               <ModalHeader>{this.state.showModalTitle}</ModalHeader>
               <ModalBody>
                 <FormGroup>
-                  <Field name="msisdnInput" component={doubleEntryInput} label="Type MSISDN" type="text" placeholder="" selectedKey={this.state.msisdnIndex} maxLength={15} />
-                  <Field name="retypeMsisdnInput" component={doubleEntryInput} label="Retype MSISDN" type="text" placeholder="" selectedKey={this.state.msisdnIndex}  maxLength={15} />
+                  <Field name="msisdnInput" component={doubleEntryInput} label={i18n.t('input.typeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex} maxLength={15} />
+                  <Field name="retypeMsisdnInput" component={doubleEntryInput} label={i18n.t('input.reTypeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex}  maxLength={15} />
                 </FormGroup>
               </ModalBody>
               <ModalFooter>
-                  <Button color="primary" onClick={this.handleMsisdnSaving} disabled={((errors['msisdnInput'] || errors['retypeMsisdnInput']) || values['msisdnInput'].length === 0) ? true : false}>Save</Button>
-                <Button color="secondary" onClick={this.closeShowModal}>Cancel</Button>
+                  <Button color="primary" onClick={this.handleMsisdnSaving} disabled={((errors['msisdnInput'] || errors['retypeMsisdnInput']) || values['msisdnInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
+                <Button color="secondary" onClick={this.closeShowModal}>{i18n.t('button.cancel')}</Button>
               </ModalFooter>
             </RenderModal>
 
@@ -557,27 +589,27 @@ class CaseForm extends Component {
               <ModalHeader>{this.state.imeiModalTitle}</ModalHeader>
               <ModalBody>
                 <FormGroup>
-                  <Field name="imeiInput" component={doubleEntryInput} label="Type IMEI" type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16} />
-                  <Field name="retypeImeiInput" component={doubleEntryInput} label="Retype IMEI" type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16}/>
+                  <Field name="imeiInput" component={doubleEntryInput} label={i18n.t('input.typeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16} />
+                  <Field name="retypeImeiInput" component={doubleEntryInput} label={i18n.t('input.reTypeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16}/>
                 </FormGroup>
               </ModalBody>
               <ModalFooter>
-                  <Button color="primary" onClick={this.handleImeiSaving} disabled={((errors['imeiInput'] || errors['retypeImeiInput']) || values['imeiInput'].length === 0) ? true : false}>Save</Button>
-                <Button color="secondary" onClick={this.closeImeiModal}>Cancel</Button>
+                  <Button color="primary" onClick={this.handleImeiSaving} disabled={((errors['imeiInput'] || errors['retypeImeiInput']) || values['imeiInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
+                <Button color="secondary" onClick={this.closeImeiModal}>{i18n.t('button.cancel')}</Button>
               </ModalFooter>
             </RenderModal>
 
             <RenderModal show={this.state.verifyModal} className="modal-lg">
-              <ModalHeader>Verify Associated IMEIs with MSISDN: {values.msisdns[this.state.verifyModalMsisdnIndex]}</ModalHeader>
+              <ModalHeader>{i18n.t('verifyAssociatedIMEIsWithMSISDN')}: {values.msisdns[this.state.verifyModalMsisdnIndex]}</ModalHeader>
               <ModalBody>
-                  <h6>Case Reporter Device Description</h6>
+                  <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
                           <tbody>
                           <tr>
-                              <th>Brand</th>
-                              <th>Model name</th>
-                              <th>Physical description</th>
+                              <th>{i18n.t('newCase.deviceBrand')}</th>
+                              <th>{i18n.t('newCase.deviceModelName')}</th>
+                              <th>{i18n.t('newCase.devicePhysical')}</th>
                           </tr>
                           <tr>
                               <td>{values.brand}</td>
@@ -591,9 +623,9 @@ class CaseForm extends Component {
                       <table className="table table-striped table-bordered">
                           <thead>
                           <tr>
-                              <th>Verify</th>
-                              <th>IMEIs</th>
-                              <th align="right">Device Details</th>
+                              <th>{i18n.t('verify')}</th>
+                              <th>{i18n.t('imeis')}</th>
+                              <th align="right">{i18n.t('deviceDetails')}</th>
                           </tr>
                           </thead>
                           <FieldArray
@@ -622,16 +654,16 @@ class CaseForm extends Component {
                                       </td>
                                       <td>{details.imei_norm}</td>
                                       <td align="right">
-                                          <Button color="primary" onClick={() => this.toggle(i)} style={{ marginBottom: '1rem' }}>{(this.state.imeisWithDeviceDetailsFlags[i] === false) ? 'Show Device Details': 'Hide Device Details'}</Button>
+                                          <Button color="primary" onClick={() => this.toggle(i)} style={{ marginBottom: '1rem' }}>{(this.state.imeisWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}`: `${i18n.t('hideDeviceDetails')}`}</Button>
                                           <Collapse isOpen={this.state.imeisWithDeviceDetailsFlags[i]}>
                                               <ul className="dd-list">
-                                                  <li>Brand: <b>{(details.gsma) ? (details.gsma.brand ? details.gsma.brand: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Model name: <b>{(details.gsma) ? (details.gsma.model_name ? details.gsma.model_name: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Model number: <b>{(details.gsma) ? (details.gsma.model_number ? details.gsma.model_number: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Device type: <b>{(details.gsma) ? (details.gsma.device_type ? details.gsma.device_type: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Operating system: <b>{(details.gsma) ? (details.gsma.operating_system ? details.gsma.operating_system: 'N/A') : 'N/A'}</b></li>
-                                                  <li>Radio Access Technology: <b>{(details.gsma) ? (details.gsma.radio_access_technology ? details.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Last seen date: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
+                                                  <li>{i18n.t('newCase.deviceBrand')}: <b>{(details.gsma) ? (details.gsma.brand ? details.gsma.brand: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('newCase.deviceModelName')}: <b>{(details.gsma) ? (details.gsma.model_name ? details.gsma.model_name: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('deviceModelNumber')}: <b>{(details.gsma) ? (details.gsma.model_number ? details.gsma.model_number: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('deviceType')}: <b>{(details.gsma) ? (details.gsma.device_type ? details.gsma.device_type: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('operatingSystem')}: <b>{(details.gsma) ? (details.gsma.operating_system ? details.gsma.operating_system: 'N/A') : 'N/A'}</b></li>
+                                                  <li>{i18n.t('radioAccessTechnology')}: <b>{(details.gsma) ? (details.gsma.radio_access_technology ? details.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
                                               </ul>
                                           </Collapse>
                                       </td>
@@ -639,7 +671,7 @@ class CaseForm extends Component {
                                 ))
                                   : <tr>
                                       <td colSpan="3">
-                                          <span className="text-danger">No record found</span>
+                                          <span className="text-danger">{i18n.t('noRecordFound')}</span>
                                       </td>
                                     </tr>
                               }
@@ -651,23 +683,23 @@ class CaseForm extends Component {
               </ModalBody>
               <ModalFooter className={this.state.imeisWithDeviceDetails.length > 0 ? 'justify-content-between': ''}>
                   {this.state.imeisWithDeviceDetails.length > 0 &&
-                <div className="text-danger">* By checking checkbox(es), you are adding IMEI(s) to the case</div>}
+                <div className="text-danger">* {i18n.t('byCheckingCheckboxESYouAreAddingIMEIsToTheCase')}</div>}
                 {/*<Button color="primary" onClick={this.handleVerifyModalSaving}>Add Selected IMEIs To Case</Button>*/}
-                <Button color="secondary" type="button" onClick={this.closeVerifyModal}>OK</Button>
+                <Button color="secondary" type="button" onClick={this.closeVerifyModal}>{i18n.t('button.ok')}</Button>
               </ModalFooter>
             </RenderModal>
 
             <RenderModal show={this.state.verifyImeiModal} className="modal-lg">
-              <ModalHeader>Verify Associated MSISDNs with IMEI: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
+              <ModalHeader>{i18n.t('verifyAssociatedMSISDNsWithIMEI')}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
               <ModalBody>
-                  <h6>Case Reporter Device Description</h6>
+                  <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
                           <tbody>
                           <tr>
-                              <th>Brand</th>
-                              <th>Model name</th>
-                              <th>Physical description</th>
+                              <th>{i18n.t('newCase.deviceBrand')}</th>
+                              <th>{i18n.t('newCase.deviceModelName')}</th>
+                              <th>{i18n.t('newCase.devicePhysical')}</th>
                           </tr>
                           <tr>
                               <td>{values.brand}</td>
@@ -681,8 +713,8 @@ class CaseForm extends Component {
                       <table className="table table-striped table-bordered">
                           <thead>
                           <tr>
-                              <th>MSISDN</th>
-                              <th align="right">Device Details</th>
+                              <th>{i18n.t('msisdn')}</th>
+                              <th align="right">{i18n.t('deviceDetails')}</th>
                           </tr>
                           </thead>
                           <FieldArray
@@ -696,16 +728,16 @@ class CaseForm extends Component {
                                          {details.msisdn}
                                       </td>
                                       <td align="right">
-                                          <Button color="primary" onClick={() => this.toggleMSISDNsDeviceDetails(i)} style={{ marginBottom: '1rem' }}>{(this.state.msisdnsWithDeviceDetailsFlags[i] === false) ? 'Show Device Details': 'Hide Device Details'}</Button>
+                                          <Button color="primary" onClick={() => this.toggleMSISDNsDeviceDetails(i)} style={{ marginBottom: '1rem' }}>{(this.state.msisdnsWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}`: `${i18n.t('hideDeviceDetails')}`}</Button>
                                           <Collapse isOpen={this.state.msisdnsWithDeviceDetailsFlags[i]}>
                                               <ul className="dd-list">
-                                                  <li>Brand: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : 'N/A') : 'N/A'}</b></li>
-                                                  <li>Model name: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name : 'N/A') : 'N/A'}</b></li>
-                                                  <li>Model number: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Device type: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Operating system: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.operating_system ? this.state.msisdnsWithDeviceDetails.gsma.operating_system : 'N/A') : 'N/A'}</b></li>
-                                                  <li>Radio Access Technology: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology ? this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
-                                                  <li>Last Seen Date: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
+                                                  <li>{i18n.t('newCase.deviceBrand')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : 'N/A') : 'N/A'}</b></li>
+                                                  <li>{i18n.t('newCase.deviceModelName')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name : 'N/A') : 'N/A'}</b></li>
+                                                  <li>{i18n.t('deviceModelNumber')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('deviceType')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('operatingSystem')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.operating_system ? this.state.msisdnsWithDeviceDetails.gsma.operating_system : 'N/A') : 'N/A'}</b></li>
+                                                  <li>{i18n.t('radioAccessTechnology')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology ? this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
+                                                  <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
                                               </ul>
                                           </Collapse>
                                       </td>
@@ -714,7 +746,7 @@ class CaseForm extends Component {
                                   :
                                   <tr>
                                       <td colSpan="3">
-                                          <span className="text-danger">No record found</span>
+                                          <span className="text-danger">{i18n.t('noRecordFound')}</span>
                                       </td>
                                   </tr>
                               }
@@ -725,20 +757,20 @@ class CaseForm extends Component {
                   </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>Close</Button>
+                <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
               </ModalFooter>
             </RenderModal>
           </Row>
         <Row className="justify-content-end mb-1p5rem">
           <Col md="4" xl="3" xs="6">
             <Link className="btn btn-light btn-block"
-                            to={'/search-cases'}>Cancel</Link>
+                            to={'/search-cases'}>{i18n.t('button.cancel')}</Link>
             {/*<Button color="default" onClick={handleReset} disabled={!dirty || isSubmitting} block>*/}
               {/*Reset*/}
             {/*</Button>*/}
           </Col>
           <Col md="4" xl="3" xs="6">
-            <Button color="primary" type="submit" block  disabled={isSubmitting}>Submit</Button>
+            <Button color="primary" type="submit" block  disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
           </Col>
         </Row>
       </Form>
@@ -748,93 +780,93 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "" }),
+  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
 
   // Custom sync validation
   validate: values => {
     let errors = {};
     if (!values.brand) {
-        errors.brand = 'This field is Required'
+        errors.brand = `${i18n.t('forms.fieldError')}`
     } else if(values.brand.length >= 1000) {
-      errors.brand = 'Must be 1000 characters or less'
+      errors.brand = `${i18n.t('forms.charactersWithinTh')}`
     }
     if (!values.model_name) {
-        errors.model_name = 'This field is Required'
+        errors.model_name = `${i18n.t('forms.fieldError')}`
     } else if(values.model_name.length >= 1000) {
-      errors.model_name = 'Must be 1000 characters or less'
+      errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
     }
     if (!values.physical_description) {
-        errors.physical_description = 'This field is Required'
+        errors.physical_description = `${i18n.t('forms.fieldError')}`
     } else if(values.physical_description.length >= 1000) {
-      errors.physical_description = 'Must be 1000 characters or less'
+      errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
     }
     if (!values.imei_known) {
-        errors.imei_known = 'Please select an option'
+        errors.imei_known = `${i18n.t('forms.selectOption')}`
     }
     if (!values.msisdns || !values.msisdns.length) {
-        errors.msisdns = 'At least one MSISDN must be entered'
+        errors.msisdns = `${i18n.t('forms.oneMSISDNmust')}`
     }
     if (!values.imeis || !values.imeis.length) {
-        errors.imeis = 'At least one IMEI must be selected'
+        errors.imeis = `${i18n.t('forms.oneIMEImust')}`
     }
     if (!values.msisdnInput) {
-      errors.msisdnInput = 'This field is Required'
+      errors.msisdnInput = `${i18n.t('forms.fieldError')}`
     } else if(isNaN(Number(values.msisdnInput))) {
-      errors.msisdnInput = 'MSISDN must be digit characters'
+      errors.msisdnInput = `${i18n.t('forms.msisdnMustDigitCharacters')}`
     } else if(values.msisdnInput.length < 7 || values.msisdnInput.length > 15) {
-      errors.msisdnInput = 'MSISDN must consist of 7 to 15 digit characters'
+      errors.msisdnInput = `${i18n.t('forms.msisdnDigitLimit')}`
     }
 
     if (!values.retypeMsisdnInput) {
-      errors.retypeMsisdnInput = 'This field is Required'
+      errors.retypeMsisdnInput = `${i18n.t('forms.fieldError')}`
     } else if(isNaN(Number(values.retypeMsisdnInput))) {
-      errors.retypeMsisdnInput = 'Retype MSISDN Must be digit characters'
+      errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnMustDigitCharacters')}`
     } else if(values.retypeMsisdnInput.length < 7 || values.retypeMsisdnInput.length > 15) {
-      errors.retypeMsisdnInput = 'Retype MSISDN must consist of 7 to 15 digit characters'
+      errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnDigitLimit')}`
     } else if(values.msisdnInput !== values.retypeMsisdnInput) {
-      errors.retypeMsisdnInput = 'Entered MSISDN doesn\'t match'
+      errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
     // IMEIs Modal Validation
     if (!values.imeiInput) {
-      errors.imeiInput = 'This field is Required'
+      errors.imeiInput = `${i18n.t('forms.fieldError')}`
     } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)){
-      errors.imeiInput = 'IMEI must contains 14 to 16 characters and contains a combination of [0-9], [a-f] and [A-F]'
+      errors.imeiInput = `${i18n.t('forms.imeiDigitCombination')}`
     }
 
     if (!values.retypeImeiInput) {
-      errors.retypeImeiInput = 'This field is Required'
+      errors.retypeImeiInput = `${i18n.t('forms.fieldError')}`
     } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.retypeImeiInput)){
-      errors.retypeImeiInput = 'Retype IMEI must contains 14 to 16 characters and contains a combination of [0-9], [a-f] and [A-F]'
+      errors.retypeImeiInput = `${i18n.t('forms.reTypeimeiDigitCombination')}`
     } else if(values.imeiInput !== values.retypeImeiInput) {
-      errors.retypeImeiInput = 'Entered IMEI doesn\'t match'
+      errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
     }
 
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
 
     if (!values.date_of_incident) {
-        errors.date_of_incident = 'This field is Required'
+        errors.date_of_incident = `${i18n.t('forms.fieldError')}`
     } else if (today < values.date_of_incident) {
-      errors.date_of_incident = 'Date of Incident can\'t be in future';
+      errors.date_of_incident = `${i18n.t('forms.dateIncidentFuture')}`;
     } else if (paste >= values.date_of_incident) {
-      errors.date_of_incident = 'Date of Incident can\'t be that old';
+      errors.date_of_incident = `${i18n.t('forms.dateIncidentOld')}`;
     }
 
     if (!values.incident) {
-        errors.incident = 'This field is Required'
+        errors.incident = `${i18n.t('forms.fieldError')}`
     }
     if (!values.full_name) {
-        errors.full_name= 'This field is Required'
+        errors.full_name= `${i18n.t('forms.fieldError')}`
     }
     if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = 'One of the fields is required'
+        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
     }
     if (!values.dob) {
 
     } else if (today < values.dob) {
-      errors.dob = 'Date of Birth can\'t be in future';
+      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
     } else if (paste >= values.dob) {
-      errors.dob = 'Date of Birth can\'t be that old';
+      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
     if (!values.email) {
 
@@ -843,7 +875,7 @@ const MyEnhancedForm = withFormik({
         values.email
       )
     ) {
-      errors.email = 'Invalid email address';
+      errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
     return errors;
   },
@@ -902,6 +934,13 @@ function prepareAPIRequest(values) {
     if(values.msisdns) {
         searchParams.device_details.msisdns = values.msisdns;
     }
+    searchParams.case_details = {};
+    if(values.get_blocked) {
+        searchParams.case_details.get_blocked = values.get_blocked;
+    }
+    if(!values.get_blocked) {
+        searchParams.case_details.get_blocked = false;
+    }
     return searchParams;
 }
 
@@ -945,15 +984,20 @@ class NewCase extends Component {
                 const statusDetails = {
                   id: response.data.tracking_id,
                   icon: 'fa fa-check',
-                  status: 'Pending',
-                  action: 'Registered'
+                  status: `${i18n.t('Pending')}`,
+                  action: `${i18n.t('Registered')}`
                 }
                 this.props.history.push({
                   pathname: '/case-status',
                   state: { details: statusDetails }
                 });
               } else {
-                toast.error('something went wrong');
+                SweetAlert({
+                  title: i18n.t('error'),
+                  message: i18n.t('somethingWentWrong'),
+                  type:'error'
+                })
+                //toast.error('something went wrong');
               }
           })
           .catch(error => {

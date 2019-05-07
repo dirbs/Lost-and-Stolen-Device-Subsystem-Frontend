@@ -130,7 +130,7 @@ describe('Pending component', () => {
     expect(wrapper.find('Pending').find('.listbox li.casebox')).toHaveLength(1);
     expect(wrapper.find('Pending').find('.case-pending')).toHaveLength(1);
     expect(wrapper.find('.case-actions Link')).toHaveLength(1);
-    expect(wrapper.find('.case-actions Button')).toHaveLength(2);
-    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Pending Case found');
+    expect(wrapper.find('.case-actions Button')).toHaveLength(1);
+    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Pending case found');
   })
 });
