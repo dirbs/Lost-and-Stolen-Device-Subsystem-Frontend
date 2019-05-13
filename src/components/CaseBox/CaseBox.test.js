@@ -8,6 +8,7 @@ import CaseBox from './CaseBox';
 const msisdn = [234234, 234234];
 const infoProps = {
     status: 'Pending',
+    get_blocked: true,
     tracking_id: 234234,
     incident_details: {
         incident_nature: 'Lost',

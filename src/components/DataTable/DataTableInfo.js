@@ -9,11 +9,12 @@
   NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 import React from "react";
+import i18n from './../../i18n';
 
 const DataTableInfo = (props) => {
 	let limitEnd = props.limit + props.start-1;
     return (
-      <p className='page-result'>Showing <span>{props.start} to {limitEnd > props.total ? props.total : limitEnd}</span> of <span>{props.total}</span> {props.itemType}</p>
+      <p className='page-result'>{i18n.t('dataTableInfo.showing')} <span>{props.start} {i18n.t('dataTableInfo.to')} {limitEnd > props.total ? props.total : limitEnd}</span> {i18n.t('dataTableInfo.of')} <span>{props.total}</span> {props.itemType}</p>
     )
 };
 export default DataTableInfo;

@@ -145,7 +145,7 @@ describe('UpdateCase component', () => {
     wrapper.update()
     expect(mockAxios.get).toHaveBeenCalledWith('/case/IUJ34ET5', mockHeader);
     wrapper.find('form').simulate('submit');
-    expect(wrapper.find('Formik').state().errors.full_name).toEqual('This field is Required');
+    expect(wrapper.find('Formik').state().errors.full_name).toEqual('This field is required');
     expect(wrapper.find('Formik').state().errors.oneOfFields).toEqual('One of the fields is required');
   });
 
@@ -199,7 +199,7 @@ describe('UpdateCase component', () => {
     wrapper.update()
     expect(mockAxios.get).toHaveBeenCalledWith('/case/IUJ34ET5', mockHeader);
     wrapper.find('form').simulate('submit');
-    expect(wrapper.find('Formik').state().errors.dob).toEqual("Date of Birth can't be in future");
+    expect(wrapper.find('Formik').state().errors.dob).toEqual("Date of birth can't be in future");
   });
 
   test('if DOB is from past', () => {
@@ -252,7 +252,7 @@ describe('UpdateCase component', () => {
     wrapper.update()
     expect(mockAxios.get).toHaveBeenCalledWith('/case/IUJ34ET5', mockHeader);
     wrapper.find('form').simulate('submit');
-    expect(wrapper.find('Formik').state().errors.dob).toEqual("Date of Birth can't be that old");
+    expect(wrapper.find('Formik').state().errors.dob).toEqual("Date of birth can't be that old");
   });
 
   test('if email is invalid', () => {
@@ -425,6 +425,9 @@ describe('UpdateCase component', () => {
       }
     };
     const submittedCase = {
+      "case_details": {
+        "get_blocked": false,
+      },
       status_args: {
         user_id : '9a4403c2-5a48-4b79-9f30-02c0cc7799e0',
         username : 'qualcomm',
@@ -432,10 +435,8 @@ describe('UpdateCase component', () => {
       },
       personal_details: {
         address: "test-address",
-        dob: "1990-01-01",
         email: "test@example.com",
         full_name: "test-name",
-        gin: "12345678912345",
         number: "03001234567"
       }
     }

@@ -44,3 +44,11 @@ export const Date_Format = 'YYYY-MM-DD';
  * @type {number}
  */
 export const PAGE_LIMIT = 10;
+
+export const ITEMS_PER_PAGE= [
+  { value: 10, label: '10' },
+  { value: 20, label: '20' },
+  { value: 30, label: '30' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' }
+]

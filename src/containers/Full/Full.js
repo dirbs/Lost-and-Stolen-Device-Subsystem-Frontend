@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {Container} from 'reactstrap';
+import {Helmet} from 'react-helmet';
 import Header from '../../components/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
@@ -11,6 +12,7 @@ import { Form, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import RenderModal from '../../components/Form/RenderModal';
 import renderInput from '../../components/Form/RenderInput'
 import CaseStatus from '../../components/CaseStatus/CaseStatus';
+import Dashboard from '../../views/Dashboard/';
 import NewCase from '../../views/NewCase/';
 import SearchCases from '../../views/SearchCases/';
 import Pending from '../../views/Cases/Pending/';
@@ -23,10 +25,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {errors, getAuthHeader, instance, getUserInfo} from "../../utilities/helpers";
 import {RECOVERED_CASE, BLOCKED_CASE} from "../../utilities/constants";
+import i18n from './../../i18n';
 
 /**
  * A Stateful component which provides Comment option in popup modal.
  */
+
 class commentForm extends Component {
     constructor(props) {
         super(props);
@@ -47,13 +51,13 @@ class commentForm extends Component {
         return (
             <RenderModal show={showModal}>
               <Form onSubmit={handleSubmit}>
-                <ModalHeader>Comment</ModalHeader>
+                <ModalHeader>{i18n.t('comments.title')}</ModalHeader>
                 <ModalBody>
-                  <Field name="comments" component={renderInput} label="Comments" type="textarea" placeholder="Type your findings!" requiredStar />
+                  <Field name="comments" component={renderInput} label={i18n.t('comments.label')} type="textarea" placeholder={i18n.t('comments.typeYourFindings')} requiredStar />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" type="submit" disabled={isSubmitting}>Submit</Button>{' '}
-                  <Button color="secondary" onClick={this.handleReset}>Cancel</Button>
+                  <Button color="primary" type="submit" disabled={isSubmitting}>{i18n.t('button.submit')}</Button>{' '}
+                  <Button color="secondary" onClick={this.handleReset}>{i18n.t('button.cancel')}</Button>
                 </ModalFooter>
               </Form>
             </RenderModal>
@@ -69,9 +73,9 @@ const MyEnhancedCommentForm = withFormik({
     let errors = {};
 
     if (!values.comments) {
-      errors.comments = 'This field is Required'
+      errors.comments = `${i18n.t('forms.fieldError')}`;
     } else if(values.comments.length > 1000) {
-      errors.comments = 'Must be 1000 characters or less'
+      errors.comments = `${i18n.t('forms.charactersWithinTh')}`;
     }
     return errors;
   },
@@ -95,7 +99,8 @@ class Full extends Component {
     this.state = {
       showModal: false,
       status: null,
-      caseTrackingId: null
+      caseTrackingId: null,
+        lang: 'en'
     }
     this.changeLanguage = this.changeLanguage.bind(this);
     this.handleCaseStatus = this.handleCaseStatus.bind(this);
@@ -103,6 +108,12 @@ class Full extends Component {
     this.closeModal = this.closeModal.bind(this);
     this.updateTokenHOC = this.updateTokenHOC.bind(this);
   }
+
+    componentDidMount() {
+        this.setState({
+            lang: localStorage.getItem('i18nextLng')
+        })
+    }
 
   handleCaseStatus(e, id, status) {
     // Display modal box
@@ -188,6 +199,10 @@ class Full extends Component {
   changeLanguage(lng) {
     const { i18n } = this.props;
     i18n.changeLanguage(lng);
+    //window.location.reload();
+    this.setState({
+        lang: lng
+    });
   }
   render() {
     return (
@@ -195,6 +210,11 @@ class Full extends Component {
         {
         (t, { i18n }) => (
           <div className="app">
+              <Helmet>
+                  <html lang={this.state.lang} />
+                  <title>{i18n.t('title')}</title>
+                  <body dir={this.state.lang==='ur'?'rtl':'ltr'} />
+              </Helmet>
             <Header {...this.props} switchLanguage={this.changeLanguage} />
             <div className="app-body">
               <Sidebar {...this.props}/>
@@ -206,6 +226,7 @@ class Full extends Component {
                   position="top-left" 
                   hideProgressBar />
                   <Switch>
+                    <Route path="/dashboard" name="Dashboard"  render={(props) => <Dashboard handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/new-case" name="NewCase"  render={(props) => <NewCase {...this.props} {...props} /> } />
                     <Route path="/search-cases" name="SearchCases" render={(props) => <SearchCases handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-status" name="CaseStatus" component={CaseStatus}/>
@@ -215,7 +236,7 @@ class Full extends Component {
                     <Route path="/cases/blocked" name="Blocked" render={(props) => <Blocked handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
-                    <Redirect from="/" to="/search-cases"/>
+                    <Redirect from="/" to="/dashboard"/>
                   </Switch>
                 </Container>
               </main>

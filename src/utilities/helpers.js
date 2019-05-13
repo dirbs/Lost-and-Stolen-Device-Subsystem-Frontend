@@ -10,10 +10,14 @@ Redistribution and use in source and binary forms, with or without modification,
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+import React from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import Base64 from 'base-64';
 import settings from './../settings';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import i18n from './../i18n'
+const MySwal = withReactContent(Swal);
 
 /**
  * Create API, Keycloak and Tyk URLs based on settings.json file
@@ -114,6 +118,19 @@ export function isPage401(groups) {
   return pageStatus;
 }
 
+export function SweetAlert(params){
+  let title = params.title
+  let message = params.message
+  let type = params.type
+
+  MySwal.fire({
+    title: <p>{title}</p>,
+    text: message,
+    type: type,
+    confirmButtonText: i18n.t('button.ok')
+  })
+}
+
 /**
  * Generic Errors handling for Axios
  *
@@ -123,35 +140,85 @@ export function isPage401(groups) {
 export function errors (context, error) {
   if(typeof error !== 'undefined'){
     if(typeof error.response === 'undefined') {
+      SweetAlert({
+        title: i18n.t('error'),
+        message: i18n.t('serverNotResponding'),
+        type:'error'
+      })
       //toast.error('API Server is not responding or You are having some network issues');
     } else {
       if(error.response.status === 400) {
-        toast.error(error.response.data.message);
+        SweetAlert({
+          title: i18n.t('error'),
+          message: error.response.data.message,
+          type:'error'
+        })
+        //toast.error(error.response.data.message);
       } else if(error.response.status === 401) {
-        toast.error('Your session has been expired, please wait');
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('sessionExpired'),
+          type:'error'
+        })
+        //toast.error('Your session has been expired, please wait');
         setTimeout(() => {
           window.location.reload();
         }, 3000);
       } else if(error.response.status === 403) {
-        toast.error('These credential do not match our records.');
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('credentialMatch'),
+          type:'error'
+        })
+        //toast.error('These credential do not match our records.');
       } else if(error.response.status === 404) {
-        toast.error(error.response.data.message);
+        SweetAlert({
+          title: i18n.t('error'),
+          message: error.response.data.message,
+          type:'error'
+        })
+        //toast.error(error.response.data.message);
       } else if(error.response.status === 405) {
-        toast.error('You have used a wrong HTTP verb');
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('wrongHttp'),
+          type:'error'
+        })
+        //toast.error('You have used a wrong HTTP verb');
       } else if(error.response.status === 406) {
-        toast.error(error.response.data.message);
+        SweetAlert({
+          title: i18n.t('error'),
+          message: error.response.data.message,
+          type:'error'
+        })
+        //toast.error(error.response.data.message);
       } else if(error.response.status === 409) {
-        toast.error(error.response.data.message, { autoClose: 10000 });
+        SweetAlert({
+          title: i18n.t('error'),
+          message: error.response.data.message,
+          type:'error'
+        })
+        //toast.error(error.response.data.message, { autoClose: 10000 });
       } else if(error.response.status === 422) {
         let errors = error.response.data.messages;
         for (var key in errors) {
            var caseErrors = errors[key];
            for(var i in caseErrors) {
-              toast.error(caseErrors[i][0], { autoClose: 10000 });
+             SweetAlert({
+               title: i18n.t('error'),
+               message: caseErrors[i][0],
+               type:'error'
+             });
+              //toast.error(caseErrors[i][0], { autoClose: 10000 });
            }
         }
       } else if(error.response.status >= 500) {
-        toast.error("API Server is not responding or You are having some network issues", { autoClose: 8000 });
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('serverNotResponding'),
+          type:'error'
+        })
+        //toast.error("API Server is not responding or You are having some network issues", { autoClose: 8000 });
       }
     }
   }

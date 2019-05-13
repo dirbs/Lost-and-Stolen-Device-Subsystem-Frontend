@@ -142,7 +142,7 @@ describe('View component', () => {
     mockAxios.mockResponse(responseObj)
     wrapper.update()
     expect(wrapper.find('.listbox Link')).toHaveLength(1);
-    expect(wrapper.find('.listbox Button')).toHaveLength(2);
+    expect(wrapper.find('.listbox Button')).toHaveLength(1);
     expect(wrapper.find('.text-primary').text()).toEqual(status);
   });
   test('if status is Blocked then values are correct', () => {

@@ -84,6 +84,7 @@ export default class RenderDateRangePicker extends Component {
         displayFormat={Date_Format}
         reopenPickerOnClearDate
         readOnly
+        hideKeyboardShortcutsPanel
         placeholder={Date_Format}
         renderMonthElement={({ month, onMonthSelect, onYearSelect }) => (
         <div style={{ display: 'flex', justifyContent: 'center' }}>

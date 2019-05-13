@@ -67,6 +67,22 @@
   .btn-lg {
     margin-top: - $input-btn-padding-y-lg;
   }
+
+  &.wiri-btn {
+
+    .btn {
+      float: right;
+      margin-left: 1rem;
+      margin-top: 0;
+
+      &.btn-sm {
+        margin-top: 0;
+      }
+
+    }
+
+  }
+
 }
 //
 .card-footer {

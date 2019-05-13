@@ -55,6 +55,6 @@ describe('HeaderDropdown Component', () => {
   test('render username correctly', ()=> {
     const mockLogout = Sinon.spy()
     const wrapper = mount(<HeaderDropdown kc={{ logout: mockLogout}} userDetails={userDetails}/>);
-    expect(wrapper.contains(<span className="mr-3 h6">{userDetails.preferred_username}</span>)).toBe(true);
+    expect(wrapper.contains(<span className="h6">{userDetails.preferred_username}</span>)).toBe(true);
   })
 });

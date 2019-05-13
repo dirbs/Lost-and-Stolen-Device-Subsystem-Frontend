@@ -12,6 +12,7 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import React from 'react';
 import ContentLoader from 'react-content-loader';
+import i18n from './../../i18n';
 
 /**
  * A presentational component used to generate loader.
@@ -27,6 +28,7 @@ const BoxLoader = props => (
         speed={4}
         primaryColor="#f3f3f3"
         secondaryColor="#ecebeb"
+        ariaLabel={i18n.t('loadingInterface')}
         {...props}
     >
         <rect x="-0.42" y="1.27" rx="0" ry="0" width="1069" height="139" />

@@ -33,7 +33,6 @@ import Header from "./Header";
 
   test('Nav has specific class', () => {
     const wrapper = shallow(<Header />);
-    expect(wrapper.find('Nav').props().className).toBe('ml-auto');
     expect(wrapper.find('Nav').props().navbar).toBe(true);
     expect(wrapper.find('Nav').props().vertical).toBe(false);
   })

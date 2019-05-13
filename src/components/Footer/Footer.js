@@ -11,16 +11,20 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 */
 
 import React, {Component} from 'react';
+import i18n from './../../i18n';
 
 /**
  * A stateful component which generate a footer text.
  */
 class Footer extends Component {
+  showCurrentYear() {
+    return new Date().getFullYear();
+  }
   render() {
     return (
       <footer className="app-footer">
-        <div>&copy; Copyright 2018 <i>DIRBS</i>. All Rights Reserved.</div>
-        <div><b>Version: </b>1.0.0</div>
+        <div>&copy; {i18n.t('copyRight')} {this.showCurrentYear()} <i>{i18n.t('DIRBS')}</i>. {i18n.t('allRightsReserved')}.</div>
+        <div><b>{i18n.t('version')}: </b>1.0.0</div>
       </footer>
     )
   }

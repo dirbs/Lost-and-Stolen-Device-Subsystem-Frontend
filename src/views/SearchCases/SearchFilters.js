@@ -11,35 +11,20 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 */
 
 import React from 'react';
-import { Link } from "react-router-dom";
 import i18n from './../../i18n';
 
-/**
- * This presentational component accepts some props and generate a informational component
- *
- * @param props
- * @returns {*}
- * @constructor
- */
-const CaseStatus = (props) => {
-  const {details} = props.location.state;
-  return (
-    <div>
-      <div className="submitted">
-        <div className="icon-box">
-          <i className={details.icon}></i>
-        </div>
-        <h4>{i18n.t('caseStatus.caseHasBeen')} <span>{i18n.t(details.action)}</span> {i18n.t('caseStatus.successfully')}.</h4>
-        <div className="msg">
-          <p>{i18n.t('caseStatus.caseTrackingIDIs')} <span>{details.id}</span> {i18n.t('caseStatus.andStatusIs')} <span>{i18n.t(details.status)}</span></p>
-          <p>{i18n.t('caseStatus.pleaseClickTheButton')}.</p>
-        </div>
-        <div className="link-box">
-          <Link to={`/case/${details.id}`} className="btn btn-primary">{i18n.t('caseStatus.viewCase')}</Link>
-        </div>
-      </div>
-    </div>
-  )
-}
+const SearchFilters = props =>
+  <ul className='selected-filters'>
+    {props.filters.length>0 && props.filters.map((filter,i)=>{
+		return <li key={i}>
+      		<div>
+        		<span>{i18n.t(filter.label)}: <b>{i18n.t(filter.value)}</b></span>
+              <p onClick={()=>{
+                props.handleReset(filter)
+              }}><i className='fa fa-close'></i></p>
+    		</div>
+        </li>
+    })}
+  </ul>
 
-export default CaseStatus;
+export default SearchFilters;

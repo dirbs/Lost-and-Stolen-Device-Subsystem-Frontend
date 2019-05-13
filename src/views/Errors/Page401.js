@@ -48,15 +48,15 @@ class Page401 extends Component {
                             <main className="main p401">
                                 <div className="container-fluid">
                                     <div className="text-center">
-                                        <h1><b>401</b></h1>
-                                        <h2>Unauthorized Page</h2>
-                                        <h6><b>Contact Administrator</b></h6>
+                                        <h1><b>{i18n.t('page401.title')}</b></h1>
+                                        <h2>{i18n.t('page401.subTitle')}</h2>
+                                        <h6><b>{i18n.t('page401.contactAdmin')}</b></h6>
                                         <div className="inline-support">
                                             <ul>
-                                                <li><b>Email:&nbsp;&nbsp;</b>{supportEmail}</li>
+                                                <li><b>{i18n.t('page401.emailLabel')}:&nbsp;&nbsp;</b>{supportEmail}</li>
                                             </ul>
                                             <ul>
-                                                <li><b>Phone:&nbsp;&nbsp;</b>{supportNumber}</li>
+                                                <li><b>{i18n.t('page401.phoneLabel')}:&nbsp;&nbsp;</b>{supportNumber}</li>
                                             </ul>
                                         </div>
                                     </div>

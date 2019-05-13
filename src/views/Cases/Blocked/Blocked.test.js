@@ -130,6 +130,6 @@ describe('Blocked component', () => {
     expect(wrapper.find('Blocked').find('.listbox li.casebox')).toHaveLength(1);
     expect(wrapper.find('Blocked').find('.case-blocked')).toHaveLength(1);
     expect(wrapper.find('.case-actions Button')).toHaveLength(1);
-    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Blocked Case found');
+    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Blocked case found');
   })
 });

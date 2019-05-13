@@ -83,6 +83,7 @@
     @include sidebar-width($sidebar-borders, $sidebar-width);
     flex-direction: column;
     min-height: 100%;
+    padding: 0;
   }
 
   .nav-title {

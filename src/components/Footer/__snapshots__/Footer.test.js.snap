@@ -6,6 +6,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Footer />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -19,15 +20,22 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div>
-          © Copyright 2018 
+          © 
+          Copyright
+           
+          2019
+           
           <i>
             DIRBS
           </i>
-          . All Rights Reserved.
+          . 
+          All rights reserved
+          .
         </div>,
         <div>
           <b>
-            Version: 
+            Version
+            : 
           </b>
           1.0.0
         </div>,
@@ -42,16 +50,26 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            "© Copyright 2018 ",
+            "© ",
+            "Copyright",
+            " ",
+            2019,
+            " ",
             <i>
               DIRBS
             </i>,
-            ". All Rights Reserved.",
+            ". ",
+            "All rights reserved",
+            ".",
           ],
         },
         "ref": null,
         "rendered": Array [
-          "© Copyright 2018 ",
+          "© ",
+          "Copyright",
+          " ",
+          2019,
+          " ",
           Object {
             "instance": null,
             "key": undefined,
@@ -63,7 +81,9 @@ ShallowWrapper {
             "rendered": "DIRBS",
             "type": "i",
           },
-          ". All Rights Reserved.",
+          ". ",
+          "All rights reserved",
+          ".",
         ],
         "type": "div",
       },
@@ -74,7 +94,8 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <b>
-              Version: 
+              Version
+              : 
             </b>,
             "1.0.0",
           ],
@@ -86,10 +107,16 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Version: ",
+              "children": Array [
+                "Version",
+                ": ",
+              ],
             },
             "ref": null,
-            "rendered": "Version: ",
+            "rendered": Array [
+              "Version",
+              ": ",
+            ],
             "type": "b",
           },
           "1.0.0",
@@ -107,15 +134,22 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div>
-            © Copyright 2018 
+            © 
+            Copyright
+             
+            2019
+             
             <i>
               DIRBS
             </i>
-            . All Rights Reserved.
+            . 
+            All rights reserved
+            .
           </div>,
           <div>
             <b>
-              Version: 
+              Version
+              : 
             </b>
             1.0.0
           </div>,
@@ -130,16 +164,26 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              "© Copyright 2018 ",
+              "© ",
+              "Copyright",
+              " ",
+              2019,
+              " ",
               <i>
                 DIRBS
               </i>,
-              ". All Rights Reserved.",
+              ". ",
+              "All rights reserved",
+              ".",
             ],
           },
           "ref": null,
           "rendered": Array [
-            "© Copyright 2018 ",
+            "© ",
+            "Copyright",
+            " ",
+            2019,
+            " ",
             Object {
               "instance": null,
               "key": undefined,
@@ -151,7 +195,9 @@ ShallowWrapper {
               "rendered": "DIRBS",
               "type": "i",
             },
-            ". All Rights Reserved.",
+            ". ",
+            "All rights reserved",
+            ".",
           ],
           "type": "div",
         },
@@ -162,7 +208,8 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               <b>
-                Version: 
+                Version
+                : 
               </b>,
               "1.0.0",
             ],
@@ -174,10 +221,16 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Version: ",
+                "children": Array [
+                  "Version",
+                  ": ",
+                ],
               },
               "ref": null,
-              "rendered": "Version: ",
+              "rendered": Array [
+                "Version",
+                ": ",
+              ],
               "type": "b",
             },
             "1.0.0",
@@ -192,9 +245,13 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
           },
           "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,
@@ -205,5 +262,6 @@ ShallowWrapper {
       },
     },
   },
+  Symbol(enzyme.__childContext__): null,
 }
 `;

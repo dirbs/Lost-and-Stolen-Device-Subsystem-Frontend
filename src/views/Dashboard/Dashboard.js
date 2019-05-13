@@ -12,27 +12,25 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import React, { Component } from 'react';
 import { translate, I18n } from 'react-i18next';
-import { instance, errors, getAuthHeader } from './../../../utilities/helpers';
-import CaseBox from '../../../components/CaseBox/CaseBox';
-import BoxLoader from '../../../components/BoxLoader/BoxLoader';
-import Pagination from "react-js-pagination";
-import {PENDING_CASE, PAGE_LIMIT, ITEMS_PER_PAGE} from '../../../utilities/constants';
-import {Card, CardHeader, Input, Label} from 'reactstrap';
-import DataTableInfo from '../../../components/DataTable/DataTableInfo';
+import DashboardInstructions from './instructions';
+import { instance, errors, getAuthHeader } from './../../utilities/helpers';
+import CaseBox from '../../components/CaseBox/CaseBox';
+import BoxLoader from '../../components/BoxLoader/BoxLoader';
+import {PENDING_CASE, PAGE_LIMIT} from '../../utilities/constants';
+import {Card, CardHeader, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import RenderModal from '../../components/Form/RenderModal'
 
 /**
  * This Stateful component generates a list of all Pending Cases.
  * It uses some other components to fulfill its task, like CaseBox component, Pagination and loader component.
  */
-class Pending extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    this.handlePageClick = this.handlePageClick.bind(this);
     this.getCasesFromServer = this.getCasesFromServer.bind(this);
     this.updateTokenHOC = this.updateTokenHOC.bind(this);
-    this.handleLimitChange = this.handleLimitChange.bind(this);
-    this.handlePagination = this.handlePagination.bind(this);
+    this.infoClickHandler = this.infoClickHandler.bind(this);
 
     this.state = {
       activePage: 1,
@@ -41,7 +39,7 @@ class Pending extends Component {
       totalCases: 0,
       start: 1,
       limit: PAGE_LIMIT,
-      options: ITEMS_PER_PAGE
+      showInstructionModal: false
     }
   }
 
@@ -77,50 +75,17 @@ class Pending extends Component {
           })
   }
 
-  handlePageClick(page) {
-    let a1 = 1;
-    let d = this.state.limit;
-   	let start = a1 + d * (page - 1);
-
-    this.setState({start: start, activePage: page, loading: true}, () => {
-      this.updateTokenHOC(this.getCasesFromServer);
-    });
-  }
-
-  handleLimitChange = (e) => {
-    e.preventDefault();
-    let limit = parseInt(e.target.value);
-    let currentPage = Math.ceil(this.state.start / limit);
-    this.setState({limit: limit},()=>{
-      this.handlePageClick(currentPage);
-    });
-  }
-
-  isBottom(el) {
-    return el.getBoundingClientRect().bottom - 100 <= window.innerHeight;
-  }
   componentDidMount() {
     this.updateTokenHOC(this.getCasesFromServer);
-    document.addEventListener('scroll', this.handlePagination);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('scroll', this.handlePagination);
-  }
-
-  handlePagination = () => {
-    const wrappedElement = document.getElementById('root');
-    if (this.isBottom(wrappedElement)) {
-      document.body.classList.remove('pagination-fixed');
-    } else {
-      document.body.classList.add('pagination-fixed');
-    }
-  }
-  render() {
-    const {options} = this.state;
-    const limitOptions = options.map((item)=>{
-      return <option key={item.value} value={item.value}>{item.label}</option>
+  infoClickHandler() {
+    this.setState({
+        showInstructionModal : true
     })
+  }
+
+  render() {
     let pending_cases = null;
     if(((this.state.data || {}).cases || []).length > 0) {
         pending_cases = this.state.data.cases.map(pending => (
@@ -131,7 +96,14 @@ class Pending extends Component {
         <I18n ns="translations">
         {
           (t, { i18n }) => (
-              <div className="search-box animated fadeIn">
+              <div className="search-box animated fadeIn position-relative">
+                  <div className="help help-page">
+                      <button onClick={()=>this.infoClickHandler()}>
+                          <svg className="icon-registration">
+                              <use xlinkHref="./img/svg-symbol.svg#helpi"></use>
+                          </svg>
+                      </button>
+                  </div>
                   <ul className="listbox">
                       {
                         (this.state.loading)
@@ -147,39 +119,22 @@ class Pending extends Component {
                                 <div>
                                     <Card className="mb-3">
                                         <CardHeader className="border-bottom-0">
-                                            <b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('pendingCasesRecord.casesFound')}`: `${this.state.totalCases} ${i18n.t('pendingCasesRecord.caseFound')}`}</b>
+                                            <b>{i18n.t('pendingCasesRecord.recentCases')}</b>
                                         </CardHeader>
                                     </Card>
                                     {pending_cases}
                                 </div>: `${i18n.t('pendingCasesRecord.noCases')}`
                       }
                   </ul>
-                {(((this.state.data || {}).cases || []).length > 0 && this.state.totalCases > PAGE_LIMIT && !(this.state.loading)) &&
-                  <article className="data-footer">
-                    <Pagination
-                      pageRangeDisplayed={window.matchMedia("(max-width: 767px)").matches ? 4 : 10}
-                      activePage={this.state.activePage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.totalCases}
-                      onChange={this.handlePageClick}
-                      innerClass="pagination"
-                    />
-                    <div className="hand-limit">
-                      <Label>{i18n.t('pageRecordLimit.show')}</Label>
-                      <div className="selectbox">
-                        <Input value={this.state.limit} onChange={(e) => {
-                          this.handleLimitChange(e)
-                        }} type="select" name="select">
-                          {limitOptions}
-                        </Input>
-                      </div>
-                      <Label>{i18n.t('pageRecordLimit.cases')}</Label>
-                    </div>
-                    <div className='start-toend'>
-                      <DataTableInfo start={this.state.start} limit={this.state.limit} total={this.state.totalCases} itemType={i18n.t('pageRecordLimit.itemType')} />
-                    </div>
-                  </article>
-                }
+                  <RenderModal show={this.state.showInstructionModal} className="modal-lg modal-dirbs">
+                      <ModalHeader><b>{i18n.t('dashboard.instructions')}</b></ModalHeader>
+                      <ModalBody>
+                          <DashboardInstructions />
+                      </ModalBody>
+                      <ModalFooter>
+                          <button className="btn btn-secondary" onClick={()=>this.setState({showInstructionModal:false})}>{i18n.t('button.close')}</button>
+                      </ModalFooter>
+                  </RenderModal>
               </div>
           )
         }
@@ -188,4 +143,4 @@ class Pending extends Component {
   }
 }
 
-export default translate('translations')(Pending);
+export default translate('translations')(Dashboard);

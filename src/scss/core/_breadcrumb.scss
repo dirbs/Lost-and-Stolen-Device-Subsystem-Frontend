@@ -1,4 +1,15 @@
 .breadcrumb {
   position: relative;
   @include borders($breadcrumb-borders);
+  border-radius: 0;
+
+  .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+
+    &:before {
+      padding-left: 0.5rem;
+    }
+
+  }
+
 }

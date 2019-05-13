@@ -14,6 +14,7 @@ import React from 'react';
 import {Button} from 'reactstrap';
 import { Link } from "react-router-dom";
 import {BLOCKED_CASE, RECOVERED_CASE} from "../../utilities/constants";
+import i18n from './../../i18n';
 
 /**
  * This component accepts some props and display Case details, such case status, case identifier, etc.
@@ -38,9 +39,11 @@ const CaseBox = (props) => {
                     {(props.info.status === 'Pending') ?
                         <div>
                             <p>
-                                <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>Update</Link>
-                                <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>Recover</Button>{''}
-                                <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>Block</Button>
+                                <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>{i18n.t('button.update')}</Link>
+                                <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
+                                {props.info.get_blocked === true ?
+                                    <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                                    : null}
                             </p>
                         </div>
                         : null
@@ -48,37 +51,37 @@ const CaseBox = (props) => {
 
                     {(props.info.status === 'Blocked') ?
                         <p>
-                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>Recover</Button>{' '}
+                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
                         </p>
                         : null
                     }
                 </div>
                 <div className="case-content">
                     <h2 className="case-title">
-                         <Link to={`/case/${ props.info.tracking_id }`}>Case Identifier: {props.info.tracking_id}</Link>
+                         <Link to={`/case/${ props.info.tracking_id }`}>{i18n.t('caseBox.caseIdentifier')}: {props.info.tracking_id}</Link>
                     </h2>
                     <p className="incident-status">
-                        <span className="incident"><b>{props.info.incident_details.incident_nature}</b> at {props.info.incident_details.incident_date}</span>
+                        <span className="incident"><b>{i18n.t(props.info.incident_details.incident_nature)}</b> {i18n.t('at')} {props.info.incident_details.incident_date}</span>
                         <span className="dot-sep"></span>
-                        <span className="status">Status <b>{props.info.status}</b></span>
+                        <span className="status">{i18n.t('caseBox.status')} <b>{i18n.t(props.info.status)}</b></span>
                         <span className="dot-sep"></span>
-                        <span className="creater">Creator <b>{props.info.creator.username}</b></span>
+                        <span className="creater">{i18n.t('caseBox.creator')} <b>{props.info.creator.username}</b></span>
                     </p>
                 </div>
             </div>
             <div className="case-footer">
                 <ul className="more-detail">
                     <li>
-                        <p>Affected MSISDNs<span>{props.info.device_details.msisdns.join(', ')}</span></p>
+                        <p>{i18n.t('caseBox.affectedMSISDNs')}<span>{props.info.device_details.msisdns.join(', ')}</span></p>
                     </li>
                     <li>
-                        <p>Affected User<span>{props.info.personal_details.full_name}</span></p>
+                        <p>{i18n.t('caseBox.affectedUser')}<span>{props.info.personal_details.full_name}</span></p>
                     </li>
                     <li>
-                        <p>Model Name<span>{props.info.device_details.model_name}</span></p>
+                        <p>{i18n.t('caseBox.modelName')}<span>{props.info.device_details.model_name}</span></p>
                     </li>
                     <li>
-                        <p>Last Updated<span>{props.info.updated_at}</span></p>
+                        <p>{i18n.t('caseBox.lastUpdated')}<span>{props.info.updated_at}</span></p>
                     </li>
                 </ul>
             </div>

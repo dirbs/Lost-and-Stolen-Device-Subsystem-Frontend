@@ -19,6 +19,7 @@ select::-ms-expand {
 
 	&:before {
 		content: '';
+		pointer-events: none;
 		position: absolute;
 		top: 50%;
 		right: 0.7rem;
@@ -104,33 +105,6 @@ select::-ms-expand {
 
 }
 
-.Select-arrow {
-    display: inline-block;
-    width: 7px;
-	height: 7px;
-    border: 0;
-	border-right: #777 1px solid;
-	border-bottom: #777 1px solid;
-    -moz-transform: translateY(-3px) rotate(45deg);
-	-webkit-transform: translateY(-3px) rotate(45deg);
-	transform: translateY(-3px) rotate(45deg);
-	-moz-transition: transform ease 0.25s;
-	-webkit-transition: transform ease 0.25s;
-	transition: transform ease 0.25s;
-}
-
-.Select.is-open > .Select-control .Select-arrow {
-	top: 50%;
-	width: 7px;
-	height: 7px;
-	border: 0;
-	border-right: #777 1px solid;
-	border-bottom: #777 1px solid;
-	-moz-transform: rotate(225deg);
-	-webkit-transform: rotate(225deg);
-	transform: rotate(225deg);
-}
-
 .dflex {
 	display: flex;
 	flex-wrap: wrap;
@@ -154,8 +128,9 @@ hr.transparent {
 .read-box {
 	min-height: 47px;
 
-	&.radio-wrap {
-		padding: 0.8rem 1.25rem;
+	.invalid-feedback {
+		padding: 0.5rem 1.25rem;
+		margin-top: 0;
 
 		@include media-breakpoint-down(sm) {
 			padding: 0.5rem 0.5rem;
@@ -163,12 +138,20 @@ hr.transparent {
 
 	}
 
-	.invalid-feedback {
-		padding: 0.5rem 1.25rem;
-		margin-top: 0;
+	&.radio-wrap {
+		padding: 0.8rem 1.25rem;
 
 		@include media-breakpoint-down(sm) {
 			padding: 0.5rem 0.5rem;
+		}
+
+		.invalid-feedback {
+			padding: 0.5rem 0;
+
+			@include media-breakpoint-down(sm) {
+				padding: 0.5rem 0;
+			}
+
 		}
 
 	}

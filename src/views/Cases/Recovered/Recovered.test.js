@@ -131,6 +131,6 @@ describe('Recovered component', () => {
     expect(wrapper.find('Recovered').find('.case-recovered')).toHaveLength(1);
     expect(wrapper.find('.case-actions Link')).toHaveLength(0);
     expect(wrapper.find('.case-actions Button')).toHaveLength(0);
-    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Recovered Case found');
+    expect(wrapper.find('.listbox .text-primary').text()).toEqual('1 Recovered case found');
   })
 });

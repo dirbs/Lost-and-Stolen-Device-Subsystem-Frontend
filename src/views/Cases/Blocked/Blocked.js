@@ -16,8 +16,8 @@ import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
 import CaseBox from '../../../components/CaseBox/CaseBox';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import Pagination from "react-js-pagination";
-import {BLOCKED_CASE, PAGE_LIMIT} from '../../../utilities/constants';
-import {Card, CardHeader, Row, Col} from 'reactstrap';
+import {BLOCKED_CASE, PAGE_LIMIT, ITEMS_PER_PAGE} from '../../../utilities/constants';
+import {Card, CardHeader, Input, Label} from 'reactstrap';
 import DataTableInfo from '../../../components/DataTable/DataTableInfo';
 
 /**
@@ -31,6 +31,8 @@ class Blocked extends Component {
     this.handlePageClick = this.handlePageClick.bind(this);
     this.getCasesFromServer = this.getCasesFromServer.bind(this);
     this.updateTokenHOC = this.updateTokenHOC.bind(this);
+    this.handleLimitChange = this.handleLimitChange.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
 
     this.state = {
         activePage: 1,
@@ -39,10 +41,30 @@ class Blocked extends Component {
         totalCases: 0,
         start: 1,
         limit: PAGE_LIMIT,
+        options: ITEMS_PER_PAGE
     }
   }
+
+  isBottom(el) {
+    return el.getBoundingClientRect().bottom - 100 <= window.innerHeight;
+  }
+
   componentDidMount() {
     this.updateTokenHOC(this.getCasesFromServer);
+    document.addEventListener('scroll', this.handlePagination);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handlePagination);
+  }
+
+  handlePagination = () => {
+    const wrappedElement = document.getElementById('root');
+    if (this.isBottom(wrappedElement)) {
+      document.body.classList.remove('pagination-fixed');
+    } else {
+      document.body.classList.add('pagination-fixed');
+    }
   }
 
   getCasesFromServer(config) {
@@ -82,11 +104,24 @@ class Blocked extends Component {
     let d = this.state.limit;
    	let start = a1 + d * (page - 1);
 
-	this.setState({start: start, activePage: page}, () => {
-	  this.updateTokenHOC(this.getCasesFromServer);
-	});
+    this.setState({start: start, activePage: page, loading: true}, () => {
+      this.updateTokenHOC(this.getCasesFromServer);
+    });
+  }
+
+  handleLimitChange = (e) => {
+    e.preventDefault();
+    let limit = parseInt(e.target.value);
+    let currentPage = Math.ceil(this.state.start / limit);
+    this.setState({limit: limit},()=>{
+      this.handlePageClick(currentPage);
+    });
   }
   render() {
+      const {options} = this.state;
+      const limitOptions = options.map((item)=>{
+        return <option key={item.value} value={item.value}>{item.label}</option>
+      })
       let blocked_cases = null;
       if(((this.state.data || {}).cases || []).length > 0) {
         blocked_cases = this.state.data.cases.map(blocked => (
@@ -114,34 +149,40 @@ class Blocked extends Component {
                          ? <div>
                                 <Card className="mb-3">
                                     <CardHeader className="border-bottom-0">
-                                        <b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} Blocked Cases found`: `${this.state.totalCases} Blocked Case found`}</b>
+                                        <b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('blockCasesRecord.casesFound')}`: `${this.state.totalCases} ${i18n.t('blockCasesRecord.caseFound')}`}</b>
                                     </CardHeader>
                                 </Card>
                                 {blocked_cases}
                             </div>
-                        : 'No Blocked Cases found'
+                        : `${i18n.t('blockCasesRecord.noCases')}`
                 }
                 </ul>
-                <Row>
-                  <Col className='col-xs-12 col-xl-6'>
-                    {(((this.state.data || {}).cases || []).length > 0 && this.state.totalCases > PAGE_LIMIT) &&
-                      <div className='mt-3'>
-                        <DataTableInfo start={this.state.start} limit={this.state.limit} total={this.state.totalCases} itemType={'cases'} />
-                      </div>
-                    }
-                  </Col>
-                {((((this.state.data || {}).cases || []).length > 0  && this.state.totalCases > PAGE_LIMIT) &&
-                <Col className='col-xs-12 col-xl-6'>
-                <Pagination
-                      pageRangeDisplayed={window.matchMedia("(max-width: 575px)").matches ? 4 : 10}
-                      activePage={this.state.activePage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.totalCases}
-                      onChange={this.handlePageClick}
-                      innerClass="pagination float-right mt-3"
-                /></Col>) || <div className="mb-3"></div>}
-
-                </Row>
+              {(((this.state.data || {}).cases || []).length > 0 && this.state.totalCases > PAGE_LIMIT && !(this.state.loading)) &&
+                <article className='data-footer'>
+                  <Pagination
+                    pageRangeDisplayed={window.matchMedia("(max-width: 767px)").matches ? 4 : 10}
+                    activePage={this.state.activePage}
+                    itemsCountPerPage={this.state.limit}
+                    totalItemsCount={this.state.totalCases}
+                    onChange={this.handlePageClick}
+                    innerClass="pagination"
+                  />
+                  <div className="hand-limit">
+                    <Label>{i18n.t('pageRecordLimit.show')}</Label>
+                    <div className="selectbox">
+                      <Input value={this.state.limit} onChange={(e) => {
+                        this.handleLimitChange(e)
+                      }} type="select" name="select">
+                        {limitOptions}
+                      </Input>
+                    </div>
+                    <Label>{i18n.t('pageRecordLimit.cases')}</Label>
+                  </div>
+                  <div className='start-toend'>
+                    <DataTableInfo start={this.state.start} limit={this.state.limit} total={this.state.totalCases} itemType={i18n.t('pageRecordLimit.itemType')} />
+                  </div>
+                </article>
+              }
             </div>
           )
         }
