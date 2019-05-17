@@ -164,6 +164,7 @@
   "forms.imeiNotMatch": "IMEI yang dimasukkan tidak cocok",
   "forms.dateIncidentFuture": "Tanggal kejadian tidak boleh di masa mendatang",
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
+  "forms.langError": "Bahasa tidak didukung",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 

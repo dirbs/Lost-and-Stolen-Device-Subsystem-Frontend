@@ -18,6 +18,9 @@ import translationEN from './locales/en/translation.json';
 import translationES from './locales/es/translation.json';
 import translationID from './locales/id/translation.json';
 
+import settings from './settings';
+
+const  { defaultLanguage } = settings.appDetails;
 i18n
     .use(LanguageDetector)
     .init({
@@ -53,4 +56,5 @@ i18n
       }
     });
 
+i18n.changeLanguage(defaultLanguage);
 export default i18n;
