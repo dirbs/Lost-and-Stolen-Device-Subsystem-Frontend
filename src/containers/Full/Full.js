@@ -23,7 +23,7 @@ import UpdateCase from '../../views/Cases/UpdateCase/';
 import Page401 from '../../views/Errors/Page401';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {errors, getAuthHeader, instance, getUserInfo} from "../../utilities/helpers";
+import {errors, getAuthHeader, instance, getUserInfo, languageCheck} from "../../utilities/helpers";
 import {RECOVERED_CASE, BLOCKED_CASE} from "../../utilities/constants";
 import i18n from './../../i18n';
 
@@ -76,6 +76,8 @@ const MyEnhancedCommentForm = withFormik({
       errors.comments = `${i18n.t('forms.fieldError')}`;
     } else if(values.comments.length > 1000) {
       errors.comments = `${i18n.t('forms.charactersWithinTh')}`;
+    }else  if (values.comments && languageCheck(values.comments) === false){
+        errors.comments = i18n.t('forms.langError')
     }
     return errors;
   },
