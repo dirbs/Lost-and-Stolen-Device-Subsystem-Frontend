@@ -13,11 +13,18 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 import React from 'react';
 import axios from 'axios';
 import Base64 from 'base-64';
-import settings from './../settings';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import i18n from './../i18n'
+import {
+  ENGLISH_REGEX,
+  SPANISH_REGEX,
+  INDONESIAN_REGEX
+} from './constants';
+import settings from '../settings';
+
 const MySwal = withReactContent(Swal);
+const { defaultLanguage } = settings.appDetails;
 
 /**
  * Create API, Keycloak and Tyk URLs based on settings.json file
@@ -222,4 +229,12 @@ export function errors (context, error) {
       }
     }
   }
+}
+
+export function languageCheck(text) {
+  if(ENGLISH_REGEX.test(text) && defaultLanguage==="en"){
+    return true;
+  }else if(SPANISH_REGEX.test(text) && defaultLanguage==="es"){
+    return true;
+  }else return INDONESIAN_REGEX.test(text) && defaultLanguage === "id";
 }

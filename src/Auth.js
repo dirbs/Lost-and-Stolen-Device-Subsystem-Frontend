@@ -25,6 +25,11 @@ import ReactDOM from "react-dom";
 import RenderWarningPopup from "./components/Form/RenderWarningPopup";
 import i18n from './i18n';
 
+import settings from './settings.json'
+import {KC_URL} from './utilities/constants';
+
+const { clientId, realm } = settings.keycloak;
+
 class Auth extends Component {
 
 	constructor(props) {
@@ -40,7 +45,11 @@ class Auth extends Component {
 	}
 
 	componentDidMount() {
-		const keycloak = Keycloak('./keycloak.json');
+		const keycloak = Keycloak({
+			url:KC_URL,
+			realm:realm,
+			clientId:clientId
+		});
 		keycloak.init({onLoad: 'login-required'}).success(authenticated => {
 			if(authenticated){
 				this.setState({keycloak: keycloak, authenticated: authenticated})

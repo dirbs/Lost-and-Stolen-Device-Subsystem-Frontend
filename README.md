@@ -54,32 +54,12 @@ npm install
 ```
 
 #### APIMan, Keycloak and API Configurations
+
 ```
-cd src/settings.json
-```
-```
-{
-  "appDetails": {
-    "appName": "APP_NAME", // configure Application name, make sure that this appName must be same as mentioned in Keycloak roles, e.g. lsds_authority
-    "supportEmail": "support@example.com", // configure this email as it will be visible for unauthorized user
-    "supportNumber": "+923001234567" // // configure this contact number as it will be visible for unauthorized user
-  },
-  "api": {
-    "host": "http://SERVER_IP", // Configure API Host e.g. http://www.api-example.com
-    "port": "PORT_NUMBER", // Configure API Port e.g. 3000
-    "version": "VERSION_OR_SUBPATH", // Configure API Version e.g. /api/v1/
-    "use": true // for directly hitting API, make it *True*
-  },
-  "apiman": {
-    "host": "http://SERVER_IP", // configure Apiman Host e.g. http://www.apiman-example.com
-    "port": "PORT_NUMBER", // Configure Apiman Port e.g. 8000
-    "clientId": "CLIENT_ID_OR_SUBPATH", // configure clientID e.g. /apiman-gateway/example/appname/1.0
-    "use": false // for hitting Apiman Gateway directly, make it *True*
-  }
-}
+cp src/settings-template.json src/settings.json
 ```
 
-**Note:** Copy keycloak.json file into public directory. _Refer to KeyCloak documentation._
+**Note:** Update all the configs into the file.
 
 #### Serve with hot reload (watch changes instantly) at localhost:3000
 ```

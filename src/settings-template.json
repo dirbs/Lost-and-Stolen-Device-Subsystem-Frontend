@@ -1,6 +1,6 @@
 {
   "appDetails": {
-    "appName": "lsds",
+    "appName": "APP_NAME",
     "supportEmail": "support@example.com",
     "supportNumber": "+923001234567"
   },
@@ -8,12 +8,21 @@
     "host": "http://SERVER_IP",
     "port": "PORT_NUMBER",
     "version": "VERSION_OR_SUBPATH",
-    "use": false
+    "use": true
   },
   "apiman": {
     "host": "http://SERVER_IP",
     "port": "PORT_NUMBER",
-    "clientId": "VERSION_OR_SUBPATH",
+    "clientId": "CLIENT_ID_OR_SUBPATH",
+    "use": false
+  },
+  "keycloak": {
+    "realm": "dirbs",
+    "host": "KEYCLOAK URL",
+    "port": "PORT NUMBER",
+    "version": "VERSION",
+    "ssl-required": "external",
+    "clientId": "sso",
     "use": true
   }
 }

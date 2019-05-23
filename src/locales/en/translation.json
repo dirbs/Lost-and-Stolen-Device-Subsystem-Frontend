@@ -164,6 +164,7 @@
   "forms.imeiNotMatch": "Entered IMEI doesn't match",
   "forms.dateIncidentFuture": "Date of incident can't be in future",
   "forms.dateIncidentOld": "Date of incident can't be that old",
+  "forms.langError": "Unsupported Language",
 
   "confirmation.delItem": "Are you sure you wish to delete this item?",
 

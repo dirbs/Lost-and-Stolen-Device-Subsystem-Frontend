@@ -164,6 +164,7 @@
   "forms.imeiNotMatch": "El IMEI introducido no coincide",
   "forms.dateIncidentFuture": "La fecha del incidente no puede ser en el futuro.",
   "forms.dateIncidentOld": "La fecha del incidente no puede ser tan antigua.",
+  "forms.langError": "Idioma no soportado",
 
   "confirmation.delItem": "¿Estás seguro de que deseas eliminar este elemento?",
 

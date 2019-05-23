@@ -18,7 +18,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
 import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert} from "../../utilities/helpers";
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck} from "../../utilities/helpers";
 import RenderModal from '../../components/Form/RenderModal';
 import renderError from '../../components/Form/RenderError';
 import doubleEntryInput from '../../components/Form/DoubleEntryInput';
@@ -787,16 +787,22 @@ const MyEnhancedForm = withFormik({
         errors.brand = `${i18n.t('forms.fieldError')}`
     } else if(values.brand.length >= 1000) {
       errors.brand = `${i18n.t('forms.charactersWithinTh')}`
+    }else if (languageCheck(values.brand) === false){
+        errors.brand = i18n.t('forms.langError')
     }
     if (!values.model_name) {
         errors.model_name = `${i18n.t('forms.fieldError')}`
     } else if(values.model_name.length >= 1000) {
       errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
+    }else if (languageCheck(values.model_name) === false){
+        errors.model_name = i18n.t('forms.langError')
     }
     if (!values.physical_description) {
         errors.physical_description = `${i18n.t('forms.fieldError')}`
     } else if(values.physical_description.length >= 1000) {
       errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
+    }else if (languageCheck(values.physical_description) === false){
+        errors.physical_description = i18n.t('forms.langError')
     }
     if (!values.imei_known) {
         errors.imei_known = `${i18n.t('forms.selectOption')}`
@@ -855,6 +861,8 @@ const MyEnhancedForm = withFormik({
     }
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
+    }else if (languageCheck(values.full_name) === false){
+        errors.full_name = i18n.t('forms.langError')
     }
     if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
         errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
@@ -874,6 +882,9 @@ const MyEnhancedForm = withFormik({
       )
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
+    }
+    else if (values.address && languageCheck(values.address) === false){
+        errors.address = i18n.t('forms.langError')
     }
     return errors;
   },

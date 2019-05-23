@@ -24,7 +24,7 @@ import "react-dates/lib/css/_datepicker.css";
 import moment from "moment";
 import {Date_Format} from "./../../../utilities/constants";
 import renderError from "../../../components/Form/RenderError";
-import {getUserInfo} from "../../../utilities/helpers";
+import {getUserInfo, languageCheck} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
 import switchToggleButton from "../../../components/Form/SwitchToggleButton";
 import i18n from './../../../i18n';
@@ -273,6 +273,8 @@ const MyEnhancedUpdateForm = withFormik({
 
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
+    }else if (languageCheck(values.full_name) === false){
+        errors.full_name = i18n.t('forms.langError')
     }
     if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
         errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
@@ -294,11 +296,15 @@ const MyEnhancedUpdateForm = withFormik({
       )
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
+    }else if (languageCheck(values.address) === false){
+        errors.address = i18n.t('forms.langError')
     }
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
     } else if(values.case_comment.length > 1000) {
       errors.case_comment = `${i18n.t('forms.charactersWithinTh')}`
+    }else if (languageCheck(values.case_comment) === false){
+        errors.case_comment = i18n.t('forms.langError')
     }
     return errors;
   },
