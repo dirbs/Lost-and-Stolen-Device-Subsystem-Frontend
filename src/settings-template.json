@@ -1,29 +1,28 @@
 {
   "appDetails": {
-    "appName": "dvs",
+    "appName": "APP_NAME",
     "supportEmail": "support@example.com",
-    "supportNumber": "+923001234567",
-    "defaultLanguage": "en"
+    "supportNumber": "+923001234567"
   },
   "api": {
-    "host": "http://192.168.100.215",
-    "port": "",
-    "version": "/api/v1",
-    "use": false
+    "host": "http://SERVER_IP",
+    "port": "PORT_NUMBER",
+    "version": "VERSION_OR_SUBPATH",
+    "use": true
   },
   "apiman": {
-    "host": "http://192.168.100.212",
-    "port": "8080",
-    "clientId": "/apiman-gateway/DIRBS/dvs/1.0",
-    "use": true
+    "host": "http://SERVER_IP",
+    "port": "PORT_NUMBER",
+    "clientId": "CLIENT_ID_OR_SUBPATH",
+    "use": false
   },
   "keycloak": {
     "realm": "dirbs",
     "host": "KEYCLOAK URL",
-    "port": "",
-    "version": "",
+    "port": "PORT NUMBER",
+    "version": "VERSION",
     "ssl-required": "external",
     "clientId": "sso",
-    "public-client": true
+    "use": true
   }
 }
