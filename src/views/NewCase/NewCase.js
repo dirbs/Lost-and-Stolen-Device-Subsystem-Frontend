@@ -221,7 +221,6 @@ class CaseForm extends Component {
                  this.setState({ verifyModal: !this.state.verifyModal, imeisWithDeviceDetailsFlags: flags, verifyModalMsisdnIndex: index });
               });
               //const button = 'btn'+index;
-              this.refs.btn0.setAttribute("disabled", "disabled");
           })
           .catch(error => {
               errors(this, error);
@@ -248,7 +247,6 @@ class CaseForm extends Component {
                  }
               });
               //const button = 'btn'+index;
-              this.refs.btn0.setAttribute("disabled", "disabled");
           })
           .catch(error => {
               errors(this, error);
