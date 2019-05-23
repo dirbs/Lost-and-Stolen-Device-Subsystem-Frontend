@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #settings
-.settings.json
+src/settings.json
