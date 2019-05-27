@@ -15,7 +15,8 @@ import moment from "moment";
 import { SingleDatePicker } from "react-dates";
 import {range} from './../../utilities/helpers';
 import {Date_Format} from './../../utilities/constants';
-
+const minRange = 0;
+const maxRange = 119;
 /**
  * A Stateful component used to Create a Single Date Picker
  */
@@ -42,6 +43,14 @@ export default class RenderDateRangePicker extends Component {
   }
 
   isOutsideRange(day) {
+      const nextBtn = document.getElementsByClassName('DayPickerNavigation_button')[1];
+      if(day.year() > maxRange + 1900 && nextBtn != null ) {
+             nextBtn.style.display = 'none';
+        }
+        else if( nextBtn != null ){
+          nextBtn.style.display = 'block';
+      }
+
       return false;
   }
   onDateChange(date) {
@@ -103,7 +112,7 @@ export default class RenderDateRangePicker extends Component {
               value={month.year()}
               onChange={(e) => { onYearSelect(month, e.target.value); }}
             >
-              {range(0, 119).map((no, i) => (
+              {range(minRange, maxRange).map((no, i) => (
                   <option key={no} value={moment().year() - no}>{moment().year() - no}</option>
               ))}
             </select>
