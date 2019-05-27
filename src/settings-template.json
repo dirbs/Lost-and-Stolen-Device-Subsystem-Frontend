@@ -17,12 +17,11 @@
     "use": false
   },
   "keycloak": {
-    "realm": "dirbs",
-    "host": "KEYCLOAK URL",
-    "port": "PORT NUMBER",
-    "version": "VERSION",
-    "ssl-required": "external",
-    "clientId": "sso",
+    "host": "http://SERVER_IP",
+    "port": "PORT_NUMBER",
+    "version": "VERSION_OR_SUBPATH",
+    "clientId": "CLIENT_ID",
+    "realm": "REALM",
     "use": true
   }
 }
