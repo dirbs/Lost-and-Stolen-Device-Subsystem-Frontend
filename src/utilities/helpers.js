@@ -19,7 +19,10 @@ import i18n from './../i18n'
 import {
   ENGLISH_REGEX,
   SPANISH_REGEX,
-  INDONESIAN_REGEX
+  INDONESIAN_REGEX,
+  ENGLISH_FULL_NAME,
+  SPANISH_FULL_NAME,
+  INDONESIAN_FULL_NAME
 } from './constants';
 import settings from '../settings';
 
@@ -237,4 +240,12 @@ export function languageCheck(text) {
   }else if(SPANISH_REGEX.test(text) && defaultLanguage==="es"){
     return true;
   }else return INDONESIAN_REGEX.test(text) && defaultLanguage === "id";
+}
+
+export function fullNameCheck(text){
+  if(ENGLISH_FULL_NAME.test(text) && defaultLanguage==="en"){
+    return true;
+  }else if(SPANISH_FULL_NAME.test(text) && defaultLanguage==="es"){
+    return true;
+  }else return INDONESIAN_FULL_NAME.test(text) && defaultLanguage === "id";
 }

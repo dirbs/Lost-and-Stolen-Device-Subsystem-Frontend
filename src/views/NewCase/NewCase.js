@@ -18,7 +18,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
 import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck} from "../../utilities/helpers";
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../utilities/helpers";
 import RenderModal from '../../components/Form/RenderModal';
 import renderError from '../../components/Form/RenderError';
 import doubleEntryInput from '../../components/Form/DoubleEntryInput';
@@ -863,8 +863,8 @@ const MyEnhancedForm = withFormik({
     }
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
-    }else if (languageCheck(values.full_name) === false){
-        errors.full_name = i18n.t('forms.langError')
+    }else if (fullNameCheck(values.full_name) === false){
+        errors.full_name = i18n.t('forms.fullNameError')
     }
     if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
         errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
