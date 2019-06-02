@@ -165,6 +165,7 @@
   "forms.dateIncidentFuture": "Date of incident can't be in future",
   "forms.dateIncidentOld": "Date of incident can't be that old",
   "forms.langError": "Unsupported Language",
+  "forms.fullNameError": "Unsupported Language or cannot contain Digits or Special characters except space",
 
   "confirmation.delItem": "Are you sure you wish to delete this item?",
 
