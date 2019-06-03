@@ -165,6 +165,7 @@
   "forms.dateIncidentFuture": "Tanggal kejadian tidak boleh di masa mendatang",
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
   "forms.langError": "Bahasa tidak didukung",
+  "forms.fullNameError": "Bahasa yang tidak didukung atau tidak dapat berisi Digit atau Karakter khusus kecuali ruang",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 

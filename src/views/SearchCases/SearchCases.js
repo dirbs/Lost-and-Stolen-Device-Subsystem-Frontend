@@ -21,7 +21,7 @@ import RenderDatePicker from "../../components/Form/RenderDatePicker";
 import renderError from "../../components/Form/RenderError";
 import renderInput from "../../components/Form/RenderInput";
 import MultiSelect from "../../components/Form/MultiSelect";
-import {instance, errors, getAuthHeader, languageCheck} from "../../utilities/helpers";
+import {instance, errors, getAuthHeader, languageCheck, fullNameCheck} from "../../utilities/helpers";
 import {Date_Format, PAGE_LIMIT, ITEMS_PER_PAGE} from '../../utilities/constants';
 import BoxLoader from '../../components/BoxLoader/BoxLoader';
 import Pagination from "react-js-pagination";
@@ -316,7 +316,7 @@ const MyEnhancedForm = withFormik({
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    if (values.full_name && languageCheck(values.full_name) === false){
+    if (values.full_name && fullNameCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
     }
       if (values.address && languageCheck(values.address) === false){
