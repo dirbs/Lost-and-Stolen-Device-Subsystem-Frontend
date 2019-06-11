@@ -77,10 +77,10 @@ class View extends Component {
     if(this.state.data) {
         const {tracking_id, updated_at, status, device_details, incident_details, personal_details, get_blocked, comments, creator} = this.state.data;
         const statusClass =
-        (status === 'Pending')
+        (status === 'caseStatus.pending')
         ?
             'text-primary'
-        : (status === 'Recovered')
+        : (status === 'caseStatus.recovered')
             ? 'text-success'
             : 'text-danger';
         view_case = <div key={tracking_id}>
@@ -91,7 +91,7 @@ class View extends Component {
               <p className="last-updated">{i18n.t('caseBox.lastUpdated')}: <b>{updated_at}</b></p>
             </Col>
               <Col xs="12" lg="4">
-                  {(status === 'Pending') ?
+                  {(status === 'caseStatus.pending') ?
                       <div className="text-right pb-4">
                         <Link className="btn-sm btn btn-primary"
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
@@ -100,7 +100,7 @@ class View extends Component {
                             <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
                             : ''}
                       </div>
-                      : (status === 'Blocked') ?
+                      : (status === 'caseStatus.blocked') ?
                           <div className="text-right pb-4">
                             <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
                           </div>
