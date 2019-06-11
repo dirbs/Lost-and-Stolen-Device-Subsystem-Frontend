@@ -13,6 +13,7 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 import React, {Component} from "react";
 import {Creatable} from 'react-select';
 import 'react-select/dist/react-select.css';
+import i18n from './../../i18n';
 
 /**
  * This stateful component provides functionality of creating dynamic option on fly, which becomes a part of that drop-down.
@@ -35,6 +36,7 @@ class MultiSelect extends Component {
     this.props.onBlur(this.props.fieldName, true);
   }
 
+
   render() {
     return (
       <div>
@@ -45,6 +47,8 @@ class MultiSelect extends Component {
           id="color"
           options={[]}
           multi={true}
+          noResultsText={i18n.t('multiSelectNoResult')}
+          promptTextCreator={(label) => i18n.t('multiSelectNewCreate')}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
