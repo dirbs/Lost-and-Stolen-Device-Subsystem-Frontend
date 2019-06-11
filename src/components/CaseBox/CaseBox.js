@@ -25,10 +25,10 @@ import i18n from './../../i18n';
  */
 const CaseBox = (props) => {
     const borderClass =
-        (props.info.status === 'Pending')
+        (props.info.status === i18n.t('caseStatus.pending'))
         ?
             'casebox case-pending'
-        : (props.info.status === 'Recovered')
+        : (props.info.status === i18n.t('caseStatus.recovered'))
             ? 'casebox case-recovered'
             : 'casebox case-blocked';
 
@@ -36,7 +36,7 @@ const CaseBox = (props) => {
         <li className={borderClass}>
             <div className="case-head">
                 <div className="case-actions">
-                    {(props.info.status === 'Pending') ?
+                    {(props.info.status === i18n.t('caseStatus.pending')) ?
                         <div>
                             <p>
                                 <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>{i18n.t('button.update')}</Link>
@@ -49,7 +49,7 @@ const CaseBox = (props) => {
                         : null
                     }
 
-                    {(props.info.status === 'Blocked') ?
+                    {(props.info.status === i18n.t('caseStatus.blocked')) ?
                         <p>
                             <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
                         </p>
