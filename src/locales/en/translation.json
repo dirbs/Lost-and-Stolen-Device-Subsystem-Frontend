@@ -222,5 +222,8 @@
   "dashboard.instructions.li3": "User can request only block device(s) in “Pending case”, if “Block” option is enabled.",
   "dashboard.instructions.li4": "Only “Pending cases” and “Blocked cases” can be recovered.",
   "dashboard.instructions.li5": "User can't request to perform any action on “Recovered cases” recovered device(s) can be report as a “New case” again.",
-  "dashboard.instructions.li6": "In personal details (Date of birth, Govt. identification no., Alternate phone no. E-mail address, address), any single information is sufficient for case registration."
+  "dashboard.instructions.li6": "In personal details (Date of birth, Govt. identification no., Alternate phone no. E-mail address, address), any single information is sufficient for case registration.",
+
+  "multiSelectNoResult": "No results found",
+  "multiSelectNewCreate": "Create Option"
 }
