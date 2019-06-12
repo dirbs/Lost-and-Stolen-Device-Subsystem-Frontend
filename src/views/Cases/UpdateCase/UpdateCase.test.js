@@ -365,6 +365,10 @@ describe('UpdateCase component', () => {
     expect(wrapper.find('Formik').state().errors.case_comment).toEqual("Must be 1000 characters or less");
   });
 
+    function triggerMethod(callback, URL, comment, header ) {
+        callback(URL, comment, header);
+    }
+
   test('if componentDidMount render values correctly', () => {
     const wrapper = mount(
         <Router>
@@ -450,12 +454,15 @@ describe('UpdateCase component', () => {
     wrapper.find('input').at(4).simulate('change', inputtedData.email);
     wrapper.find('input').at(5).simulate('change', inputtedData.alternate_number);
     wrapper.find('textarea').at(0).simulate('change', inputtedData.case_comment);
-    wrapper.instance().forceUpdate()
+    wrapper.instance().forceUpdate();
     wrapper.update();
     const submitButton = wrapper.find('button').at(1);
     submitButton.simulate('submit');
-    //expect(mockAxios.put).toHaveBeenCalledWith('/case/IUJ34ET5', submittedCase, mockHeader);
-    //mockAxios.mockResponse(updateResponse)
-    //expect(wrapper.find('UpdateCase').state().caseSubmitted).toBe(true);
+    const updateMethod = mockAxios.put;
+    triggerMethod(updateMethod, '/case/IUJ34ET5', submittedCase, mockHeader);
+    expect(updateMethod).toHaveBeenCalledWith('/case/IUJ34ET5', submittedCase, mockHeader);
+    mockAxios.mockResponse(updateResponse);
+      wrapper.update();
+      expect(wrapper.find('UpdateCase').state().caseSubmitted).toBe(true);
   })
 });
