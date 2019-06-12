@@ -15,7 +15,7 @@ import moment from "moment";
 import { DateRangePicker } from "react-dates";
 import {Date_Format} from './../../utilities/constants';
 import i18n from './../../i18n';
-import {withGetScreen} from 'react-getscreen'
+
 
 
 /**
@@ -100,15 +100,15 @@ class RenderDateRangePicker extends Component {
         showClearDates
         reopenPickerOnClearDates
         readOnly
-        orientation={this.props.isMobile() ?"vertical":"horizontal"}
+        orientation={window.matchMedia("(max-width: 575px)").matches ?"vertical":"horizontal"}
         daySize={28}
         startDatePlaceholderText={i18n.t('dateRangePicker.startDate')}
         endDatePlaceholderText={i18n.t('dateRangePicker.endDate')}
         hideKeyboardShortcutsPanel
-        withPortal={!!(this.props.isMobile() || this.props.isTablet())}
+        withPortal={!!(window.matchMedia("(max-width: 575px)").matches || window.matchMedia("(max-width: 1199px)").matches)}
       />
     );
   }
 }
 
-export default withGetScreen(RenderDateRangePicker);
+export default RenderDateRangePicker;
