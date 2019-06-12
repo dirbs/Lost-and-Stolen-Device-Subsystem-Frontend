@@ -1504,3 +1504,13 @@ body {
   }
 
 }
+
+.DateRangePicker_picker__portal {
+	
+	@media (max-width: 767px) {
+		top: 55px;
+		bottom: 0;
+		height: initial;
+	}
+
+}
