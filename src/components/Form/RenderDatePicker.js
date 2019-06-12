@@ -15,12 +15,14 @@ import moment from "moment";
 import { SingleDatePicker } from "react-dates";
 import {range} from './../../utilities/helpers';
 import {Date_Format} from './../../utilities/constants';
+import {withGetScreen} from 'react-getscreen'
+
 const minRange = 0;
 const maxRange = 119;
 /**
  * A Stateful component used to Create a Single Date Picker
  */
-export default class RenderDateRangePicker extends Component {
+class RenderDateRangePicker extends Component {
   constructor(props) {
       super(props);
 
@@ -95,6 +97,7 @@ export default class RenderDateRangePicker extends Component {
         readOnly
         hideKeyboardShortcutsPanel
         placeholder={Date_Format}
+        withPortal={!!(this.props.isMobile() || this.props.isTablet())}
         renderMonthElement={({ month, onMonthSelect, onYearSelect }) => (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
@@ -123,3 +126,4 @@ export default class RenderDateRangePicker extends Component {
     );
   }
 }
+export default withGetScreen(RenderDateRangePicker);
