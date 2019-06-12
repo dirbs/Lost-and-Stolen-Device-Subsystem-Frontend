@@ -1514,3 +1514,11 @@ body {
 	}
 
 }
+
+.CalendarMonthGrid__vertical {
+	
+	@media (max-width: 767px) {
+		margin: 5px auto 0;
+	}
+
+}
