@@ -34,8 +34,8 @@ class Header extends Component {
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
         <Nav navbar>
-        <HeaderLanguage/>
           <HeaderDropdown {...this.props}/>
+          <HeaderLanguage />
         </Nav>
       </header>
     );

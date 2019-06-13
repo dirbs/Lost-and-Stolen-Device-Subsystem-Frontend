@@ -6,12 +6,11 @@ class HeaderLanguage extends Component {
   render() {
     const { defaultLanguage } = settings.appDetails;
     return (
-      <div>
-      Language:  
-      <span className="h6">
-       {defaultLanguage}
-      </span>
-      </div>
+      <li className="nav-item">
+        <div className="lang">
+          Language:<span>{defaultLanguage}</span>
+        </div>
+      </li>
     );
   }
 }

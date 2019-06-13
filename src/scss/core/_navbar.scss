@@ -147,6 +147,25 @@
 
     }
 
+    & + .nav-item {
+      border-left: rgba(255, 255, 255, 0.25) 4px dotted;
+    }
+
+    .lang {
+      color: rgba(255, 255, 255, 0.8);
+
+      span {
+        position: relative;
+        background: rgba(255, 255, 255, 0.25);
+        padding: 0 0.4rem 0.05rem;
+        text-transform: uppercase;
+        margin-left: 0.5rem;
+        color: rgba(255, 255, 255, 1);
+        font-weight: 600;
+      }
+
+    }
+
   }
 
   .dropdown-menu {
