@@ -60,9 +60,9 @@ export const ITEMS_PER_PAGE= [
   { value: 100, label: '100' }
 ]
 
-export const ENGLISH_REGEX = /^[a-zA-Z0-9-$@$!%*?&#^_.,' +()]+$/;
-export const SPANISH_REGEX = /^[0-9A-Za-z-ñáéíóúü$@$!%*?&#^_. +()]+$/i;
-export const INDONESIAN_REGEX = /^[0-9A-Z-a-zé$@$!%*?&#^_. +()]+$/i;
+export const ENGLISH_REGEX = /^[a-zA-Z0-9-$@$!%*?&#^_., +()']+$/;
+export const SPANISH_REGEX = /^[0-9A-Za-z-ñáéíóúü$@$!%*?&#^_. +()']+$/i;
+export const INDONESIAN_REGEX = /^[0-9A-Z-a-zé$@$!%*?&#^_. +()']+$/i;
 export const ENGLISH_FULL_NAME = /^[A-Za-z ]+$/i;
 export const SPANISH_FULL_NAME = /^[A-Za-zñáéíóúü ]+$/i;
 export const INDONESIAN_FULL_NAME = /^[A-Za-zé ]+$/i;
