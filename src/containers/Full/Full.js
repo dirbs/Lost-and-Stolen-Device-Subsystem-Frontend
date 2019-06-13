@@ -83,8 +83,8 @@ const MyEnhancedCommentForm = withFormik({
   },
 
   handleSubmit: (values, bag) => {
-    bag.setSubmitting(false);
-    bag.props.callServer(values);
+      bag.setSubmitting(false);
+      bag.props.callServer(values);
   },
 
   displayName: 'commentForm', // helps with React DevTools

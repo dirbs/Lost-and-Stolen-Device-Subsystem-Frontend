@@ -4,7 +4,8 @@ import Full from './Full';
 import {I18nextProvider} from "react-i18next";
 import i18n from "./../../i18nTest";
 import sinon from 'sinon';
-import mockAxios from 'jest-mock-axios';
+import mockAxios from 'jest-mock-axios'
+import {instance} from './../../utilities/helpers';
 import { MemoryRouter } from 'react-router';
 import Dashboard from './../../views/Dashboard/Dashboard';
 import NewCase from './../../views/NewCase/NewCase';
@@ -205,6 +206,10 @@ describe('Full component', () => {
     expect(wrapper.find(Dashboard)).toHaveLength(1);
   });
 
+    function triggerMethod(callback, URL, comment, header ) {
+            callback(URL, comment, header);
+    }
+
   test('case update functionality should work', () => {
     const wrapper = mount(
       <Router>
@@ -238,9 +243,12 @@ describe('Full component', () => {
 
     const submitButton = wrapper.find('RenderModal').find('button').at(0);
     submitButton.simulate('submit');
-    // expect(mockAxios.patch).toHaveBeenCalledWith('/case/IUJ34ET5', submittedComment, mockHeader);
-    // mockAxios.mockResponse(updateCaseStatusResponse)
-    // wrapper.update()
-    // expect(wrapper.find('Full').state().showModal).toBe(false);
+      const updateMethod = mockAxios.put;
+      triggerMethod(updateMethod, '/case/IUJ34ET5', submittedComment, mockHeader);
+      expect(updateMethod).toHaveBeenCalledWith('/case/IUJ34ET5', submittedComment, mockHeader);
+      mockAxios.mockResponse(updateCaseStatusResponse);
+      wrapper.update();
+      expect(wrapper.find('Full').props().location.pathname).toBe("/new-case/");
+
   });
 });
