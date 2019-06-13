@@ -81,6 +81,7 @@ class RenderDateRangePicker extends Component {
 
 
   render() {
+    console.log(window.innerWidth);
     return (
       <SingleDatePicker
         numberOfMonths={1}
@@ -96,7 +97,7 @@ class RenderDateRangePicker extends Component {
         readOnly
         hideKeyboardShortcutsPanel
         placeholder={Date_Format}
-        withPortal={!!(window.matchMedia("(max-width: 575px)").matches || window.matchMedia("(max-width: 1199px)").matches)}
+        withPortal={!!(window.innerWidth <= 575 || window.innerWidth <= 1199 )}
         renderMonthElement={({ month, onMonthSelect, onYearSelect }) => (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
