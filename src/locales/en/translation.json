@@ -215,6 +215,7 @@
   "error": "Error",
   "alert.warning": "Warning!",
   "loadingInterface": "Loading interface...",
+  "language": "Language",
 
   "dashboard.instructions": "Instructions",
   "dashboard.instructions.li1": "To report lost/stolen device(s), user must have known affected MSISDN(s) or both affected MSISDN(s) and affected IMEI(s).",

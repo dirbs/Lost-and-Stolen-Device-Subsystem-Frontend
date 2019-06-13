@@ -215,6 +215,7 @@
   "error": "Kesalahan",
   "alert.warning": "Peringatan!",
   "loadingInterface": "Memuat antarmuka...",
+  "language": "Bahasa",
 
   "dashboard.instructions": "Instruksi",
   "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang/dicuri, pengguna harus mengetahui MSISDN(s) yang terpengaruh atau keduanya MSISDN(s) yang terkena dampak dan IMEI(s) yang terpengaruh.",
