@@ -215,6 +215,7 @@
   "error": "Error",
   "alert.warning": "Advertencia!",
   "loadingInterface": "Interfaz de carga...",
+  "language": "Idioma",
 
   "dashboard.instructions": "Instrucciones",
   "dashboard.instructions.li1": "Para informar sobre dispositivos perdidos/robados, el usuario debe tener conocidos MSISDN(s) afectados o ambos MSISDN(s) afectados y IMEI(s) afectados.",
