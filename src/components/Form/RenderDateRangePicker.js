@@ -143,12 +143,12 @@ class RenderDateRangePicker extends Component {
         showClearDates
         reopenPickerOnClearDates
         readOnly
-        orientation={window.matchMedia("(max-width: 575px)").matches ?"vertical":"horizontal"}
+        orientation={window.innerWidth <= 575 ?"vertical":"horizontal"}
         daySize={28}
         startDatePlaceholderText={i18n.t('dateRangePicker.startDate')}
         endDatePlaceholderText={i18n.t('dateRangePicker.endDate')}
         hideKeyboardShortcutsPanel
-        withPortal={!!(window.matchMedia("(max-width: 575px)").matches || window.matchMedia("(max-width: 1199px)").matches)}
+        withPortal={!!(window.innerWidth <= 575 || window.innerWidth <= 1199 )}
       />
     );
   }
