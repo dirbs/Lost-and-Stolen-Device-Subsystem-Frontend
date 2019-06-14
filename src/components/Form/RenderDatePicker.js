@@ -58,6 +58,12 @@ import moment from "moment";
 import { SingleDatePicker } from "react-dates";
 import {range} from './../../utilities/helpers';
 import {Date_Format} from './../../utilities/constants';
+import idLocale from "moment/locale/id";
+import esLocale from "moment/locale/es";
+
+import settings from '../../settings.json';
+
+const {defaultLanguage} = settings.appDetails;
 
 const minRange = 0;
 const maxRange = 119;
@@ -124,7 +130,15 @@ class RenderDateRangePicker extends Component {
 
 
   render() {
+    console.log(defaultLanguage);
     console.log(window.innerWidth);
+    if (defaultLanguage === "id") {
+      moment.updateLocale("id", idLocale);
+    } else if (defaultLanguage === "es") {
+      moment.updateLocale("es", esLocale);
+    } else {
+      moment.locale("en");
+    }
     return (
       <SingleDatePicker
         numberOfMonths={1}
