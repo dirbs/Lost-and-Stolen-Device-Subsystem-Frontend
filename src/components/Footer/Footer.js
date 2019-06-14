@@ -67,7 +67,7 @@ class Footer extends Component {
     return (
       <footer className="app-footer">
         <div>&copy; {i18n.t('copyRight')} {this.showCurrentYear()} <i>{i18n.t('DIRBS')}</i>. {i18n.t('allRightsReserved')}.</div>
-        <div><b>{i18n.t('version')}: </b>1.1.0</div>
+        <div><b>{i18n.t('version')}: </b>1.0.0</div>
       </footer>
     )
   }
