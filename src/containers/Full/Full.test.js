@@ -28,9 +28,9 @@ const userDetails = {
 
 const match = { params: { tracking_id: 'IUJ34ET5' } }
 
-const location = {
-  pathname: '/new-case/'
-};
+ const location = {
+   pathname: '/new-case/'
+ };
 
 const mockHeader = {
   "headers": {
@@ -248,7 +248,7 @@ describe('Full component', () => {
       expect(updateMethod).toHaveBeenCalledWith('/case/IUJ34ET5', submittedComment, mockHeader);
       mockAxios.mockResponse(updateCaseStatusResponse);
       wrapper.update();
-      expect(wrapper.find('Full').props().location.pathname).toBe("/new-case/");
+      expect(wrapper.find('Full').state().showModal).toBe(false);
 
   });
 });

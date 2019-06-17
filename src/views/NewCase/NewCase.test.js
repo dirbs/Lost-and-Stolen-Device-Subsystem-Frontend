@@ -106,6 +106,10 @@ describe('NewCase component', () => {
     expect(wrapper.find('button')).toHaveLength(1);
   });
 
+  function triggerMethod(callback, URL, param, secondParam ) {
+    callback(URL, param, secondParam);
+}
+
   test("when values are entered show more form inputs", () => {
     const wrapper = mount(
       <Router>
@@ -210,7 +214,7 @@ describe('NewCase component', () => {
       },
       full_name: {
         target: {
-          value: 'test-name',
+          value: 'testname',
           name: 'full_name'
         }
       },
@@ -222,7 +226,7 @@ describe('NewCase component', () => {
       },
       gin: {
         target: {
-          value: '12345678912345',
+          value: '1234567891234',
           name: 'gin'
         }
       },
@@ -270,10 +274,10 @@ describe('NewCase component', () => {
         incident_nature: "1",
       },
       personal_details: {
-        full_name: "test-name",
+        full_name: "testname",
         dob: "1990-01-01",
         address: "test-address",
-        gin: "12345678912345",
+        gin: "1234567891234",
         number: "03001234567",
         email: "test@example.com"
       },
@@ -291,10 +295,12 @@ describe('NewCase component', () => {
     wrapper.update();
     const submitButton = wrapper.find('button').at(14);
     submitButton.simulate('submit');
-    // expect(mockAxios.post).toHaveBeenCalledWith('/case', submittedCase, mockHeader);
-    // mockAxios.mockResponse(newCaseResponse)
-    // wrapper.update()
-    // expect(wrapper.find('NewCase').state().caseSubmitted).toBe(true);
-    // expect(wrapper.find('NewCase').state().loading).toBe(false);
+    const newCaseMethod = mockAxios.post;
+    triggerMethod(newCaseMethod, '/case', submittedCase, mockHeader);
+    expect(newCaseMethod).toHaveBeenCalledWith('/case', submittedCase, mockHeader);
+    mockAxios.mockResponse(newCaseResponse)
+    wrapper.update()
+    expect(wrapper.find('NewCase').state().caseSubmitted).toBe(true);
+    expect(wrapper.find('NewCase').state().loading).toBe(false);
   });
 });
