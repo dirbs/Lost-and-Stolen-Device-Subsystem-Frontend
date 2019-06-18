@@ -874,6 +874,8 @@ const MyEnhancedForm = withFormik({
       errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
     // IMEIs Modal Validation
+    if(values.imei_known === "yes")
+    {
     if (!values.imeiInput) {
       errors.imeiInput = `${i18n.t('forms.fieldError')}`
     } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)){
@@ -887,7 +889,7 @@ const MyEnhancedForm = withFormik({
     } else if(values.imeiInput !== values.retypeImeiInput) {
       errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
     }
-
+  }
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
 
