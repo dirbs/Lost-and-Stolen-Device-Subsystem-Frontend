@@ -489,7 +489,21 @@ class CaseForm extends Component {
                                     <div className="fitem">{imei}</div>
                                     <div className="fitem">
                                         <button className="btn btn-link p-0"
-                                                onClick={(e) => this.handleIMEIdelete(e, i)}><i
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  MySwal.fire({
+                                                      title: i18n.t('alert.warning'),
+                                                      text: i18n.t('confirmation.delItem'),
+                                                      type: 'question',
+                                                      showCancelButton: true,
+                                                      confirmButtonText: i18n.t('button.delete'),
+                                                      cancelButtonText: i18n.t('button.cancel')
+                                                  }).then((result) => {
+                                                      if (result.value) {
+                                                          this.handleIMEIdelete(i);
+                                                      }
+                                                  })
+                                              }}><i
                                             className="fa fa-trash-o"></i></button>
                                     </div>
                                   </div>
