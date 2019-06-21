@@ -66,7 +66,7 @@ class Footer extends Component {
   render() {
     return (
       <footer className="app-footer">
-        <div>&copy; {i18n.t('copyRight')} {this.showCurrentYear()} <i>{i18n.t('DIRBS')}</i>. {i18n.t('allRightsReserved')}.</div>
+        <div>&copy; {i18n.t('copyRight')} 2018-2019 {i18n.t('DIRBS')}. {i18n.t('allRightsReserved')}.</div>
         <div><b>{i18n.t('version')}: </b>1.0.0</div>
       </footer>
     )

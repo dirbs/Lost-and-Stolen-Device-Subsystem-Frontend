@@ -339,7 +339,11 @@ const MyEnhancedUpdateForm = withFormik({
       )
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
-    }else if (languageCheck(values.address) === false){
+    }
+    if(!values.address){
+
+    }
+    else if (languageCheck(values.address) === false){
         errors.address = i18n.t('forms.langError')
     }
     if (!values.case_comment) {
