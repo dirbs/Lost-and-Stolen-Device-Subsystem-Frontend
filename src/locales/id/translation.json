@@ -164,6 +164,8 @@
   "forms.imeiNotMatch": "IMEI yang dimasukkan tidak cocok",
   "forms.dateIncidentFuture": "Tanggal kejadian tidak boleh di masa mendatang",
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
+  "forms.langError": "Bahasa tidak didukung",
+  "forms.fullNameError": "Bahasa yang tidak didukung atau tidak dapat berisi Digit atau Karakter khusus kecuali ruang",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 
@@ -213,6 +215,7 @@
   "error": "Kesalahan",
   "alert.warning": "Peringatan!",
   "loadingInterface": "Memuat antarmuka...",
+  "language": "Bahasa",
 
   "dashboard.instructions": "Instruksi",
   "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang/dicuri, pengguna harus mengetahui MSISDN(s) yang terpengaruh atau keduanya MSISDN(s) yang terkena dampak dan IMEI(s) yang terpengaruh.",
@@ -220,5 +223,9 @@
   "dashboard.instructions.li3": "Pengguna dapat meminta hanya memblokir perangkat dalam “Kasus menunggu”, jika opsi “Blokir” diaktifkan.",
   "dashboard.instructions.li4": "Hanya “Kasus yang menunggu keputusan” dan “Kasus yang diblokir” yang dapat dipulihkan.",
   "dashboard.instructions.li5": "Pengguna tidak dapat meminta untuk melakukan tindakan apa pun pada “Kasus yang dipulihkan” yang dipulihkan dapat dilaporkan sebagai “Kasus baru”.",
-  "dashboard.instructions.li6": "Dalam perincian pribadi (Tanggal lahir, No. identifikasi pemerintah, Nomor telepon alternatif. Alamat e-mail, alamat), setiap informasi tunggal cukup untuk pendaftaran kasus."
+  "dashboard.instructions.li6": "Dalam perincian pribadi (Tanggal lahir, No. identifikasi pemerintah, Nomor telepon alternatif. Alamat e-mail, alamat), setiap informasi tunggal cukup untuk pendaftaran kasus.",
+
+  "multiSelectNoResult": "Tidak ada hasil yang ditemukan",
+  "multiSelectNewCreate": "Buat Opsi"
+
 }

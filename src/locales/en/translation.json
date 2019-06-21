@@ -164,6 +164,8 @@
   "forms.imeiNotMatch": "Entered IMEI doesn't match",
   "forms.dateIncidentFuture": "Date of incident can't be in future",
   "forms.dateIncidentOld": "Date of incident can't be that old",
+  "forms.langError": "Unsupported Language",
+  "forms.fullNameError": "Unsupported Language or cannot contain Digits or Special characters except space",
 
   "confirmation.delItem": "Are you sure you wish to delete this item?",
 
@@ -213,6 +215,7 @@
   "error": "Error",
   "alert.warning": "Warning!",
   "loadingInterface": "Loading interface...",
+  "language": "Language",
 
   "dashboard.instructions": "Instructions",
   "dashboard.instructions.li1": "To report lost/stolen device(s), user must have known affected MSISDN(s) or both affected MSISDN(s) and affected IMEI(s).",
@@ -220,5 +223,8 @@
   "dashboard.instructions.li3": "User can request only block device(s) in “Pending case”, if “Block” option is enabled.",
   "dashboard.instructions.li4": "Only “Pending cases” and “Blocked cases” can be recovered.",
   "dashboard.instructions.li5": "User can't request to perform any action on “Recovered cases” recovered device(s) can be report as a “New case” again.",
-  "dashboard.instructions.li6": "In personal details (Date of birth, Govt. identification no., Alternate phone no. E-mail address, address), any single information is sufficient for case registration."
+  "dashboard.instructions.li6": "In personal details (Date of birth, Govt. identification no., Alternate phone no. E-mail address, address), any single information is sufficient for case registration.",
+
+  "multiSelectNoResult": "No results found",
+  "multiSelectNewCreate": "Create Option"
 }

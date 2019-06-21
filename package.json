@@ -23,7 +23,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-content-loader": "^3.4.2",
-    "react-dates": "^17.0.0",
+    "react-dates": "^20.2.0",
     "react-dom": "^16.8.3",
     "react-helmet": "^5.2.0",
     "react-i18next": "^7.6.1",
