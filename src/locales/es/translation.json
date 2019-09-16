@@ -23,7 +23,7 @@
   "version": "Versión",
 
   "button.update": "Actualizar",
-  "button.recover": "Recuperar",
+  "button.recover": "Desatascar",
   "button.block": "Bloquear",
   "button.addNew": "Añadir nuevo",
   "button.fetchIMEIs": "Ha podido recuperar IMEI(s)",
@@ -99,7 +99,7 @@
   "pagetitle.updateCase": "Actualizar caso",
   "newCase.deviceDescription": "Descripción del aparato",
   "newCase.deviceBrand": "Marca",
-  "newCase.deviceModelName": "Nombre del modelo",
+  "newCase.deviceModelName": "Modelo/Nombre de comercialización",
   "newCase.devicePhysical": "Descripción física",
   "newCase.imeiKnown": "IMEI conocido",
   "newCase.yes": "Sí",
@@ -126,6 +126,10 @@
   "input.reTypeIMEI": "Vuelva a escribir IMEI",
 
   "userProfile.fullName": "Nombre completo",
+  "userProfile.fatherName": "Nombre del Padre",
+  "userProfile.motherName": "Nombre de la madre",
+  "userProfile.alternateLandline": "Línea fija alternativa #",
+  "userProfile.district": "Distrito/ciudad",
   "userProfile.dob": "Fecha de nacimiento",
   "userProfile.gin": "Gobierno Número de identificación.",
   "userProfile.ginum": "Gobierno número de identificación",
@@ -166,6 +170,9 @@
   "forms.dateIncidentOld": "La fecha del incidente no puede ser tan antigua.",
   "forms.langError": "Idioma no soportado",
   "forms.fullNameError": "Idioma no admitido o no puede contener dígitos o caracteres especiales, excepto el espacio",
+  "forms.notNumberError" : "No es un numero valido",
+  "forms.ginLength" : "Gobierno identificación no debe ser de 13 dígitos",
+  "form.alternateNumbers": "El número debe ser mayor que 7 y menor que 15",
 
   "confirmation.delItem": "¿Estás seguro de que deseas eliminar este elemento?",
 
