@@ -74,6 +74,7 @@ import switchToggleButton from "../../components/Form/SwitchToggleButton";
 import i18n from "./../../i18n";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import RenderSelect from '../../components/Form/renderSelect';
 const MySwal = withReactContent(Swal);
 
 /**
@@ -346,42 +347,8 @@ class CaseForm extends Component {
             values.model_name !== '' &&
             values.physical_description !== '' &&
             <Row>
-                <Col md={values.imei_known === 'yes' ? 12 : 6} xl={4} xs="12">
-                    <Card>
-                        <CardHeader className="min-hei52">
-                            <b>{i18n.t('newCase.imeiKnown')}</b>
-                        </CardHeader>
-                        <CardBody className="p0">
-                          <div className="read-box radio-wrap">
-                            <label className="mr-4 mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="yes"
-                                    checked={values.imei_known === 'yes'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.yes')}
-                            </label>
-                            <label className="mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="no"
-                                    checked={values.imei_known === 'no'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.no')}
-                            </label>
-                            <Field name="imei_known" component={renderError}/>
-                          </div>
-                        </CardBody>
-                    </Card>
-                </Col>
                 {(values.imei_known === 'no' || values.imei_known === 'yes') &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
@@ -429,7 +396,7 @@ class CaseForm extends Component {
                 </Col>
                 }
                 {values.imei_known === 'yes' &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('button.addNew')}</Button>
@@ -473,7 +440,7 @@ class CaseForm extends Component {
                 }
             </Row>
             }
-            {(values.imei_known === 'no' || values.imei_known === 'yes') &&
+            {(values.imei_known === 'no' || values.imei_known === 'yes') && values.brand !== '' && values.model_name !== '' && values.physical_description !== '' &&
             <Row>
                 <Col xs="12">
                     <Card>
@@ -576,6 +543,8 @@ class CaseForm extends Component {
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
+                                        <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
+                                        <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
                                     </Col>
                                 </Row>
                             </Card>
@@ -600,10 +569,18 @@ class CaseForm extends Component {
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md="6" xs="6">
+                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} warningStar />
+                                    </Col>
+                                    <Col md="6" xs="6">
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
@@ -835,7 +812,7 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
+  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "yes", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "","father_name":"","mother_name":"","district":"","number":"", "dob": "", "landline_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
 
   // Custom sync validation
   validate: values => {
@@ -923,18 +900,25 @@ const MyEnhancedForm = withFormik({
     }else if (fullNameCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    if(!values.father_name){
+      errors.father_name= `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.father_name)===false){
+      errors.father_name = i18n.t('forms.fullNameError')
+    }
+    if(!values.mother_name){
+      errors.mother_name = `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.mother_name)===false){
+      errors.mother_name = i18n.t('forms.fullNameError')
     }
     if (!values.dob) {
-
+      errors.dob = `${i18n.t('forms.fieldError')}`
     } else if (today < values.dob) {
       errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
     } else if (paste >= values.dob) {
       errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
     if (!values.email) {
-
+      errors.email = `${i18n.t('forms.fieldError')}`
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
         values.email
@@ -942,8 +926,32 @@ const MyEnhancedForm = withFormik({
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    else if (values.address && languageCheck(values.address) === false){
-        errors.address = i18n.t('forms.langError')
+    if(!values.address){
+      errors.address = `${i18n.t('forms.fieldError')}`
+    }
+    if(!values.gin){
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.gin)){
+      errors.gin = i18n.t('forms.notNumberError')
+    }else if(values.gin.length<13){
+      errors.gin = i18n.t('forms.ginLength')
+    }
+    if(!values.landline_number){
+      errors.landline_number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.landline_number)){
+      errors.landline_number = i18n.t('forms.notNumberError')
+    }else if(values.landline_number.length<7 || values.landline_number.length>15){
+      errors.landline_number = i18n.t('form.alternateNumbers')
+    }
+    if(!values.number){
+      errors.number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.number)){
+      errors.number = i18n.t('forms.notNumberError')
+    }else if(values.number.length<7 || values.number.length>15){
+      errors.landline_number = i18n.t('form.alternateNumbers')
+    }
+    if(!values.district){
+      errors.district = `${i18n.t('forms.fieldError')}`
     }
     return errors;
   },
@@ -971,8 +979,16 @@ function prepareAPIRequest(values) {
     searchParams.incident_details.incident_nature = values.incident;
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
+    searchParams.personal_details.father_name = values.father_name;
+    searchParams.personal_details.mother_name = values.mother_name;
     if(values.dob) {
         searchParams.personal_details.dob = values.dob;
+    }
+    if(values.district){
+      searchParams.personal_details.district = values.district
+    }
+    if(values.number){
+      searchParams.personal_details.number = values.number
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -980,8 +996,8 @@ function prepareAPIRequest(values) {
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;
     }
-    if(values.alternate_number) {
-        searchParams.personal_details.number = values.alternate_number;
+    if(values.landline_number) {
+        searchParams.personal_details.landline_number = values.landline_number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;

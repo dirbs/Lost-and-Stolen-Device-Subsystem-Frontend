@@ -251,6 +251,14 @@ class View extends Component {
                                     <td>{personal_details.full_name}</td>
                                 </tr>
                                 <tr>
+                                    <th>{i18n.t('userProfile.fatherName')}</th>
+                                    <td>{personal_details.father_name}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.motherName')}</th>
+                                    <td>{personal_details.mother_name}</td>
+                                </tr>
+                                <tr>
                                     <th>{i18n.t('userProfile.email')}</th>
                                     <td>{personal_details.email}</td>
                                 </tr>
@@ -264,7 +272,15 @@ class View extends Component {
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.alternatePhoneNo')}</th>
+                                    <td>{personal_details.landline_number}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.alternateLandline')}</th>
                                     <td>{personal_details.number}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.district')}</th>
+                                    <td>{personal_details.district}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.address')}</th>

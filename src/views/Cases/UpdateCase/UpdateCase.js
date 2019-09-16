@@ -56,7 +56,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
-import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
+import {instance, errors, getAuthHeader, fullNameCheck} from './../../../utilities/helpers';
 import {Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody } from 'reactstrap';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import { withFormik, Field } from 'formik';
@@ -71,6 +71,7 @@ import {getUserInfo, languageCheck} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
 import switchToggleButton from "../../../components/Form/SwitchToggleButton";
 import i18n from './../../../i18n';
+import RenderSelect from '../../../components/Form/renderSelect';
 
 /**
  * This Stateful component Provides an update functionality of Personal Details related with Case.
@@ -207,6 +208,8 @@ class UpdateForm extends Component {
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
+                                        <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
+                                        <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
                                     </Col>
                                 </Row>
                             </Card>
@@ -231,11 +234,20 @@ class UpdateForm extends Component {
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
+
                                     <Col md="6" xs="12">
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
                                     </Col>
+                                </Row>
+                                <Row>
+                                <Col md="6" xs="12">
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                </Col>
+                                <Col md="6" xs="6">
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" value={{value: values.district, label:values.district}} warningStar />
+                                </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
@@ -302,9 +314,13 @@ const MyEnhancedUpdateForm = withFormik({
       address: props.info.personal_details.address === 'N/A' ? '': props.info.personal_details.address || '',
       gin: props.info.personal_details.gin === 'N/A' ? '': props.info.personal_details.gin || '',
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',
+      father_name: props.info.personal_details.father_name === 'N/A' ? '' : props.info.personal_details.father_name || '',
+      mother_name: props.info.personal_details.mother_name === 'N/A' ? '' : props.info.personal_details.mother_name || '',
       dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
-      alternate_number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
+      number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
+      landline_number: props.info.personal_details.landline_number === 'N/A' ? '' : props.info.personal_details.landline_number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
+      district: props.info.personal_details.district === 'N/A' ? '' : props.info.personal_details.district || '',
       get_blocked: props.info.get_blocked,
       case_comment: ''
     };
@@ -318,9 +334,15 @@ const MyEnhancedUpdateForm = withFormik({
         errors.full_name= `${i18n.t('forms.fieldError')}`
     }else if (languageCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
+    }if(!values.father_name){
+      errors.father_name= `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.father_name)===false){
+      errors.father_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    if(!values.mother_name){
+      errors.mother_name = `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.mother_name)===false){
+      errors.mother_name = i18n.t('forms.fullNameError')
     }
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
@@ -340,11 +362,29 @@ const MyEnhancedUpdateForm = withFormik({
     ) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    if(!values.address){
-
+    if(!values.gin){
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.gin)){
+      errors.gin = i18n.t('forms.notNumberError')
+    }else if(values.gin.length<13){
+      errors.gin = i18n.t('forms.ginLength')
     }
-    else if (languageCheck(values.address) === false){
-        errors.address = i18n.t('forms.langError')
+    if(!values.landline_number){
+      errors.landline_number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.landline_number)){
+      errors.landline_number = i18n.t('forms.notNumberError')
+    }else if(values.landline_number.length<7 || values.landline_number.length>15){
+      errors.landline_number = i18n.t('form.alternateNumbers')
+    }
+    if(!values.number){
+      errors.number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.number)){
+      errors.number = i18n.t('forms.notNumberError')
+    }else if(values.number.length<7 || values.number.length>15){
+      errors.landline_number = i18n.t('form.alternateNumbers')
+    }
+    if(!values.district){
+      errors.district = `${i18n.t('forms.fieldError')}`
     }
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
@@ -375,8 +415,13 @@ function prepareAPIRequest(values) {
     }
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
+    searchParams.personal_details.father_name = values.father_name;
+    searchParams.personal_details.mother_name = values.mother_name;
     if(values.dob) {
         searchParams.personal_details.dob = values.dob;
+    }
+    if(values.district){
+      searchParams.personal_details.district = values.district
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -384,8 +429,11 @@ function prepareAPIRequest(values) {
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;
     }
-    if(values.alternate_number) {
-        searchParams.personal_details.number = values.alternate_number;
+    if(values.landline_number) {
+      searchParams.personal_details.landline_number = values.landline_number;
+  }
+    if(values.number) {
+        searchParams.personal_details.number = values.number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;
