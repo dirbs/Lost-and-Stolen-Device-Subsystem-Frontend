@@ -23,7 +23,7 @@
   "version": "Versi",
 
   "button.update": "Memperbarui",
-  "button.recover": "Memulihkan",
+  "button.recover": "Buka blokir",
   "button.block": "Blok",
   "button.addNew": "Tambah baru",
   "button.fetchIMEIs": "Ambil IMEI(s)",
@@ -99,7 +99,7 @@
   "pagetitle.updateCase": "Perbarui kasus",
   "newCase.deviceDescription": "Deskripsi perangkat",
   "newCase.deviceBrand": "Merek",
-  "newCase.deviceModelName": "Nama model",
+  "newCase.deviceModelName": "Model/Nama Pemasaran",
   "newCase.devicePhysical": "Deskripsi Fisik",
   "newCase.imeiKnown": "IMEI dikenal",
   "newCase.yes": "Iya nih",
@@ -126,6 +126,10 @@
   "input.reTypeIMEI": "Ketik ulang IMEI",
 
   "userProfile.fullName": "Nama lengkap",
+  "userProfile.fatherName": "Nama ayah",
+  "userProfile.motherName": "Nama ibu",
+  "userProfile.alternateLandline": "Alternatif Darat #",
+  "userProfile.district": "Kabupaten/Kota",
   "userProfile.dob": "Tanggal lahir",
   "userProfile.gin": "Pemerintah identifikasi no.",
   "userProfile.ginum": "Pemerintah nomor identifikasi",
@@ -166,6 +170,9 @@
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
   "forms.langError": "Bahasa tidak didukung",
   "forms.fullNameError": "Bahasa yang tidak didukung atau tidak dapat berisi Digit atau Karakter khusus kecuali ruang",
+  "forms.notNumberError" : "Bukan angka yang valid",
+  "forms.ginLength" : "Pemerintah Identifikasi no harus terdiri dari 13 digit",
+  "form.alternateNumbers": "Jumlahnya harus lebih besar dari 7 dan kurang dari 15",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 
