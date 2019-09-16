@@ -73,7 +73,8 @@ const cities = [
   { value: "Farooka", label: "Farooka" },
   { value: "Chichawatni", label: "Chichawatni" },
   { value: "Vehari", label: "Vehari" },
-  { value: "Khewra", label: "Khewra" }
+  { value: "Khewra", label: "Khewra" },
+  { value: "Other", label: "Other" }
 ]
 
 class RenderSelect extends Component {
