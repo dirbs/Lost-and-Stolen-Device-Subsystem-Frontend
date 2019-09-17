@@ -243,7 +243,7 @@ class UpdateForm extends Component {
                                 </Row>
                                 <Row>
                                 <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} warningStar />
                                 </Col>
                                 <Col md="6" xs="6">
                                         <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" value={{value: values.district, label:values.district}} warningStar />
@@ -347,14 +347,14 @@ const MyEnhancedUpdateForm = withFormik({
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
     if (!values.dob) {
-
+      errors.dob = `${i18n.t('forms.fieldError')}`
     } else if (today < values.dob) {
       errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
     } else if (paste >= values.dob) {
       errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
     if (!values.email) {
-
+      errors.email = `${i18n.t('forms.fieldError')}`
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
         values.email
@@ -381,10 +381,12 @@ const MyEnhancedUpdateForm = withFormik({
     }else if(!/^[0-9]+$/.test(values.number)){
       errors.number = i18n.t('forms.notNumberError')
     }else if(values.number.length<7 || values.number.length>15){
-      errors.landline_number = i18n.t('form.alternateNumbers')
+      errors.number = i18n.t('form.alternateNumbers')
     }
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
+    }if(!values.address){
+      errors.address = i18n.t('forms.fieldError')
     }
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`

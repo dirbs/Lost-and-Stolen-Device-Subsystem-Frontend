@@ -948,7 +948,7 @@ const MyEnhancedForm = withFormik({
     }else if(!/^[0-9]+$/.test(values.number)){
       errors.number = i18n.t('forms.notNumberError')
     }else if(values.number.length<7 || values.number.length>15){
-      errors.landline_number = i18n.t('form.alternateNumbers')
+      errors.number = i18n.t('form.alternateNumbers')
     }
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
