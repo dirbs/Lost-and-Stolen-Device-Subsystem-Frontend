@@ -821,7 +821,7 @@ const MyEnhancedForm = withFormik({
         errors.brand = `${i18n.t('forms.fieldError')}`
     } else if(values.brand.length >= 1000) {
       errors.brand = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.brand) === false){
+    }else if (fullNameCheck(values.brand) === false){
         errors.brand = i18n.t('forms.langError')
     }
     if (!values.model_name) {
