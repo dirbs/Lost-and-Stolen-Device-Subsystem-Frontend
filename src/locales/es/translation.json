@@ -150,7 +150,7 @@
   "comments.typeYourFindings": "Escriba sus hallazgos!",
 
   "forms.fieldError": "Este campo es requerido",
-  "forms.oneFieldRequired": "Uno de los campos es obligatorio.",
+  "forms.oneFieldRequired": "Todos los campos son obligatorios",
   "forms.dobErrorFuture": "La fecha de nacimiento no puede ser en el futuro.",
   "forms.dobErrorOld": "La fecha de nacimiento no puede ser tan antigua.",
   "forms.emailInvalid": "Dirección de correo electrónico no válida",

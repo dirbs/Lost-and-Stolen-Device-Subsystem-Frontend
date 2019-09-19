@@ -150,7 +150,7 @@
   "comments.typeYourFindings": "Ketikkan temuan anda!",
 
   "forms.fieldError": "Bagian ini diperlukan",
-  "forms.oneFieldRequired": "Salah satu bidang wajib diisi",
+  "forms.oneFieldRequired": "Semua bidang yang diperlukan",
   "forms.dobErrorFuture": "Tanggal lahir tidak boleh di masa depan",
   "forms.dobErrorOld": "Tanggal lahir tidak boleh setua itu",
   "forms.emailInvalid": "Alamat email salah",

@@ -953,6 +953,9 @@ const MyEnhancedForm = withFormik({
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
     }
+    if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
+      errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    }
     return errors;
   },
 

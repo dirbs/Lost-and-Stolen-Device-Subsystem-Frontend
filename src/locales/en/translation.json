@@ -150,7 +150,7 @@
   "comments.typeYourFindings": "Type your findings!",
 
   "forms.fieldError": "This field is required",
-  "forms.oneFieldRequired": "One of the fields is required",
+  "forms.oneFieldRequired": "All fields are required",
   "forms.dobErrorFuture": "Date of birth can't be in future",
   "forms.dobErrorOld": "Date of birth can't be that old",
   "forms.emailInvalid": "Invalid email address",
