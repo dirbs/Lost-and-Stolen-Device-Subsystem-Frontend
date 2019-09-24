@@ -142,9 +142,7 @@ class Dashboard extends Component {
               <div className="search-box animated fadeIn position-relative">
                   <div className="help help-page">
                       <button onClick={()=>this.infoClickHandler()}>
-                          <svg className="icon-registration">
-                              <use xlinkHref="./img/svg-symbol.svg#helpi"></use>
-                          </svg>
+                        <i className="fa fa-info-circle"></i>
                       </button>
                   </div>
                   <ul className="listbox">
