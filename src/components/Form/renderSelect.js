@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Select from "react-select";
-import { FormGroup, Label, Row, Col } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 
 const cities = [
   { value: "", label: "--Select--" },
@@ -81,7 +81,6 @@ class RenderSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    console.log(this.props.value)
   }
 
   state = {

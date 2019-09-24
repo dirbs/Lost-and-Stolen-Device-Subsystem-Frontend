@@ -310,9 +310,7 @@ class CaseForm extends Component {
     const {
       values,
       errors,
-      isSubmitting,
-      handleChange,
-      handleBlur,
+      isSubmitting, 
       handleSubmit,
       setFieldValue,
       setFieldTouched,

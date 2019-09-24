@@ -103,9 +103,9 @@ export const ITEMS_PER_PAGE= [
   { value: 100, label: '100' }
 ]
 
-export const ENGLISH_REGEX = /^\S+[a-zA-Z0-9-$@:$!%*?&#"/{}^ _.,+()\n']+$/;
-export const SPANISH_REGEX = /^\S+[0-9A-Za-z-ñáéíóúü$@:$"/{}!%*?&#^_. ,+()\n']+$/i;
-export const INDONESIAN_REGEX = /^\S+[0-9A-Z-a-zé$@$!%*?:"/{}&#^_. ,+()\n']+$/i;
+export const ENGLISH_REGEX = /^\S+[a-zA-Z0-9-$@:$!%*?&#"/{}=|<>~`^ _.,+()\n']+$/;
+export const SPANISH_REGEX = /^\S+[0-9A-Za-z-ñáéíóúü$@:$"/{}=|<>~`*!%*?&#^_. ,+()\n']+$/i;
+export const INDONESIAN_REGEX = /^\S+[0-9A-Z-a-zé$@$!%*?:"/{}=|<>~`*&#^_. ,+()\n']+$/i;
 export const ENGLISH_FULL_NAME = /^\S+[A-Za-z ]+$/i;
 export const SPANISH_FULL_NAME = /^\S+[A-Za-zñáéíóúü ]+$/i;
 export const INDONESIAN_FULL_NAME = /^\S+[A-Za-zé ]+$/i;
