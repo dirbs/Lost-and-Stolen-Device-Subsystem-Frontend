@@ -88,9 +88,9 @@
   "pendingCasesRecord.noCases": "No pending cases found",
   "pendingCasesRecord.recentCases": "Recent pending cases",
 
-  "recoveredCasesRecord.casesFound": "Recovered cases found",
-  "recoveredCasesRecord.caseFound": "Recovered case found",
-  "recoveredCasesRecord.noCases": "No recovered cases found",
+  "recoveredCasesRecord.casesFound": "Unblocked cases found",
+  "recoveredCasesRecord.caseFound": "Unblocked case found",
+  "recoveredCasesRecord.noCases": "No unblocked cases found",
 
   "pageRecordLimit.show": "Show",
   "pageRecordLimit.cases": "Cases",
@@ -213,7 +213,7 @@
 
   "Pending": "Pending",
   "Blocked": "Blocked",
-  "Recovered": "Recovered",
+  "Recovered": "Unblocked",
   "Registered": "Registered",
   "Updated": "Updated",
   "Lost": "Lost",
