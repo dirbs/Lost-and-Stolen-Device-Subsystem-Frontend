@@ -229,8 +229,8 @@
   "dashboard.instructions.li1": "To report lost/stolen device(s), user must have known both affected MSISDN(s) and affected IMEI(s).",
   "dashboard.instructions.li2": "User can request for update information while the case is in “Pending case”.",
   "dashboard.instructions.li3": "User can request only block device(s) in “Pending case”, if “Block” option is enabled.",
-  "dashboard.instructions.li4": "Only “Pending cases” and “Blocked cases” can be recovered.",
-  "dashboard.instructions.li5": "User can't request to perform any action on “Recovered cases” recovered device(s) can be report as a “New case” again.",
+  "dashboard.instructions.li4": "Only “Pending cases” and “Blocked cases” can be unblocked.",
+  "dashboard.instructions.li5": "User can't request to perform any action on “Unblocked cases” unblocked device(s) can be report as a “New case” again.",
   "dashboard.instructions.li6": "In personal details, all fields are required for case registration.",
 
   "multiSelectNoResult": "No results found",
