@@ -53,7 +53,7 @@
   "caseStatus.selectStatus": "Select case status",
   "caseStatus.pending": "Pending",
   "caseStatus.blocked": "Blocked",
-  "caseStatus.recovered": "Recovered",
+  "caseStatus.recovered": "Unblocked",
 
   "msisdnInput.placeholder": "Type MSISDN and press enter",
   "imeiInput.placeholder": "Type IMEI and press enter",
