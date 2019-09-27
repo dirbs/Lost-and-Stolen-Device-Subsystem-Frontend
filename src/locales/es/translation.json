@@ -225,12 +225,12 @@
   "language": "Idioma",
 
   "dashboard.instructions": "Instrucciones",
-  "dashboard.instructions.li1": "Para informar sobre dispositivos perdidos/robados, el usuario debe tener conocidos MSISDN(s) afectados o ambos MSISDN(s) afectados y IMEI(s) afectados.",
+  "dashboard.instructions.li1": "Para informar sobre dispositivos perdidos / robados, el usuario debe haber conocido los MSISDN afectados y los IMEI afectados.",
   "dashboard.instructions.li2": "El usuario puede solicitar información actualizada mientras el caso se encuentra en “Caso pendiente”.",
   "dashboard.instructions.li3": "El usuario puede solicitar solo los dispositivos de bloqueo en “Caso pendiente”, si la opción “Bloquear” está habilitada.",
   "dashboard.instructions.li4": "Solo se pueden recuperar los “casos pendientes” y los “casos bloqueados”.",
   "dashboard.instructions.li5": "El usuario no puede solicitar realizar ninguna acción en los “casos recuperados”. Los dispositivos recuperados pueden ser reportados como un “caso nuevo” nuevamente.",
-  "dashboard.instructions.li6": "En los datos personales (fecha de nacimiento, número de identificación del gobierno, número de teléfono alternativo, dirección de correo electrónico, dirección), cualquier información individual es suficiente para el registro del caso.",
+  "dashboard.instructions.li6": "En detalles personales, todos los campos son obligatorios para el registro de casos.",
 
   "multiSelectNoResult": "No se han encontrado resultados",
   "multiSelectNewCreate": "Opción de creación"

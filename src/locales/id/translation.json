@@ -225,12 +225,12 @@
   "language": "Bahasa",
 
   "dashboard.instructions": "Instruksi",
-  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang/dicuri, pengguna harus mengetahui MSISDN(s) yang terpengaruh atau keduanya MSISDN(s) yang terkena dampak dan IMEI(s) yang terpengaruh.",
+  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang / dicuri, pengguna harus mengetahui MSISDN yang terkena dampak dan IMEI yang terpengaruh.",
   "dashboard.instructions.li2": "Pengguna dapat meminta informasi pembaruan saat kasus dalam “Kasus menunggu”.",
   "dashboard.instructions.li3": "Pengguna dapat meminta hanya memblokir perangkat dalam “Kasus menunggu”, jika opsi “Blokir” diaktifkan.",
   "dashboard.instructions.li4": "Hanya “Kasus yang menunggu keputusan” dan “Kasus yang diblokir” yang dapat dipulihkan.",
   "dashboard.instructions.li5": "Pengguna tidak dapat meminta untuk melakukan tindakan apa pun pada “Kasus yang dipulihkan” yang dipulihkan dapat dilaporkan sebagai “Kasus baru”.",
-  "dashboard.instructions.li6": "Dalam perincian pribadi (Tanggal lahir, No. identifikasi pemerintah, Nomor telepon alternatif. Alamat e-mail, alamat), setiap informasi tunggal cukup untuk pendaftaran kasus.",
+  "dashboard.instructions.li6": "Dalam perincian pribadi, semua bidang diperlukan untuk pendaftaran kasus.",
 
   "multiSelectNoResult": "Tidak ada hasil yang ditemukan",
   "multiSelectNewCreate": "Buat Opsi"
