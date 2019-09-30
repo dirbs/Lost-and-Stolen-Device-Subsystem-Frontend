@@ -71,7 +71,7 @@ const CaseBox = (props) => {
         (props.info.status === i18n.t('caseStatus.pending'))
         ?
             'casebox case-pending'
-        : (props.info.status === i18n.t('caseStatus.recovered'))
+        : (props.info.status === "Recovered")
             ? 'casebox case-recovered'
             : 'casebox case-blocked';
 

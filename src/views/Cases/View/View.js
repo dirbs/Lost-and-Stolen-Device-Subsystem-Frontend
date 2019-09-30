@@ -123,7 +123,7 @@ class View extends Component {
         (status === i18n.t('caseStatus.pending'))
         ?
             'text-primary'
-        : (status === i18n.t('caseStatus.recovered'))
+        : (status === "Recovered")
             ? 'text-success'
             : 'text-danger';
         view_case = <div key={tracking_id}>
