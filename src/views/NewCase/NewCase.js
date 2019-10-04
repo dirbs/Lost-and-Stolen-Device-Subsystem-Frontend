@@ -424,7 +424,7 @@ class CaseForm extends Component {
                                                   })
                                               }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
+                                              {/* <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button> */}
                                             </div>
                                         </div>
                                     </li>
