@@ -2,7 +2,8 @@
   "appDetails": {
     "appName": "APP_NAME",
     "supportEmail": "support@example.com",
-    "supportNumber": "+923001234567"
+    "supportNumber": "+923001234567",
+    "defaultLanguage": "en"
   },
   "api": {
     "host": "http://SERVER_IP",
