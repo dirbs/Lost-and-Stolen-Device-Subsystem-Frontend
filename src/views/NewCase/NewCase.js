@@ -316,42 +316,8 @@ class CaseForm extends Component {
             values.model_name !== '' &&
             values.physical_description !== '' &&
             <Row>
-                <Col md={values.imei_known === 'yes' ? 12 : 6} xl={4} xs="12">
-                    <Card>
-                        <CardHeader className="min-hei52">
-                            <b>{i18n.t('newCase.imeiKnown')}</b>
-                        </CardHeader>
-                        <CardBody className="p0">
-                          <div className="read-box radio-wrap">
-                            <label className="mr-4 mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="yes"
-                                    checked={values.imei_known === 'yes'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.yes')}
-                            </label>
-                            <label className="mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="no"
-                                    checked={values.imei_known === 'no'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.no')}
-                            </label>
-                            <Field name="imei_known" component={renderError}/>
-                          </div>
-                        </CardBody>
-                    </Card>
-                </Col>
                 {(values.imei_known === 'no' || values.imei_known === 'yes') &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
@@ -399,7 +365,7 @@ class CaseForm extends Component {
                 </Col>
                 }
                 {values.imei_known === 'yes' &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('button.addNew')}</Button>
@@ -429,7 +395,7 @@ class CaseForm extends Component {
                                                   })
                                               }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
+                                             {/*  <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button> */}
                                             </div>
                                         </div>
                                     </li>
@@ -443,7 +409,7 @@ class CaseForm extends Component {
                 }
             </Row>
             }
-            {(values.imei_known === 'no' || values.imei_known === 'yes') &&
+            {(values.imei_known === 'no' || values.imei_known === 'yes') && values.brand !== '' && values.model_name !== '' && values.physical_description !== '' &&
             <Row>
                 <Col xs="12">
                     <Card>
@@ -805,7 +771,7 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
+  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "yes", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
 
   // Custom sync validation
   validate: values => {
