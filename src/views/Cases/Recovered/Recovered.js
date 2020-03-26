@@ -166,7 +166,7 @@ class Recovered extends Component {
     let recovered_cases = null;
     if(((this.state.data || {}).cases || []).length > 0) {
         recovered_cases = this.state.data.cases.map(recovered => (
-            <CaseBox info={recovered} key={recovered.tracking_id}/>
+            <CaseBox userDetails={this.props.userDetails} info={recovered} key={recovered.tracking_id}/>
         ));
     }
     return (

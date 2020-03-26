@@ -132,7 +132,7 @@ class Dashboard extends Component {
     let pending_cases = null;
     if(((this.state.data || {}).cases || []).length > 0) {
         pending_cases = this.state.data.cases.map(pending => (
-            <CaseBox info={pending} key={pending.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
+            <CaseBox userDetails={this.props.userDetails} info={pending} key={pending.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
         ));
     }
     return (

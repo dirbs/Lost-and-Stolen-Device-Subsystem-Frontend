@@ -681,7 +681,7 @@ class SearchCases extends Component {
     let searched_cases = null;
     if(((this.state.data || {}).cases || []).length > 0) {
       searched_cases = this.state.data.cases.map(searched_case => (
-          <CaseBox info={searched_case} key={searched_case.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
+          <CaseBox userDetails={this.props.userDetails} info={searched_case} key={searched_case.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
       ));
     }
     return (
