@@ -185,6 +185,14 @@ label {
 	}
 }
 
+.asitfield {
+	position: relative;
+	padding: 0 0.375rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 .txtarehei {
 	height: 0.35rem;
 }

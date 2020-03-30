@@ -18,6 +18,8 @@ import SearchCases from '../../views/SearchCases/';
 import Pending from '../../views/Cases/Pending/';
 import Blocked from '../../views/Cases/Blocked/';
 import Recovered from '../../views/Cases/Recovered/';
+import Block from '../../views/Cplc/Block/Block';
+import Unblock from '../../views/Cplc/Unblock/Unblock';
 import View from '../../views/Cases/View/';
 import UpdateCase from '../../views/Cases/UpdateCase/';
 import Page401 from '../../views/Errors/Page401';
@@ -237,6 +239,8 @@ class Full extends Component {
                     <Route path="/cases/pending" name="Pending" render={(props) => <Pending handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/blocked" name="Blocked" render={(props) => <Blocked handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/block-imeis" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/unblock-imeis" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
                     <Redirect from="/" to="/dashboard"/>
                   </Switch>
