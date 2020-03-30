@@ -75,6 +75,7 @@ import i18n from "./../../i18n";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import RenderSelect from '../../components/Form/renderSelect';
+import Regions from './_regions';
 const MySwal = withReactContent(Swal);
 
 /**
@@ -315,7 +316,7 @@ class CaseForm extends Component {
       setFieldValue,
       setFieldTouched,
       dirty,
-      caseSubmitted
+      caseSubmitted,
     } = this.props;
     return (
         <div>
@@ -519,6 +520,29 @@ class CaseForm extends Component {
                                     <Field name="incident" component={renderError} />
                                   </FormGroup>
                                 </Col>
+                                <Col md="6" xs="12">
+                                    <FormGroup>
+                                    <Label>{i18n.t('Incident Regions')} <span className="text-danger">*</span></Label>
+                                    <div className="selectbox">
+                                      <Field component="select" name="incident_region" className="form-control">
+                                        <option value="">{i18n.t('Select nature of incident')}</option>
+                                        {Regions.regions.map((region, index) => (
+                                          <optgroup label={region.province} key={index}>
+                                            {region.regions.map((region) => (
+                                              <option key={region} value={region}>{region}</option>
+                                            ))}
+                                          </optgroup>
+                                        ))}
+                                      </Field>
+                                    </div>
+                                    <Field name="incident_region" component={renderError} />
+                                  </FormGroup>
+                                </Col>
+                                {values.incident_region === 'Others' && 
+                                  <Col md="6" xs="12">
+                                    <Field name="other_region" component={renderInput} label={i18n.t('Other Region')} type="text" placeholder={i18n.t('Type other region')} requiredStar />
+                                  </Col>
+                                }
                             </Row>
                         </CardBody>
                     </Card>
@@ -810,8 +834,8 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "yes", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "","father_name":"","mother_name":"","district":"","number":"", "dob": "", "landline_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
-
+  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "yes", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "","father_name":"","mother_name":"","district":"","number":"", "dob": "", "landline_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true, "incident_region": "", "other_region": "" }),
+  
   // Custom sync validation
   validate: values => {
     let errors = {};
@@ -893,6 +917,12 @@ const MyEnhancedForm = withFormik({
     if (!values.incident) {
         errors.incident = `${i18n.t('forms.fieldError')}`
     }
+    if (!values.incident_region) {
+        errors.incident_region = `${i18n.t('please select incident region.')}`
+    }
+    if (values.incident_region === 'Others' && !values.other_region) {
+        errors.other_region = `${i18n.t('please type your region.')}`
+    }
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
     }else if (fullNameCheck(values.full_name) === false){
@@ -951,9 +981,9 @@ const MyEnhancedForm = withFormik({
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
     }
-    if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
-      errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
-    }
+    // if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
+    //   errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    // }
     return errors;
   },
 
@@ -962,22 +992,24 @@ const MyEnhancedForm = withFormik({
     if(values.msisdnInput || values.retypeMsisdnInput) {
       values.msisdnInput = values.retypeMsisdnInput = '00000000000000';
     }
-    bag.props.callServer(prepareAPIRequest(values));
+    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
   displayName: 'CaseForm', // helps with React DevTools
 })(CaseForm);
 
-function prepareAPIRequest(values) {
+function prepareAPIRequest(values, authDetails) {
    // Validate Values before sending
     const searchParams = {};
     searchParams.loggedin_user = {};
     searchParams.loggedin_user.user_id = getUserInfo().sub;
     searchParams.loggedin_user.username = getUserInfo().preferred_username;
+    searchParams.loggedin_user.role = authDetails.role;
     searchParams.case_status = 1;
     searchParams.incident_details = {};
     searchParams.incident_details.incident_date = values.date_of_incident;
     searchParams.incident_details.incident_nature = values.incident;
+    searchParams.incident_details.region = values.incident_region === "Others" ? values.other_region : values.incident_region;
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
     searchParams.personal_details.father_name = values.father_name;
@@ -1092,12 +1124,13 @@ class NewCase extends Component {
 
   render() {
     let kc = this.props.kc;
+    let authDetails = this.props.userDetails;
     return (
         <I18n ns="translations">
         {
           (t, { i18n }) => (
             <div className="new-case-box animated fadeIn">
-              <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
+              <MyEnhancedForm authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
             </div>
           )
         }
