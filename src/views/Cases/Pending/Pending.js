@@ -60,7 +60,7 @@ import CaseBox from '../../../components/CaseBox/CaseBox';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import Pagination from "react-js-pagination";
 import {PENDING_CASE, PAGE_LIMIT, ITEMS_PER_PAGE} from '../../../utilities/constants';
-import {Card, CardHeader, Input, Label} from 'reactstrap';
+import {Card, CardHeader, Input, Label, Button} from 'reactstrap';
 import DataTableInfo from '../../../components/DataTable/DataTableInfo';
 
 /**
@@ -159,6 +159,17 @@ class Pending extends Component {
       document.body.classList.add('pagination-fixed');
     }
   }
+  handleBlockAll = () => {
+    instance.get('/block_all')
+    .then(response => {
+      if(response.data) {
+        this.setState({ data: response.data, totalCases: (response.data || {}).count, loading: false});
+      }
+    })
+    .catch(error => {
+      errors(this, error);
+    })
+  }
   render() {
     const {options} = this.state;
     const limitOptions = options.map((item)=>{
@@ -189,8 +200,9 @@ class Pending extends Component {
                             ?
                                 <div>
                                     <Card className="mb-3">
-                                        <CardHeader className="border-bottom-0">
-                                            <b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('pendingCasesRecord.casesFound')}`: `${this.state.totalCases} ${i18n.t('pendingCasesRecord.caseFound')}`}</b>
+                                        <CardHeader className={this.props.userDetails.role === 'admin' ? 'border-bottom-0 flkx jc-space-between' : 'border-bottom-0'}>
+                                            <div><b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('pendingCasesRecord.casesFound')}`: `${this.state.totalCases} ${i18n.t('pendingCasesRecord.caseFound')}`}</b></div>
+                                            {this.props.userDetails.role === 'admin' && <div><Button color="danger" size="sm" onClick={this.handleBlockAll}>{i18n.t('Block all')}</Button></div>}
                                         </CardHeader>
                                     </Card>
                                     {pending_cases}

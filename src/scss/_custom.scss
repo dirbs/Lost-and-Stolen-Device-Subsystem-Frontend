@@ -62,6 +62,16 @@ span, small {
 	display: inline-block;
 }
 
+.flkx {
+	display: flex;
+}
+.fw-wrap {
+	flex-wrap: wrap;
+}
+.jc-space-between {
+	justify-content: space-between;
+}
+
 .disabled,
 [disabled] {
 	cursor: not-allowed;
