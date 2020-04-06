@@ -55,20 +55,20 @@ export default {
     },
     {
         id: 8,
-        name: 'CPLC of IMEIs',
+        name: 'CPLC',
         url: '/cplc',
         icon: 'fa fa-registered',
         children: [
             {
                 id: 9,
-                name: 'CPLC Block IMEIs',
-                url: '/cplc/block-imeis',
+                name: 'CPLC Block',
+                url: '/cplc/block',
                 icon: ''
             },
             {
                 id: 10,
-                name: 'CPLC Unblock IMEIs',
-                url: '/cplc/unblock-imeis',
+                name: 'CPLC Unblock',
+                url: '/cplc/unblock',
                 icon: ''
             },
         ]
