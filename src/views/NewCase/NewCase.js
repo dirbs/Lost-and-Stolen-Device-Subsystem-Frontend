@@ -379,7 +379,7 @@ class CaseForm extends Component {
                                                 }}><i className="fa fa-trash-o"></i></button>
                                                 <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
                                                     className="fa fa-pencil"></i></Button>{''}
-                                                {(values.imei_known === 'no' &&
+                                                {(values.imei_known &&
                                                     <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>)
                                                 }
                                             </div>
@@ -425,7 +425,7 @@ class CaseForm extends Component {
                                                   })
                                               }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              {/* <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button> */}
+                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
                                             </div>
                                         </div>
                                     </li>
