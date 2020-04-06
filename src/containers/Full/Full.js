@@ -239,8 +239,8 @@ class Full extends Component {
                     <Route path="/cases/pending" name="Pending" render={(props) => <Pending handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/blocked" name="Blocked" render={(props) => <Blocked handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
-                    <Route path="/cplc/block-imeis" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
-                    <Route path="/cplc/unblock-imeis" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/block" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/unblock" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
                     <Redirect from="/" to="/dashboard"/>
                   </Switch>
