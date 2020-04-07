@@ -154,7 +154,8 @@ class Full extends Component {
             "user_id": getUserInfo().sub,
             "case_comment": values.comments,
             "case_status": status,
-            "username": getUserInfo().preferred_username
+            "username": getUserInfo().preferred_username,
+            "role": this.props.userDetails.role
         }
     }
     // hide modal box and clear textarea input
