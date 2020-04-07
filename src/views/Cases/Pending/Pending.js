@@ -55,7 +55,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import React, { Component } from 'react';
 import { translate, I18n } from 'react-i18next';
-import { instance, errors, getAuthHeader } from './../../../utilities/helpers';
+import { instance, errors, getAuthHeader, SweetAlert } from './../../../utilities/helpers';
 import CaseBox from '../../../components/CaseBox/CaseBox';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import Pagination from "react-js-pagination";
@@ -164,6 +164,23 @@ class Pending extends Component {
     .then(response => {
       if(response.data) {
         this.setState({ data: response.data, totalCases: (response.data || {}).count, loading: false});
+        const statusDetails = {
+          id: response.data.task_id,
+          icon: 'fa fa-check',
+          status: response.data.state,
+          action: 'Blocked'
+        }
+        this.props.history.push({
+          pathname: '/case-status',
+          state: { details: statusDetails }
+        });
+      } else {
+        SweetAlert({
+          title: 'error',
+          message: 'Something Went Wrong',
+          type:'error'
+        })
+        //toast.error('something went wrong');
       }
     })
     .catch(error => {
