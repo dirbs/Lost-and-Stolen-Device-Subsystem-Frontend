@@ -400,18 +400,19 @@ const MyEnhancedUpdateForm = withFormik({
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    bag.props.callServer(prepareAPIRequest(values));
+    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
   displayName: 'UpdateForm', // helps with React DevTools
 })(UpdateForm);
 
-function prepareAPIRequest(values) {
+function prepareAPIRequest(values, authDetails) {
     // Validate Values before sending
     const searchParams = {};
     searchParams.status_args = {};
     searchParams.status_args.user_id = getUserInfo().sub;
     searchParams.status_args.username = getUserInfo().preferred_username;
+    searchParams.status_args.role = authDetails.role;
     if(values.case_comment) {
         searchParams.status_args.case_comment = values.case_comment;
     }
@@ -526,6 +527,7 @@ class UpdateCase extends Component {
   }
 
   render() {
+    let authDetails = this.props.userDetails;
     return (
         <I18n ns="translations">
         {
@@ -543,7 +545,7 @@ class UpdateCase extends Component {
                             </div>
                         )
                         :
-                        <MyEnhancedUpdateForm callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
+                        <MyEnhancedUpdateForm  authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
                 }
                 </ul>
             </div>
