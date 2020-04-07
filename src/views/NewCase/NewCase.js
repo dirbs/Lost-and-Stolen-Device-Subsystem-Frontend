@@ -61,7 +61,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
 import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../utilities/helpers";
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert} from "../../utilities/helpers";
 import RenderModal from '../../components/Form/RenderModal';
 import renderError from '../../components/Form/RenderError';
 import doubleEntryInput from '../../components/Form/DoubleEntryInput';
@@ -379,8 +379,8 @@ class CaseForm extends Component {
                                                 }}><i className="fa fa-trash-o"></i></button>
                                                 <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
                                                     className="fa fa-pencil"></i></Button>{''}
-                                                {(values.imei_known &&
-                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>)
+                                                {(values.imei_known && this.props.authDetails.role === 'admin') && 
+                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>
                                                 }
                                             </div>
                                         </div>
@@ -425,7 +425,7 @@ class CaseForm extends Component {
                                                   })
                                               }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
+                                              {this.props.authDetails.role === 'admin' && <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>}
                                             </div>
                                         </div>
                                     </li>
@@ -843,22 +843,16 @@ const MyEnhancedForm = withFormik({
         errors.brand = `${i18n.t('forms.fieldError')}`
     } else if(values.brand.length >= 1000) {
       errors.brand = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (fullNameCheck(values.brand) === false){
-        errors.brand = i18n.t('forms.langError')
     }
     if (!values.model_name) {
         errors.model_name = `${i18n.t('forms.fieldError')}`
     } else if(values.model_name.length >= 1000) {
       errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.model_name) === false){
-        errors.model_name = i18n.t('forms.langError')
     }
     if (!values.physical_description) {
         errors.physical_description = `${i18n.t('forms.fieldError')}`
     } else if(values.physical_description.length >= 1000) {
       errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.physical_description) === false){
-        errors.physical_description = i18n.t('forms.langError')
     }
     if (!values.imei_known) {
         errors.imei_known = `${i18n.t('forms.selectOption')}`
@@ -873,16 +867,16 @@ const MyEnhancedForm = withFormik({
       errors.msisdnInput = `${i18n.t('forms.fieldError')}`
     } else if(isNaN(Number(values.msisdnInput))) {
       errors.msisdnInput = `${i18n.t('forms.msisdnMustDigitCharacters')}`
-    } else if(values.msisdnInput.length < 7 || values.msisdnInput.length > 15) {
-      errors.msisdnInput = `${i18n.t('forms.msisdnDigitLimit')}`
+    } else if(values.msisdnInput.length < 12 || values.msisdnInput.length > 12) {
+      errors.msisdnInput = `${i18n.t('MSISDN must consist of 12 digit characters only i.e."920123456789"')}`
     }
 
     if (!values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.fieldError')}`
     } else if(isNaN(Number(values.retypeMsisdnInput))) {
       errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnMustDigitCharacters')}`
-    } else if(values.retypeMsisdnInput.length < 7 || values.retypeMsisdnInput.length > 15) {
-      errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnDigitLimit')}`
+    } else if(values.retypeMsisdnInput.length < 12 || values.retypeMsisdnInput.length > 12) {
+      errors.retypeMsisdnInput = `${i18n.t('Retype MSISDN must consist of 12 digit characters only i.e."920123456789"')}`
     } else if(values.msisdnInput !== values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
@@ -925,18 +919,12 @@ const MyEnhancedForm = withFormik({
     }
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
-    }else if (fullNameCheck(values.full_name) === false){
-        errors.full_name = i18n.t('forms.fullNameError')
     }
     if(!values.father_name){
       errors.father_name= `${i18n.t('forms.fieldError')}`
-    }else if(fullNameCheck(values.father_name)===false){
-      errors.father_name = i18n.t('forms.fullNameError')
     }
     if(!values.mother_name){
       errors.mother_name = `${i18n.t('forms.fieldError')}`
-    }else if(fullNameCheck(values.mother_name)===false){
-      errors.mother_name = i18n.t('forms.fullNameError')
     }
     if (!values.dob) {
       errors.dob = `${i18n.t('forms.fieldError')}`
@@ -968,15 +956,15 @@ const MyEnhancedForm = withFormik({
       errors.landline_number = `${i18n.t('forms.fieldError')}`
     }else if(!/^[0-9]+$/.test(values.landline_number)){
       errors.landline_number = i18n.t('forms.notNumberError')
-    }else if(values.landline_number.length<7 || values.landline_number.length>15){
-      errors.landline_number = i18n.t('form.alternateNumbers')
+    }else if(values.landline_number.length<11 || values.landline_number.length>11){
+      errors.landline_number = i18n.t('Number should be 11 digit only i.e."03123456789"')
     }
     if(!values.number){
       errors.number = `${i18n.t('forms.fieldError')}`
     }else if(!/^[0-9]+$/.test(values.number)){
       errors.number = i18n.t('forms.notNumberError')
-    }else if(values.number.length<7 || values.number.length>15){
-      errors.number = i18n.t('form.alternateNumbers')
+    }else if(values.number.length<10 || values.number.length>11){
+      errors.number = i18n.t('Phone number must consist of 10 or 11 digit characters i.e."0510123456"')
     }
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
