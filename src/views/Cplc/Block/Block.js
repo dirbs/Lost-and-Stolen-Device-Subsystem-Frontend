@@ -135,13 +135,6 @@ class Block extends Component {
     return (
       <article>
         <Row className="justify-content-center">
-          <Col lg={8} xl={6}>
-            <div className="text-center">
-              <p>Block IMEIs Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
           <Col md={6} lg={4} xl={3}>
             <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} />
           </Col>
