@@ -61,7 +61,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
 import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert} from "../../utilities/helpers";
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../utilities/helpers";
 import RenderModal from '../../components/Form/RenderModal';
 import renderError from '../../components/Form/RenderError';
 import doubleEntryInput from '../../components/Form/DoubleEntryInput';
@@ -200,8 +200,8 @@ class CaseForm extends Component {
   closeShowModal() {
     this.props.setFieldTouched('msisdnInput', false, false)
     this.props.setFieldTouched('retypeMsisdnInput', false, false)
-    this.props.setFieldValue('msisdnInput', '00000000000', false)
-    this.props.setFieldValue('retypeMsisdnInput', '00000000000', false)
+    this.props.setFieldValue('msisdnInput', '000000000000', false)
+    this.props.setFieldValue('retypeMsisdnInput', '000000000000', false)
     this.setState({ msisdnIndex: null, showModal: false })
   }
 
@@ -624,7 +624,6 @@ class CaseForm extends Component {
             </Row>
         </div>
               }
-        <Row>
             <RenderModal show={this.state.showModal}>
               <ModalHeader>{this.state.showModalTitle}</ModalHeader>
               <ModalBody>
@@ -814,7 +813,6 @@ class CaseForm extends Component {
                 <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
               </ModalFooter>
             </RenderModal>
-          </Row>
         <Row className="justify-content-end mb-1p5rem">
           <Col md="4" xl="3" xs="6">
             <Link className="btn btn-light btn-block"
@@ -824,7 +822,7 @@ class CaseForm extends Component {
             {/*</Button>*/}
           </Col>
           <Col md="4" xl="3" xs="6">
-            <Button color="primary" type="submit" block  disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
+            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
           </Col>
         </Row>
       </Form>
@@ -834,69 +832,102 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "yes", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "","father_name":"","mother_name":"","district":"","number":"", "dob": "", "landline_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true, "incident_region": "", "other_region": "" }),
+  mapPropsToValues: () => (
+    { 
+      "brand": "", 
+      "model_name": "", 
+      "physical_description": "", 
+      "imei_known": "yes", 
+      "msisdns": [], 
+      "msisdnInput": "", 
+      "retypeMsisdnInput": "", 
+      "imeis": [], 
+      "imeiInput": "", 
+      "retypeImeiInput":"",  
+      "date_of_incident": "", 
+      "incident": "", 
+      "incident_region": "", 
+      "other_region": "", 
+      "full_name": "", 
+      "father_name":"", 
+      "mother_name":"", 
+      "dob": "", 
+      "gin": "", 
+      "landline_number": "", 
+      "email": "", 
+      "number":"", 
+      "district":"", 
+      "address": "", 
+      "get_blocked": true
+    }
+  ),
   
   // Custom sync validation
   validate: values => {
     let errors = {};
     if (!values.brand) {
         errors.brand = `${i18n.t('forms.fieldError')}`
-    } else if(values.brand.length >= 1000) {
+    } else if (values.brand.length >= 1000) {
       errors.brand = `${i18n.t('forms.charactersWithinTh')}`
+    } else if (fullNameCheck(values.brand) === false) {
+      errors.brand = i18n.t('forms.langError')
     }
     if (!values.model_name) {
         errors.model_name = `${i18n.t('forms.fieldError')}`
-    } else if(values.model_name.length >= 1000) {
+    } else if (values.model_name.length >= 1000) {
       errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
+    } else if (languageCheck(values.model_name) === false) {
+      errors.model_name = i18n.t('forms.langError')
     }
     if (!values.physical_description) {
         errors.physical_description = `${i18n.t('forms.fieldError')}`
-    } else if(values.physical_description.length >= 1000) {
+    } else if (values.physical_description.length >= 1000) {
       errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
+    } else if (languageCheck(values.physical_description) === false) {
+      errors.physical_description = i18n.t('forms.langError')
     }
-    if (!values.imei_known) {
-        errors.imei_known = `${i18n.t('forms.selectOption')}`
-    }
+    // if (!values.imei_known) {
+    //     errors.imei_known = `${i18n.t('forms.selectOption')}`
+    // }
+    // MSISDNs Modal Validation
     if (!values.msisdns || !values.msisdns.length) {
         errors.msisdns = `${i18n.t('forms.oneMSISDNmust')}`
     }
-    if (!values.imeis || !values.imeis.length) {
-        errors.imeis = `${i18n.t('forms.oneIMEImust')}`
-    }
     if (!values.msisdnInput) {
       errors.msisdnInput = `${i18n.t('forms.fieldError')}`
-    } else if(isNaN(Number(values.msisdnInput))) {
+    } else if (isNaN(Number(values.msisdnInput))) {
       errors.msisdnInput = `${i18n.t('forms.msisdnMustDigitCharacters')}`
-    } else if(values.msisdnInput.length < 12 || values.msisdnInput.length > 12) {
-      errors.msisdnInput = `${i18n.t('MSISDN must consist of 12 digit characters only i.e."920123456789"')}`
+    } else if (values.msisdnInput.length < 12 || values.msisdnInput.length > 12) {
+      errors.msisdnInput = 'Retype MSISDN must consist of 12 digit characters only i.e."920123456789"'
     }
 
     if (!values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.fieldError')}`
-    } else if(isNaN(Number(values.retypeMsisdnInput))) {
+    } else if (isNaN(Number(values.retypeMsisdnInput))) {
       errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnMustDigitCharacters')}`
-    } else if(values.retypeMsisdnInput.length < 12 || values.retypeMsisdnInput.length > 12) {
-      errors.retypeMsisdnInput = `${i18n.t('Retype MSISDN must consist of 12 digit characters only i.e."920123456789"')}`
-    } else if(values.msisdnInput !== values.retypeMsisdnInput) {
+    } else if (values.retypeMsisdnInput.length < 12 || values.retypeMsisdnInput.length > 12) {
+      errors.retypeMsisdnInput = 'Retype MSISDN must consist of 12 digit characters only i.e."920123456789"'
+    } else if (values.msisdnInput !== values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
     // IMEIs Modal Validation
-    if(values.imei_known === "yes")
-    {
-    if (!values.imeiInput) {
-      errors.imeiInput = `${i18n.t('forms.fieldError')}`
-    } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)){
-      errors.imeiInput = `${i18n.t('forms.imeiDigitCombination')}`
+    if (!values.imeis || !values.imeis.length) {
+      errors.imeis = `${i18n.t('forms.oneIMEImust')}`
     }
-
-    if (!values.retypeImeiInput) {
-      errors.retypeImeiInput = `${i18n.t('forms.fieldError')}`
-    } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.retypeImeiInput)){
-      errors.retypeImeiInput = `${i18n.t('forms.reTypeimeiDigitCombination')}`
-    } else if(values.imeiInput !== values.retypeImeiInput) {
-      errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
+    if (values.imei_known === 'yes') {
+      if (!values.imeiInput) {
+        errors.imeiInput = `${i18n.t('forms.fieldError')}`
+      } else if (!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)) {
+        errors.imeiInput = `${i18n.t('forms.imeiDigitCombination')}`
+      }
+      if (!values.retypeImeiInput) {
+        errors.retypeImeiInput = `${i18n.t('forms.fieldError')}`
+      } else if (!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.retypeImeiInput)) {
+        errors.retypeImeiInput = `${i18n.t('forms.reTypeimeiDigitCombination')}`
+      } else if (values.imeiInput !== values.retypeImeiInput) {
+        errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
+      }
     }
-  }
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
 
@@ -907,24 +938,29 @@ const MyEnhancedForm = withFormik({
     } else if (paste >= values.date_of_incident) {
       errors.date_of_incident = `${i18n.t('forms.dateIncidentOld')}`;
     }
-
     if (!values.incident) {
         errors.incident = `${i18n.t('forms.fieldError')}`
     }
     if (!values.incident_region) {
-        errors.incident_region = `${i18n.t('please select incident region.')}`
+        errors.incident_region = 'please select incident region.'
+    } else if (values.incident_region === 'Others' && !values.other_region) {
+        errors.other_region = 'please type your region.'
     }
-    if (values.incident_region === 'Others' && !values.other_region) {
-        errors.other_region = `${i18n.t('please type your region.')}`
-    }
+
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
+    } else if (fullNameCheck(values.full_name) === false) {
+      errors.full_name = i18n.t('forms.fullNameError')
     }
-    if(!values.father_name){
+    if (!values.father_name) {
       errors.father_name= `${i18n.t('forms.fieldError')}`
+    } else if (fullNameCheck(values.father_name)===false) {
+      errors.father_name = i18n.t('forms.fullNameError')
     }
-    if(!values.mother_name){
+    if (!values.mother_name) {
       errors.mother_name = `${i18n.t('forms.fieldError')}`
+    } else if (fullNameCheck(values.mother_name)===false) {
+      errors.mother_name = i18n.t('forms.fullNameError')
     }
     if (!values.dob) {
       errors.dob = `${i18n.t('forms.fieldError')}`
@@ -933,53 +969,46 @@ const MyEnhancedForm = withFormik({
     } else if (paste >= values.dob) {
       errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
-    if (!values.email) {
-      errors.email = `${i18n.t('forms.fieldError')}`
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
-    ) {
-      errors.email = `${i18n.t('forms.emailInvalid')}`;
-    }
-    if(!values.address){
-      errors.address = `${i18n.t('forms.fieldError')}`
-    }
-    if(!values.gin){
+    if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
-    }else if(!/^[0-9]+$/.test(values.gin)){
+    } else if (!/^[0-9]+$/.test(values.gin)) {
       errors.gin = i18n.t('forms.notNumberError')
-    }else if(values.gin.length<13){
+    } else if (values.gin.length<13) {
       errors.gin = i18n.t('forms.ginLength')
     }
-    if(!values.landline_number){
+    if (!values.landline_number) {
       errors.landline_number = `${i18n.t('forms.fieldError')}`
-    }else if(!/^[0-9]+$/.test(values.landline_number)){
+    } else if (!/^[0-9]+$/.test(values.landline_number)) {
       errors.landline_number = i18n.t('forms.notNumberError')
-    }else if(values.landline_number.length<11 || values.landline_number.length>11){
-      errors.landline_number = i18n.t('Number should be 11 digit only i.e."03123456789"')
+    } else if (values.landline_number.length<11 || values.landline_number.length>11) {
+      errors.landline_number = 'Number should be 11 digit only i.e."03123456789"'
     }
-    if(!values.number){
+    if (!values.email) {
+      errors.email = `${i18n.t('forms.fieldError')}`
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = `${i18n.t('forms.emailInvalid')}`;
+    }
+    if (!values.number) {
       errors.number = `${i18n.t('forms.fieldError')}`
-    }else if(!/^[0-9]+$/.test(values.number)){
+    } else if (!/^[0-9]+$/.test(values.number)) {
       errors.number = i18n.t('forms.notNumberError')
-    }else if(values.number.length<10 || values.number.length>11){
-      errors.number = i18n.t('Phone number must consist of 10 or 11 digit characters i.e."0510123456"')
+    } else if (values.number.length<10 || values.number.length>11) {
+      errors.number = 'Phone number must consist of 10 or 11 digit characters i.e."0510123456"'
     }
-    if(!values.district){
+    if (!values.district) {
       errors.district = `${i18n.t('forms.fieldError')}`
     }
-    // if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
-    //   errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
-    // }
+    if (!values.address) {
+      errors.address = `${i18n.t('forms.fieldError')}`
+    }
+    if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
+      errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    }
     return errors;
   },
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    if(values.msisdnInput || values.retypeMsisdnInput) {
-      values.msisdnInput = values.retypeMsisdnInput = '00000000000000';
-    }
     bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
@@ -1118,7 +1147,7 @@ class NewCase extends Component {
         {
           (t, { i18n }) => (
             <div className="new-case-box animated fadeIn">
-              <MyEnhancedForm authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
+              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
             </div>
           )
         }
