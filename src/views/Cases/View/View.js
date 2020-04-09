@@ -53,7 +53,7 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
 import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
@@ -138,12 +138,14 @@ class View extends Component {
                       <div className="text-right pb-4">
                         <Link className="btn-sm btn btn-primary"
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
-                        <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
-                        {get_blocked === true ?
+                        {this.props.userDetails.role === 'admin' && <Fragment>
+                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
+                        {' '}</Fragment>}
+                        {(get_blocked === true && this.props.userDetails.role === 'admin') ?
                             <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
                             : ''}
                       </div>
-                      : (status === i18n.t('caseStatus.blocked')) ?
+                      : (status === i18n.t('caseStatus.blocked') && this.props.userDetails.role === 'admin') ?
                           <div className="text-right pb-4">
                             <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
                           </div>
