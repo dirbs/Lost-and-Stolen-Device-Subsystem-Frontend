@@ -185,6 +185,10 @@ class UpdateForm extends Component {
                                     <th>{i18n.t('newCase.incidentNature')}</th>
                                     <td>{i18n.t(values.incident_nature)}</td>
                                 </tr>
+                               <tr>
+                                    <th>Incident region</th>
+                                    <td>{values.incident_region}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </CardBody>
@@ -311,6 +315,7 @@ const MyEnhancedUpdateForm = withFormik({
       msisdns: props.info.device_details.msisdns || [],
       incident_date: props.info.incident_details.incident_date || '',
       incident_nature: props.info.incident_details.incident_nature || '',
+      incident_region: props.info.incident_details.region || '',
       address: props.info.personal_details.address === 'N/A' ? '': props.info.personal_details.address || '',
       gin: props.info.personal_details.gin === 'N/A' ? '': props.info.personal_details.gin || '',
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',

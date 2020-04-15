@@ -82,7 +82,7 @@ const CaseBox = (props) => {
                     {(props.info.status === i18n.t('caseStatus.pending')) ?
                         <div>
                             <p>
-                                <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>{i18n.t('button.update')}</Link>
+                                {props.creator.user_id === props.userDetails.sub && <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>{i18n.t('button.update')}</Link>}
                                 {props.userDetails && props.userDetails.role === 'staff' ? null : <React.Fragment>
                                 <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
                                 {props.info.get_blocked === true ?

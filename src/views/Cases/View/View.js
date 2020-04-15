@@ -136,8 +136,10 @@ class View extends Component {
               <Col xs="12" lg="4">
                   {(status === i18n.t('caseStatus.pending')) ?
                       <div className="text-right pb-4">
-                        <Link className="btn-sm btn btn-primary"
+                        {creator.user_id === this.props.userDetails.sub && <Fragment>
+                            <Link className="btn-sm btn btn-primary"
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
+                            </Fragment>}
                         {this.props.userDetails.role === 'admin' && <Fragment>
                             <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
                         {' '}</Fragment>}
@@ -234,6 +236,10 @@ class View extends Component {
                                 <tr>
                                     <th>{i18n.t('newCase.incidentNature')}</th>
                                     <td>{i18n.t(incident_details.incident_nature)}</td>
+                                </tr>
+                                <tr>
+                                    <th>Incident region</th>
+                                    <td>{incident_details.region}</td>
                                 </tr>
                             </tbody>
                         </table>
