@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'reactstrap';
+import { Row, Col, Form, Button, Table } from 'reactstrap';
 import { withFormik } from 'formik';
 import i18n from "./../../../i18n";
 import RenderFileInput from './../../../components/Form/RenderFileInput';
@@ -78,7 +78,9 @@ class Unblock extends Component {
     super(props);
     this.state = {
       loading: false,
-      caseSubmitted: false
+      caseSubmitted: false,
+      cplcStatus: null,
+      checkStatus: null
     }
   }
 
@@ -106,17 +108,7 @@ class Unblock extends Component {
     instance.post('/cplc_block', values, config)
       .then(response => {
         if (response.data) {
-          this.setState({ loading: false });
-          const statusDetails = {
-            id: response.data.task_id,
-            icon: 'fa fa-check',
-            status: `${i18n.t('Pending')}`,
-            action: `${i18n.t('Unblocked')}`
-          }
-          this.props.history.push({
-            pathname: '/case-status',
-            state: { details: statusDetails }
-          });
+          this.setState({ loading: false, cplcStatus: response.data });
         } else {
           SweetAlert({
             title: i18n.t('error'),
@@ -130,7 +122,50 @@ class Unblock extends Component {
       })
   }
 
+  handleClick = (config, values) => {
+    const checkStatusId = this.state.cplcStatus.task_id;
+    instance.post(`/status/${checkStatusId}`, values, config)
+    .then(response => {
+      if (response.data) {
+        this.setState({ checkStatus: response.data })
+      } else {
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('somethingWentWrong'),
+          type: 'error'
+        })
+      }
+    })
+    .catch(error => {
+      errors(this, error);
+    })
+  }
+
+  handleDownloadFile = (config, values) => {
+    const reportName = this.state.checkStatus.result.report_name;
+    instance.post(`/download/${reportName}`, values, config)
+    .then(response => {
+      if (response.data) {
+        let a = document.createElement("a");
+        let file = new Blob([response.data], {type: 'text/plain'});
+        a.href = URL.createObjectURL(file);
+        a.download = 'cplc_failed_imeis';
+        a.click();
+      } else {
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('somethingWentWrong'),
+          type: 'error'
+        })
+      }
+    })
+    .catch(error => {
+      errors(this, error);
+    })
+  }
+
   render() {
+    const { cplcStatus, checkStatus } = this.state;
     return (
       <article>
         <Row className="justify-content-center">
@@ -138,6 +173,54 @@ class Unblock extends Component {
             <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} />
           </Col>
         </Row>
+        {cplcStatus ?
+          <Row className="justify-content-center">
+            <Col md={8} lg={6} xl={5}>
+              <div className="uploaded-submit-details">
+                <h6>{cplcStatus.message}</h6>
+                <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{cplcStatus.state}</b></p>
+                <div className="link-box">
+                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          : null
+        }
+        {checkStatus ?
+          <Row className="justify-content-center">
+            <Col lg={10} xl={8}>
+              <div className="check-status-details">
+                <h6>Status is <span className="text-success">{checkStatus.state}</span></h6>
+                {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
+                {checkStatus.result.failed ? 
+                  <div>
+                    <Table striped>
+                      <thead>
+                        <tr>
+                          <th>Success</th>
+                          <th>Failed</th>
+                          <th>Failed IMEIs File</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{checkStatus.result.success}</td>
+                          <td>{checkStatus.result.failed}</td>
+                          <td>
+                            <button onClick={() => this.updateTokenHOC(this.handleDownloadFile)}>{checkStatus.result.report_name}</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
+                : null
+                }
+              </div>
+            </Col>
+          </Row>
+          : null
+        }
       </article>
     );
   }

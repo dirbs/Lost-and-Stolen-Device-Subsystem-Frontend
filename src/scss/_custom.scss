@@ -1584,3 +1584,32 @@ body {
 	}
 
 }
+
+.uploaded-submit-details {
+	background-color: lighten($sidebar-bg, 5%);
+	padding: 21px 1rem;
+	margin: 25px 0 0;
+	text-align: center;
+	border-radius: 0.5rem;
+	border: $border-color 1px solid;
+
+	p {
+
+		b {
+			font-weight: 600;
+			color: $navbar-bg;
+		}
+
+	}
+
+	.btn {
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+
+}
+
+.check-status-details {
+	text-align: center;
+	margin: 25px 0 0;
+}
