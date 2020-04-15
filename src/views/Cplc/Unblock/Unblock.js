@@ -191,7 +191,6 @@ class Unblock extends Component {
           <Row className="justify-content-center">
             <Col lg={10} xl={8}>
               <div className="check-status-details">
-                <h6>Status is <span className="text-success">{checkStatus.state}</span></h6>
                 {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
                 {checkStatus.result.failed ? 
                   <div>
