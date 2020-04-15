@@ -182,7 +182,7 @@ class Block extends Component {
             <Col md={8} lg={6} xl={5}>
               <div className="uploaded-submit-details">
                 <h6>{cplcStatus.message}</h6>
-                <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{cplcStatus.state}</b></p>
+                <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
                 <div className="link-box">
                   <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
                 </div>
@@ -195,7 +195,6 @@ class Block extends Component {
           <Row className="justify-content-center">
             <Col lg={10} xl={8}>
               <div className="check-status-details">
-                <h6>Status is <span className="text-success">{checkStatus.state}</span></h6>
                 {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
                 {checkStatus.result.failed ? 
                   <div>
