@@ -136,7 +136,7 @@ class View extends Component {
               <Col xs="12" lg="4">
                   {(status === i18n.t('caseStatus.pending')) ?
                       <div className="text-right pb-4">
-                        {creator.user_id === this.props.userDetails.sub && <Fragment>
+                        {(creator.user_id === this.props.userDetails.sub || this.props.userDetails.role === 'admin') && <Fragment>
                             <Link className="btn-sm btn btn-primary"
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
                             </Fragment>}
