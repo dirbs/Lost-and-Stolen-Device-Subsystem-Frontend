@@ -192,7 +192,7 @@ class Unblock extends Component {
             <Col lg={10} xl={8}>
               <div className="check-status-details">
                 {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
-                {checkStatus.result.failed ? 
+                {checkStatus.result ? 
                   <div>
                     <Table striped>
                       <thead>
