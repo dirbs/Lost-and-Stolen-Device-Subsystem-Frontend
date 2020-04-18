@@ -10,8 +10,9 @@ import { I18n, translate } from 'react-i18next';
 import { withFormik, Field } from 'formik';
 import { Form, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import RenderModal from '../../components/Form/RenderModal';
-import renderInput from '../../components/Form/RenderInput'
+import renderInput from '../../components/Form/RenderInput';
 import CaseStatus from '../../components/CaseStatus/CaseStatus';
+import CheckStatus from '../../components/CaseStatus/CheckStatus';
 import Dashboard from '../../views/Dashboard/';
 import NewCase from '../../views/NewCase/';
 import SearchCases from '../../views/SearchCases/';
@@ -235,6 +236,7 @@ class Full extends Component {
                     <Route path="/new-case" name="NewCase"  render={(props) => <NewCase {...this.props} {...props} /> } />
                     <Route path="/search-cases" name="SearchCases" render={(props) => <SearchCases handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-status" name="CaseStatus" component={CaseStatus}/>
+                    <Route path="/check-status" name="CheckStatus" render={(props) => <CheckStatus {...props} /> } />
                     <Route path="/case/:tracking_id" render={(props) => <View handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-update/:tracking_id" name="UpdateCase" render={(props) => <UpdateCase {...this.props} {...props} /> } />
                     <Route path="/cases/pending" name="Pending" render={(props) => <Pending handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />

@@ -167,11 +167,11 @@ class Pending extends Component {
         const statusDetails = {
           id: response.data.task_id,
           icon: 'fa fa-check',
-          status: response.data.state,
-          action: 'Blocked'
+          state: response.data.state,
+          config: config
         }
         this.props.history.push({
-          pathname: '/case-status',
+          pathname: '/check-status',
           state: { details: statusDetails }
         });
       } else {
