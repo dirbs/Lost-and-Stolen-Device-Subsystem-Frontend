@@ -106,11 +106,13 @@ class CheckStatus extends Component {
           <h4>{i18n.t('caseStatus.caseHasBeen')} <span>submitted</span> {i18n.t('caseStatus.successfully')}.</h4>
           <div className="msg">
             <p>{i18n.t('caseStatus.caseTrackingIDIs')} <span>{details.id}</span> {i18n.t('caseStatus.andStatusIs')} <span>{!this.state.data ? details.state : this.state.data.state}</span></p>
-            <p>Please click the button below to check status.</p>
           </div>
           {!this.state.data 
-            ? <div className="link-box">
-              <Button color="primary" onClick={() => this.handleClick()}>Check Status</Button>
+            ? <div>
+                <p>Please click the button below to check status.</p>
+              <div className="link-box">
+                <Button color="primary" onClick={() => this.handleClick()}>Check Status</Button>
+              </div>
             </div>
             : <div>{this.state.data.result.result}</div>
           }
