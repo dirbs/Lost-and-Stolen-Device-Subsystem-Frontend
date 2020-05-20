@@ -572,20 +572,7 @@ class CaseForm extends Component {
                             </Card>
                             <Card body outline color="warning" className="mb-0">
                                 <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                                            <RenderDatePicker
-                                                name="dob"
-                                                value={values.dob}
-                                                onChange={setFieldValue}
-                                                onBlur={setFieldTouched}
-                                                curDate={values.dob}
-                                            />
-                                            <Field name="dob" component={renderError} />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6" xs="12">
+                                    <Col md="12" xs="12">
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
@@ -594,12 +581,12 @@ class CaseForm extends Component {
                                         <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="6">
-                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} warningStar />
+                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
                                     </Col>
                                     <Col md="6" xs="6">
                                         <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
@@ -851,7 +838,6 @@ const MyEnhancedForm = withFormik({
       "full_name": "", 
       "father_name":"", 
       "mother_name":"", 
-      "dob": "", 
       "gin": "", 
       "landline_number": "", 
       "email": "", 
@@ -962,13 +948,6 @@ const MyEnhancedForm = withFormik({
     } else if (fullNameCheck(values.mother_name)===false) {
       errors.mother_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob) {
-      errors.dob = `${i18n.t('forms.fieldError')}`
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
     if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
     } else if (!/^[0-9]+$/.test(values.gin)) {
@@ -983,26 +962,14 @@ const MyEnhancedForm = withFormik({
     } else if (values.landline_number.length<11 || values.landline_number.length>11) {
       errors.landline_number = 'Number should be 11 digit only i.e."03123456789"'
     }
-    if (!values.email) {
-      errors.email = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
-    }
-    if (!values.number) {
-      errors.number = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[0-9]+$/.test(values.number)) {
-      errors.number = i18n.t('forms.notNumberError')
-    } else if (values.number.length<10 || values.number.length>11) {
-      errors.number = 'Phone number must consist of 10 or 11 digit characters i.e."0510123456"'
     }
     if (!values.district) {
       errors.district = `${i18n.t('forms.fieldError')}`
     }
     if (!values.address) {
       errors.address = `${i18n.t('forms.fieldError')}`
-    }
-    if (!values.dob && !values.alternate_number && !values.number && !values.address && !values.gin && !values.email && !values.district) {
-      errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
     }
     return errors;
   },
@@ -1031,14 +998,11 @@ function prepareAPIRequest(values, authDetails) {
     searchParams.personal_details.full_name = values.full_name;
     searchParams.personal_details.father_name = values.father_name;
     searchParams.personal_details.mother_name = values.mother_name;
-    if(values.dob) {
-        searchParams.personal_details.dob = values.dob;
-    }
     if(values.district){
       searchParams.personal_details.district = values.district
     }
     if(values.number){
-      searchParams.personal_details.number = values.number
+      searchParams.personal_details.landline_number = values.number
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -1047,7 +1011,7 @@ function prepareAPIRequest(values, authDetails) {
         searchParams.personal_details.gin = values.gin;
     }
     if(values.landline_number) {
-        searchParams.personal_details.landline_number = values.landline_number;
+        searchParams.personal_details.number = values.landline_number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;

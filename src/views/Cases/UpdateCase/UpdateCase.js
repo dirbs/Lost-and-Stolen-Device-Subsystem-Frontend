@@ -219,20 +219,7 @@ class UpdateForm extends Component {
                             </Card>
                             <Card body outline color="warning" className="mb-0">
                                 <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                                            <RenderDatePicker
-                                                name="dob"
-                                                value={values.dob}
-                                                onChange={setFieldValue}
-                                                onBlur={setFieldTouched}
-                                                curDate={values.dob}
-                                            />
-                                            <Field name="dob" component={renderError} />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6" xs="12">
+                                    <Col md="12" xs="12">
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
@@ -242,12 +229,12 @@ class UpdateForm extends Component {
                                     </Col>
 
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
                                 </Row>
                                 <Row>
                                 <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} warningStar />
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} />
                                 </Col>
                                 <Col md="6" xs="6">
                                         <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" value={{value: values.district, label:values.district}} warningStar />
@@ -321,7 +308,6 @@ const MyEnhancedUpdateForm = withFormik({
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',
       father_name: props.info.personal_details.father_name === 'N/A' ? '' : props.info.personal_details.father_name || '',
       mother_name: props.info.personal_details.mother_name === 'N/A' ? '' : props.info.personal_details.mother_name || '',
-      dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
       number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
       landline_number: props.info.personal_details.landline_number === 'N/A' ? '' : props.info.personal_details.landline_number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
@@ -349,22 +335,7 @@ const MyEnhancedUpdateForm = withFormik({
     }else if(fullNameCheck(values.mother_name)===false){
       errors.mother_name = i18n.t('forms.fullNameError')
     }
-    let today = moment().format(Date_Format);
-    let paste =  moment('1900-01-01').format(Date_Format);
-    if (!values.dob) {
-      errors.dob = `${i18n.t('forms.fieldError')}`
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
-    if (!values.email) {
-      errors.email = `${i18n.t('forms.fieldError')}`
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
-    ) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
     if(!values.gin){
@@ -373,13 +344,6 @@ const MyEnhancedUpdateForm = withFormik({
       errors.gin = i18n.t('forms.notNumberError')
     }else if(values.gin.length<13){
       errors.gin = i18n.t('forms.ginLength')
-    }
-    if(!values.landline_number){
-      errors.landline_number = `${i18n.t('forms.fieldError')}`
-    }else if(!/^[0-9]+$/.test(values.landline_number)){
-      errors.landline_number = i18n.t('forms.notNumberError')
-    }else if(values.landline_number.length<7 || values.landline_number.length>15){
-      errors.landline_number = i18n.t('form.alternateNumbers')
     }
     if(!values.number){
       errors.number = `${i18n.t('forms.fieldError')}`
@@ -425,9 +389,6 @@ function prepareAPIRequest(values, authDetails) {
     searchParams.personal_details.full_name = values.full_name;
     searchParams.personal_details.father_name = values.father_name;
     searchParams.personal_details.mother_name = values.mother_name;
-    if(values.dob) {
-        searchParams.personal_details.dob = values.dob;
-    }
     if(values.district){
       searchParams.personal_details.district = values.district
     }

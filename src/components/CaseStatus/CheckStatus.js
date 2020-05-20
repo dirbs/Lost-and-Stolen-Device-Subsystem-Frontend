@@ -78,20 +78,20 @@ class CheckStatus extends Component {
 
   handleClick = (values = null) => {
     instance.post(`/status/${this.state.details.id}`, values, this.state.details.config)
-    .then(response => {
-      if (response.data) {
-        this.setState({data: response.data});
-      } else {
-        SweetAlert({
-          title: i18n.t('error'),
-          message: i18n.t('somethingWentWrong'),
-          type: 'error'
-        })
-      }
-    })
-    .catch(error => {
-      errors(this, error);
-    })
+      .then(response => {
+        if (response.data) {
+          this.setState({ data: response.data });
+        } else {
+          SweetAlert({
+            title: i18n.t('error'),
+            message: i18n.t('somethingWentWrong'),
+            type: 'error'
+          })
+        }
+      })
+      .catch(error => {
+        errors(this, error);
+      })
   }
 
   render() {
@@ -106,10 +106,25 @@ class CheckStatus extends Component {
           <h4>{i18n.t('caseStatus.caseHasBeen')} <span>submitted</span> {i18n.t('caseStatus.successfully')}.</h4>
           <div className="msg">
             <p>{i18n.t('caseStatus.caseTrackingIDIs')} <span>{details.id}</span> {i18n.t('caseStatus.andStatusIs')} <span>{!this.state.data ? details.state : this.state.data.state}</span></p>
+            <br/>
+            {
+              this.state.data &&
+              <table className="table table-bordered table-sm mb-0">
+                <tbody>
+                {Object.keys(this.state.data.result).map((key, i) =>
+                  <tr>
+                    <td><b>{key}</b></td>
+                    <td>{this.state.data.result[key]}</td>
+                  </tr>
+                )
+                }
+                </tbody>
+              </table>
+            }
           </div>
-          {!this.state.data 
+          {!this.state.data
             ? <div>
-                <p>Please click the button below to check status.</p>
+              <p>Please click the button below to check status.</p>
               <div className="link-box">
                 <Button color="primary" onClick={() => this.handleClick()}>Check Status</Button>
               </div>

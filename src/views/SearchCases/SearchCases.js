@@ -122,9 +122,8 @@ class SearchForm extends Component {
         this.props.setFieldValue('full_name','')
         this.props.delSearchQuery(this.props.currSearchQuery,filter)
         break;
-      case 'dob':
-        this.birthDate.resetDate()
-        this.props.setFieldValue('dob', '')
+      case 'source':
+        this.props.setFieldValue('source', '')
         this.props.delSearchQuery(this.props.currSearchQuery,filter)
         break;
       case 'alternate_number':
@@ -164,7 +163,6 @@ class SearchForm extends Component {
   handleResetForm(){
     this.incidentDate.resetDate()
     this.lastUpdated.resetDate()
-    this.birthDate.resetDate()
     this.props.resetForm()
     this.props.delSearchQuery(this.props.currSearchQuery,'all')
   }
@@ -291,15 +289,13 @@ class SearchForm extends Component {
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('userProfile.dob')}</Label>
-              <RenderDatePicker
-                name="dob"
-                ref={instance => { this.birthDate = instance; }}
-                value={values.dob}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-              />
-              <Field name="dob" component={renderError}/>
+              <Label>Source</Label>
+              <div className="selectbox">
+                <Field component="select" name="source" className="form-control">
+                  <option value="LSDS">LSDS</option>
+                  <option value="CPLC">CPLC</option>
+                </Field>
+              </div>
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
@@ -337,19 +333,13 @@ class SearchForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
+  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
 
   // Custom sync validation
   validate: values => {
     let errors = {};
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
-    if (!values.dob) {
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
     if (!values.email) {
 
     } else if (
@@ -417,8 +407,8 @@ function prepareAPIRequest(values) {
     if(values.full_name) {
         searchParams.full_name = values.full_name
     }
-    if(values.dob) {
-        searchParams.dob = values.dob
+    if(values.source) {
+        searchParams.source = values.source
     }
     if(values.alternate_number) {
         searchParams.alternate_number = values.alternate_number
@@ -612,9 +602,9 @@ class SearchCases extends Component {
             query.push(
                 {name: key, id: index, label: `${i18n.t('userProfile.fullName')}`, value: values[key]})
             break;
-          case 'dob':
+          case 'source':
             query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.dob')}`, value: values[key]})
+                {name: key, id: index, label: `Source`, value: values[key]})
             break;
           case 'alternate_number':
             query.push(

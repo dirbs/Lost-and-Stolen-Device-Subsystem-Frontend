@@ -271,10 +271,6 @@ class View extends Component {
                                     <td>{personal_details.email}</td>
                                 </tr>
                                 <tr>
-                                    <th>{i18n.t('userProfile.dob')}</th>
-                                    <td>{personal_details.dob}</td>
-                                </tr>
-                                <tr>
                                     <th>{i18n.t('userProfile.gin')}</th>
                                     <td>{personal_details.gin}</td>
                                 </tr>
