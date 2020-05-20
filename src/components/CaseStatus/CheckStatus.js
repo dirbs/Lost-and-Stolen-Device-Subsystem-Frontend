@@ -55,8 +55,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import React, { Component } from 'react';
 import i18n from './../../i18n';
-import { Button } from 'reactstrap';
-import { instance, errors, SweetAlert } from './../../utilities/helpers';
+import { Button, Table } from 'reactstrap';
+import { instance, errors, SweetAlert, getAuthHeader} from './../../utilities/helpers';
 
 /**
  * This presentational component accepts some props and generate a informational component
@@ -74,6 +74,29 @@ class CheckStatus extends Component {
       details: this.props.location.state.details,
       data: null
     }
+  }
+  
+  handleDownloadFile = (values = null) => {
+    const reportName = this.state.data.result.report_name;
+    instance.post(`/download/${reportName}`, values, this.state.details.config)
+    .then(response => {
+      if (response.data) {
+        let a = document.createElement("a");
+        let file = new Blob([response.data], {type: 'text/plain'});
+        a.href = URL.createObjectURL(file);
+        a.download = 'lsds_failed_imeis';
+        a.click();
+      } else {
+        SweetAlert({
+          title: i18n.t('error'),
+          message: i18n.t('somethingWentWrong'),
+          type: 'error'
+        })
+      }
+    })
+    .catch(error => {
+      errors(this, error);
+    })
   }
 
   handleClick = (values = null) => {
@@ -109,17 +132,26 @@ class CheckStatus extends Component {
             <br/>
             {
               this.state.data &&
-              <table className="table table-bordered table-sm mb-0">
-                <tbody>
-                {Object.keys(this.state.data.result).map((key, i) =>
-                  <tr>
-                    <td><b>{key}</b></td>
-                    <td>{this.state.data.result[key]}</td>
-                  </tr>
-                )
-                }
-                </tbody>
-              </table>
+              <Table striped>
+              <thead>
+                <tr>
+                  <th>Success</th>
+                  <th>Failed</th>
+                  <th>Notified</th>
+                  <th>Report File</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{this.state.data.result.Success}</td>
+                  <td>{this.state.data.result.failed}</td>
+                  <td>{this.state.data.result.notified}</td>
+                  <td>
+                    <button onClick={this.handleDownloadFile}>{this.state.data.result.report_name}</button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
             }
           </div>
           {!this.state.data
