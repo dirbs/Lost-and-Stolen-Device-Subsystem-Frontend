@@ -567,34 +567,31 @@ class CaseForm extends Component {
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
                                         <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
                                         <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
-                                    </Col>
-                                </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="12" xs="12">
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="landline_number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
+                                    <Col md="6" xs="12">
+                                      <br/>
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card body outline color="warning" className="mb-0">
+                                <Row>
                                     <Col md="6" xs="12">
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col md="6" xs="6">
+                                    <Col md="6" xs="12">
                                         <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
-                                    </Col>
-                                    <Col md="6" xs="6">
-                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -883,16 +880,16 @@ const MyEnhancedForm = withFormik({
       errors.msisdnInput = `${i18n.t('forms.fieldError')}`
     } else if (isNaN(Number(values.msisdnInput))) {
       errors.msisdnInput = `${i18n.t('forms.msisdnMustDigitCharacters')}`
-    } else if (values.msisdnInput.length < 12 || values.msisdnInput.length > 12) {
-      errors.msisdnInput = 'Retype MSISDN must consist of 12 digit characters only i.e."920123456789"'
+    } else if (values.msisdnInput.length < 7 || values.msisdnInput.length > 15) {
+      errors.msisdnInput = 'Retype MSISDN must consist of 7-15 digit characters only i.e."920123456789"'
     }
 
     if (!values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.fieldError')}`
     } else if (isNaN(Number(values.retypeMsisdnInput))) {
       errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnMustDigitCharacters')}`
-    } else if (values.retypeMsisdnInput.length < 12 || values.retypeMsisdnInput.length > 12) {
-      errors.retypeMsisdnInput = 'Retype MSISDN must consist of 12 digit characters only i.e."920123456789"'
+    } else if (values.retypeMsisdnInput.length < 7 || values.retypeMsisdnInput.length > 15) {
+      errors.retypeMsisdnInput = 'Retype MSISDN must consist of 7-15 digit characters only i.e."920123456789"'
     } else if (values.msisdnInput !== values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
@@ -967,9 +964,6 @@ const MyEnhancedForm = withFormik({
     }
     if (!values.district) {
       errors.district = `${i18n.t('forms.fieldError')}`
-    }
-    if (!values.address) {
-      errors.address = `${i18n.t('forms.fieldError')}`
     }
     return errors;
   },
@@ -1077,7 +1071,7 @@ class NewCase extends Component {
   saveCase(config, values) {
     instance.post('/case', values, config)
           .then(response => {
-              if(response.data.message) {
+              if(response.status === 200) {
                 this.setState({ loading: false, caseSubmitted: true });
                 const statusDetails = {
                   id: response.data.tracking_id,
@@ -1089,13 +1083,20 @@ class NewCase extends Component {
                   pathname: '/case-status',
                   state: { details: statusDetails }
                 });
-              } else {
+              } 
+              else if(response.data.message) {
+                SweetAlert({
+                  title: i18n.t('error'),
+                  message: response.data.message,
+                  type:'error'
+                })
+              }
+              else {
                 SweetAlert({
                   title: i18n.t('error'),
                   message: i18n.t('somethingWentWrong'),
                   type:'error'
                 })
-                //toast.error('something went wrong');
               }
           })
           .catch(error => {

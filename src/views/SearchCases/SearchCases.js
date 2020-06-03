@@ -123,7 +123,7 @@ class SearchForm extends Component {
         this.props.delSearchQuery(this.props.currSearchQuery,filter)
         break;
       case 'source':
-        this.props.setFieldValue('source', '')
+        this.props.setFieldValue('source', 'LSDS')
         this.props.delSearchQuery(this.props.currSearchQuery,filter)
         break;
       case 'alternate_number':
@@ -193,9 +193,19 @@ class SearchForm extends Component {
         </div>
         }
         <Row className="justify-content-end">
-          <Col xs={12} sm={6} xl={3}>
-            <Field name="tracking_id" component={renderInput} type="text" label={i18n.t('caseBox.caseIdentifier')}
-                   placeholder={i18n.t('caseBox.caseIdentifier')}/>
+        <Col xs={12} sm={6} xl={3}>
+            <FormGroup>
+              <MultiSelect
+                value={values.imeis}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.imeis}
+                touched={touched.imeis}
+                fieldName="imeis"
+                label={i18n.t('newCase.affectedIMEIs')}
+                placeholder={i18n.t('imeiInput.placeholder')}
+              />
+            </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
@@ -211,13 +221,11 @@ class SearchForm extends Component {
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('caseBox.caseStatus')}</Label>
+              <Label>Source</Label>
               <div className="selectbox">
-                <Field component="select" name="status" className="form-control">
-                  <option value="">{i18n.t('caseStatus.selectStatus')}</option>
-                  <option value="Pending">{i18n.t('caseStatus.pending')}</option>
-                  <option value="Blocked">{i18n.t('caseStatus.blocked')}</option>
-                  <option value="Recovered">{i18n.t('caseStatus.recovered')}</option>
+                <Field component="select" name="source" className="form-control">
+                  <option value="LSDS">LSDS</option>
+                  <option value="CPLC">CPLC</option>
                 </Field>
               </div>
             </FormGroup>
@@ -238,18 +246,21 @@ class SearchForm extends Component {
           </Col>
         </Row>
         <Row className={toggle ? 'collapse show' : 'collapse'}>
-          <Col xs={12} sm={6} xl={3}>
+        <Col xs={12} sm={6} xl={3}>
+            <Field name="tracking_id" component={renderInput} type="text" label={i18n.t('caseBox.caseIdentifier')}
+                   placeholder={i18n.t('caseBox.caseIdentifier')}/>
+        </Col>
+        <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <MultiSelect
-                value={values.imeis}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                error={errors.imeis}
-                touched={touched.imeis}
-                fieldName="imeis"
-                label={i18n.t('newCase.affectedIMEIs')}
-                placeholder={i18n.t('imeiInput.placeholder')}
-              />
+              <Label>{i18n.t('caseBox.caseStatus')}</Label>
+              <div className="selectbox">
+                <Field component="select" name="status" className="form-control">
+                  <option value="">{i18n.t('caseStatus.selectStatus')}</option>
+                  <option value="Pending">{i18n.t('caseStatus.pending')}</option>
+                  <option value="Blocked">{i18n.t('caseStatus.blocked')}</option>
+                  <option value="Recovered">{i18n.t('caseStatus.recovered')}</option>
+                </Field>
+              </div>
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
@@ -288,17 +299,6 @@ class SearchForm extends Component {
                    placeholder={i18n.t('userProfile.email')}/>
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <FormGroup>
-              <Label>Source</Label>
-              <div className="selectbox">
-                <Field component="select" name="source" className="form-control">
-                  <option value="LSDS">LSDS</option>
-                  <option value="CPLC">CPLC</option>
-                </Field>
-              </div>
-            </FormGroup>
-          </Col>
-          <Col xs={12} sm={6} xl={3}>
             <Field name="address" component={renderInput} type="text" label={i18n.t('userProfile.address')} placeholder={i18n.t('userProfile.address')}/>
           </Col>
           <Col xs={12} sm={6} xl={3}>
@@ -333,7 +333,7 @@ class SearchForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
+  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "LSDS", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
 
   // Custom sync validation
   validate: values => {
