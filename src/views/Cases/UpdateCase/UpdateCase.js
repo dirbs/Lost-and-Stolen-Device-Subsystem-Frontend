@@ -208,41 +208,37 @@ class UpdateForm extends Component {
                             <b>{i18n.t('newCase.personalDetails')}</b>
                         </CardHeader>
                         <CardBody className="p-2">
-                            <Card body outline color="secondary" className="mb-2">
+                        <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
                                         <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
                                         <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
-                                    </Col>
-                                </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="12" xs="12">
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="landline_number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
-
+                                    <Col md="6" xs="12">
+                                      <br/>
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card body outline color="warning" className="mb-0">
+                                <Row>
                                     <Col md="6" xs="12">
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
-                                </Row>
-                                <Row>
-                                <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')} />
-                                </Col>
-                                <Col md="6" xs="6">
-                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" value={{value: values.district, label:values.district}} warningStar />
-                                </Col>
+                                    <Col md="6" xs="12">
+                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
+                                    </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -354,8 +350,6 @@ const MyEnhancedUpdateForm = withFormik({
     }
     if(!values.district){
       errors.district = `${i18n.t('forms.fieldError')}`
-    }if(!values.address){
-      errors.address = i18n.t('forms.fieldError')
     }
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
