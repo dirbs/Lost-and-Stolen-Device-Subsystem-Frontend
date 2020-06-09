@@ -300,7 +300,7 @@ class CaseForm extends Component {
   }
 
   closeVerifyModal() {
-    this.setState({ verifyModal: false, verifyModalMsisdnIndex: null })
+    this.setState({ verifyModal: false, verifyModalMsisdnIndex: null });
   }
 
   closeVerifyImeiModal() {
@@ -680,7 +680,11 @@ class CaseForm extends Component {
                                         value={details.imei_norm}
                                         checked={values.imeis.includes(details.imei_norm)}
                                         onChange={e => {
-                                          if (e.target.checked) arrayHelpers.push(details.imei_norm);
+                                          if (e.target.checked){ 
+                                            arrayHelpers.push(details.imei_norm);
+                                            this.props.setFieldValue('imeiInput', details.imei_norm)
+                                            this.props.setFieldValue('retypeImeiInput', details.imei_norm)
+                                          }
                                           else {
                                             const idx = values.imeis.indexOf(details.imei_norm);
                                             arrayHelpers.remove(idx);
