@@ -54,9 +54,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import React, { Component } from 'react';
-import i18n from './../../i18n';
-import { Button, Table } from 'reactstrap';
-import { instance, errors, SweetAlert, getAuthHeader} from './../../utilities/helpers';
+import i18n from './../../../i18n';
+import { instance, errors, SweetAlert, getAuthHeader } from './../../../utilities/helpers';
+import { Row, Col, Button, Table, Input, Label } from 'reactstrap';
 
 /**
  * This presentational component accepts some props and generate a informational component
@@ -66,41 +66,68 @@ import { instance, errors, SweetAlert, getAuthHeader} from './../../utilities/he
  * @constructor
  */
 
-class CheckStatus extends Component {
+class SearchStatus extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      details: this.props.location.state.details,
-      data: null
+      data: null,
+      trackingId: "",
+      error: ""
     }
   }
-  
-  handleDownloadFile = (values = null) => {
-    const reportName = this.state.data.result.report_name;
-    instance.post(`/download/${reportName}`, values, this.state.details.config)
-    .then(response => {
-      if (response.data) {
-        let a = document.createElement("a");
-        let file = new Blob([response.data], {type: 'text/plain'});
-        a.href = URL.createObjectURL(file);
-        a.download = 'lsds_failed_imeis';
-        a.click();
-      } else {
-        SweetAlert({
-          title: i18n.t('error'),
-          message: i18n.t('somethingWentWrong'),
-          type: 'error'
-        })
-      }
-    })
-    .catch(error => {
-      errors(this, error);
-    })
+
+  updateTokenHOC(callingFunc) {
+    let config = null;
+    if(this.props.kc.isTokenExpired(0)) {
+        this.props.kc.updateToken(0)
+            .success(() => {
+                localStorage.setItem('token', this.props.kc.token)
+                config = {
+                  headers: getAuthHeader(this.props.kc.token)
+                }
+                callingFunc(config);
+            })
+            .error(() => this.props.kc.logout());
+    } else {
+        config = {
+          headers: getAuthHeader()
+        }
+        callingFunc(config);
+    }
+}
+
+  handleTextChange = (e) => {
+    this.setState({ trackingId: e.target.value });
   }
 
-  handleClick = (values = null) => {
-    instance.post(`/status/${this.state.details.id}`, values, this.state.details.config)
+  handleDownloadFile = (config) => {
+    const reportName = this.state.data.result.report_name;
+    instance.post(`/download/${reportName}`, config)
+      .then(response => {
+        if (response.data) {
+          let a = document.createElement("a");
+          let file = new Blob([response.data], { type: 'text/plain' });
+          a.href = URL.createObjectURL(file);
+          a.download = 'lsds_failed_imeis';
+          a.click();
+        } else {
+          SweetAlert({
+            title: i18n.t('error'),
+            message: i18n.t('somethingWentWrong'),
+            type: 'error'
+          })
+        }
+      })
+      .catch(error => {
+        errors(this, error);
+      })
+  }
+
+  handleClick = (config) => {
+    if(this.state.trackingId !== ""){
+    this.setState({error: ""});
+    instance.post(`/status/${this.state.trackingId}`, null, config)
       .then(response => {
         if (response.data) {
           this.setState({ data: response.data });
@@ -115,58 +142,59 @@ class CheckStatus extends Component {
       .catch(error => {
         errors(this, error);
       })
+    }
+    else
+    {
+      this.setState({error: "This field is required"});
+    }
   }
 
   render() {
-    const { details } = this.state;
 
     return (
       <div>
-        <div className="submitted">
-          <div className="icon-box">
-            <i className={details.icon}></i>
+          <Col xs={12} sm={12} xl={6}>
+          <br/>
+          <Label>Enter Tracking ID<span className="text-danger">*</span></Label>
+          <Input value={this.state.trackingId} onChange={(e) => {
+            this.handleTextChange(e)
+          }} type="text" name="trkId" />
+          {this.state.error && <span className="text-danger">* {this.state.error}</span>}
+          </Col>
+          <br/>
+          <div className="link-box ml-3">
+            <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
           </div>
-          <h4>{i18n.t('caseStatus.caseHasBeen')} <span>submitted</span> {i18n.t('caseStatus.successfully')}.</h4>
+          <br/>
+          {this.state.data &&
           <div className="msg">
-            <p>{i18n.t('caseStatus.caseTrackingIDIs')} <span>{details.id}</span> {i18n.t('caseStatus.andStatusIs')} <span>{!this.state.data ? details.state : this.state.data.state}</span></p>
-            <br/>
-            {
-              this.state.data &&
+            <p>Status for Tracking ID: <span>{this.state.trackingId}</span> is <span>{this.state.data.state}</span></p>
+            <br />
               <Table striped>
-              <thead>
-                <tr>
-                  <th>Success</th>
-                  <th>Failed</th>
-                  <th>Notified</th>
-                  <th>Report File</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{this.state.data.result.success}</td>
-                  <td>{this.state.data.result.failed}</td>
-                  <td>{this.state.data.result.notification_failed}</td>
-                  <td>
-                    <button onClick={this.handleDownloadFile}>{this.state.data.result.report_name}</button>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-            }
+                <thead>
+                  <tr>
+                    <th>Success</th>
+                    <th>Failed</th>
+                    <th>Notified</th>
+                    <th>Report File</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{this.state.data.result.success}</td>
+                    <td>{this.state.data.result.failed}</td>
+                    <td>{this.state.data.result.notification_failed}</td>
+                    <td>
+                      <button onClick={() => this.updateTokenHOC(this.handleDownloadFile)}>{this.state.data.result.report_name}</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
           </div>
-          {!this.state.data
-            ? <div>
-              <p>Please click the button below to check status.</p>
-              <div className="link-box">
-                <Button color="primary" onClick={() => this.handleClick()}>Check Status</Button>
-              </div>
-            </div>
-            : <div>{this.state.data.result.result}</div>
           }
         </div>
-      </div>
     )
   }
 }
 
-export default CheckStatus;
+export default SearchStatus;

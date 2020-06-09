@@ -21,6 +21,7 @@ import Blocked from '../../views/Cases/Blocked/';
 import Recovered from '../../views/Cases/Recovered/';
 import Block from '../../views/Cplc/Block/Block';
 import Unblock from '../../views/Cplc/Unblock/Unblock';
+import SearchStatus from '../../views/Cplc/SearchStatus/SearchStatus';
 import View from '../../views/Cases/View/';
 import UpdateCase from '../../views/Cases/UpdateCase/';
 import Page401 from '../../views/Errors/Page401';
@@ -244,6 +245,7 @@ class Full extends Component {
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cplc/block" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cplc/unblock" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/search-status" name="SearchStatus" render={(props) => <SearchStatus handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
                     <Redirect from="/" to="/dashboard"/>
                   </Switch>

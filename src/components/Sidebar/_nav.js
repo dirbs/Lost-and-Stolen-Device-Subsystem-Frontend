@@ -71,6 +71,12 @@ export default {
                 url: '/cplc/unblock',
                 icon: ''
             },
+            {
+                id: 11,
+                name: 'searchStatusLink',
+                url: '/cplc/search-status',
+                icon: ''
+            },
         ]
     },
   ]
