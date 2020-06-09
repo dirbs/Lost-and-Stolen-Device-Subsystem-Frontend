@@ -276,11 +276,11 @@ class View extends Component {
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.alternatePhoneNo')}</th>
-                                    <td>{personal_details.landline_number}</td>
+                                    <td>{personal_details.number}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.alternateLandline')}</th>
-                                    <td>{personal_details.number}</td>
+                                    <td>{personal_details.landline_number}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.district')}</th>

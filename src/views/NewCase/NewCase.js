@@ -572,7 +572,7 @@ class CaseForm extends Component {
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
                                       <br/>
@@ -586,7 +586,7 @@ class CaseForm extends Component {
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
                                     </Col>
                                 </Row>
                                 <Row>
@@ -956,12 +956,12 @@ const MyEnhancedForm = withFormik({
     } else if (values.gin.length<13) {
       errors.gin = i18n.t('forms.ginLength')
     }
-    if (!values.landline_number) {
-      errors.landline_number = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[0-9]+$/.test(values.landline_number)) {
-      errors.landline_number = i18n.t('forms.notNumberError')
-    } else if (values.landline_number.length<11 || values.landline_number.length>11) {
-      errors.landline_number = 'Number should be 11 digit only i.e."03123456789"'
+    if (!values.number) {
+      errors.number = `${i18n.t('forms.fieldError')}`
+    } else if (!/^[0-9]+$/.test(values.number)) {
+      errors.number = i18n.t('forms.notNumberError')
+    } else if (values.number.length<11 || values.number.length>11) {
+      errors.number = 'Number should be 11 digit only i.e."03123456789"'
     }
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
@@ -999,8 +999,8 @@ function prepareAPIRequest(values, authDetails) {
     if(values.district){
       searchParams.personal_details.district = values.district
     }
-    if(values.number){
-      searchParams.personal_details.landline_number = values.number
+    if(values.landline_number){
+      searchParams.personal_details.landline_number = values.landline_number
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -1008,8 +1008,8 @@ function prepareAPIRequest(values, authDetails) {
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;
     }
-    if(values.landline_number) {
-        searchParams.personal_details.number = values.landline_number;
+    if(values.number) {
+        searchParams.personal_details.number = values.number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;
