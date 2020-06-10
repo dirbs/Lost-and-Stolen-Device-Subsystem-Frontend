@@ -103,7 +103,7 @@ class SearchStatus extends Component {
 
   handleDownloadFile = (config) => {
     const reportName = this.state.data.result.report_name;
-    instance.post(`/download/${reportName}`, config)
+    instance.post(`/download/${reportName}`, null, config)
       .then(response => {
         if (response.data) {
           let a = document.createElement("a");
