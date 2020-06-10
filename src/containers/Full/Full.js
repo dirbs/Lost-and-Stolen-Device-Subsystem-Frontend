@@ -245,7 +245,7 @@ class Full extends Component {
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cplc/block" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cplc/unblock" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
-                    <Route path="/cplc/search-status" name="SearchStatus" render={(props) => <SearchStatus handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/search-status" name="SearchStatus" render={(props) => <SearchStatus handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
                     <Redirect from="/" to="/dashboard"/>
                   </Switch>

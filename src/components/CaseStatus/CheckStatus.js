@@ -99,22 +99,29 @@ class CheckStatus extends Component {
     })
   }
 
-  handleClick = (values = null) => {
-    instance.post(`/status/${this.state.details.id}`, values, this.state.details.config)
-      .then(response => {
-        if (response.data) {
-          this.setState({ data: response.data });
-        } else {
-          SweetAlert({
-            title: i18n.t('error'),
-            message: i18n.t('somethingWentWrong'),
-            type: 'error'
-          })
-        }
-      })
-      .catch(error => {
-        errors(this, error);
-      })
+  handleClick = () => {
+    var textField = document.createElement('textarea')
+    textField.innerText = this.state.details.id;
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+
+    // instance.post(`/status/${this.state.details.id}`, values, this.state.details.config)
+    //   .then(response => {
+    //     if (response.data) {
+    //       this.setState({ data: response.data });
+    //     } else {
+    //       SweetAlert({
+    //         title: i18n.t('error'),
+    //         message: i18n.t('somethingWentWrong'),
+    //         type: 'error'
+    //       })
+    //     }
+    //   })
+    //   .catch(error => {
+    //     errors(this, error);
+    //   })
   }
 
   render() {
@@ -158,7 +165,7 @@ class CheckStatus extends Component {
             ? <div>
               <p>Please click the button below to check status.</p>
               <div className="link-box">
-                <Button color="primary" onClick={() => this.handleClick()}>Check Status</Button>
+                <Button color="primary" onClick={() => this.handleClick()}>Copy Tracking ID to Clipboard</Button>
               </div>
             </div>
             : <div>{this.state.data.result.result}</div>

@@ -57,7 +57,7 @@ export default {
         id: 8,
         name: 'CPLC',
         url: '/cplc',
-        icon: 'fa fa-registered',
+        icon: 'fa fa-copyright',
         children: [
             {
                 id: 9,
@@ -70,14 +70,14 @@ export default {
                 name: 'CPLC Unblock',
                 url: '/cplc/unblock',
                 icon: ''
-            },
-            {
-                id: 11,
-                name: 'searchStatusLink',
-                url: '/cplc/search-status',
-                icon: ''
-            },
+            }
         ]
     },
+    {
+        id: 11,
+        name: 'searchStatusLink',
+        url: '/search-status',
+        icon: 'fa fa-align-center'
+    }
   ]
 };

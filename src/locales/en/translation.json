@@ -11,9 +11,9 @@
   "allCasesLink": "LSDS cases",
   "pendingCaseLink": "Pending cases",
   "blockedCaseLink": "Blocked cases",
-  "recoveredCaseLink": "Unblocked Cases",
+  "recoveredCaseLink": "Unblocked cases",
   "CaseStatusLink": "Case status",
-  "searchStatusLink": "Track status",
+  "searchStatusLink": "Check track ID status",
 
   "hI": "Hi",
   "logOut": "Logout",

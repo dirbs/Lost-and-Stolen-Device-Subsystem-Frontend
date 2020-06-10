@@ -166,10 +166,11 @@ class SearchStatus extends Component {
             <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
           </div>
           <br/>
-          {this.state.data &&
-          <div className="msg">
+          {this.state.data && 
+          <div className="msgSearch ml-3">
             <p>Status for Tracking ID: <span>{this.state.trackingId}</span> is <span>{this.state.data.state}</span></p>
             <br />
+            {this.state.data.result && 
               <Table striped>
                 <thead>
                   <tr>
@@ -190,6 +191,7 @@ class SearchStatus extends Component {
                   </tr>
                 </tbody>
               </Table>
+              }
           </div>
           }
         </div>

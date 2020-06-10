@@ -123,22 +123,28 @@ class Unblock extends Component {
   }
 
   handleClick = (config, values) => {
-    const checkStatusId = this.state.cplcStatus.task_id;
-    instance.post(`/status/${checkStatusId}`, values, config)
-    .then(response => {
-      if (response.data) {
-        this.setState({ checkStatus: response.data })
-      } else {
-        SweetAlert({
-          title: i18n.t('error'),
-          message: i18n.t('somethingWentWrong'),
-          type: 'error'
-        })
-      }
-    })
-    .catch(error => {
-      errors(this, error);
-    })
+    var textField = document.createElement('textarea')
+    textField.innerText = this.state.cplcStatus.task_id;
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+    // const checkStatusId = this.state.cplcStatus.task_id;
+    // instance.post(`/status/${checkStatusId}`, values, config)
+    // .then(response => {
+    //   if (response.data) {
+    //     this.setState({ checkStatus: response.data })
+    //   } else {
+    //     SweetAlert({
+    //       title: i18n.t('error'),
+    //       message: i18n.t('somethingWentWrong'),
+    //       type: 'error'
+    //     })
+    //   }
+    // })
+    // .catch(error => {
+    //   errors(this, error);
+    // })
   }
 
   handleDownloadFile = (config, values) => {
@@ -180,7 +186,7 @@ class Unblock extends Component {
                 <h6>{cplcStatus.message}</h6>
                 <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
                 <div className="link-box">
-                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
+                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Copy Tracking ID to Clipboard</Button>
                 </div>
               </div>
             </Col>
