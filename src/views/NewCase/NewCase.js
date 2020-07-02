@@ -801,7 +801,7 @@ class CaseForm extends Component {
               </> :
                 <div className="table-responsive">
                   <h6>GSMA TAC information</h6>
-                  {this.state.msisdnsWithDeviceDetails.gsma &&
+                  {this.state.msisdnsWithDeviceDetails.gsma ?
                     <table className="table table-striped table-bordered">
                       <tbody>
                         <tr>
@@ -818,6 +818,8 @@ class CaseForm extends Component {
                         </tr>
                       </tbody>
                     </table>
+                    :
+                    <center><h6>Information Not Found</h6></center>
                   }
                 </div>
                }
