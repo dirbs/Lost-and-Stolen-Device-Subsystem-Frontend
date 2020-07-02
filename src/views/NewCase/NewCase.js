@@ -94,7 +94,7 @@ class CaseForm extends Component {
       imeiModal: false,
       imeiModalTitle: null,
       imeisWithDeviceDetails: [],
-      msisdnsWithDeviceDetails: [],
+      msisdnsWithDeviceDetails: {},
       imeisWithDeviceDetailsFlags: [],
       msisdnsWithDeviceDetailsFlags: [],
       verifyModal: false,
@@ -425,7 +425,7 @@ class CaseForm extends Component {
                                                   })
                                               }}><i className="fa fa-trash-o"></i></button>
                                               <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              {this.props.authDetails.role === 'admin' && <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>}
+                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
                                             </div>
                                         </div>
                                     </li>
@@ -731,8 +731,10 @@ class CaseForm extends Component {
             </RenderModal>
 
             <RenderModal show={this.state.verifyImeiModal} className="modal-lg">
-              <ModalHeader>{i18n.t('verifyAssociatedMSISDNsWithIMEI')}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
+              <ModalHeader>{this.props.authDetails.role === 'admin' ? i18n.t('verifyAssociatedMSISDNsWithIMEI') : "Verify associated information with IMEI"}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
               <ModalBody>
+              {this.props.authDetails.role === 'admin' ?
+              <>
                   <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
@@ -796,6 +798,29 @@ class CaseForm extends Component {
                           />
                       </table>
                   </div>
+              </> :
+                <div className="table-responsive">
+                  <h6>GSMA TAC information</h6>
+                  {this.state.msisdnsWithDeviceDetails.gsma &&
+                    <table className="table table-striped table-bordered">
+                      <tbody>
+                        <tr>
+                          <th>Brand</th>
+                          <th>Model Name</th>
+                          <th>Model Number</th>
+                          <th>Device Type</th>
+                        </tr>
+                        <tr>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand: null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name: null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number : null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type : null}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  }
+                </div>
+               }
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
