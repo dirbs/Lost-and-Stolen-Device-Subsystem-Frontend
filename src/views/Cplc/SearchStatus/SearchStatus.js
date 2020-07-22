@@ -149,6 +149,10 @@ class SearchStatus extends Component {
     }
   }
 
+  handleClear = () => {
+    this.setState({data: null, trackingId: ""})
+  }
+
   render() {
 
     return (
@@ -162,11 +166,16 @@ class SearchStatus extends Component {
           {this.state.error && <span className="text-danger">* {this.state.error}</span>}
           </Col>
           <br/>
+          <Row className="ml-1">
           <div className="link-box ml-3">
             <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
           </div>
+          <div className="link-box ml-3">
+            <Button color="danger" onClick={this.handleClear}>Clear</Button>
+          </div>
+          </Row>
           <br/>
-          {this.state.data && 
+          {(this.state.data && this.state.trackingId) && 
           <div className="msgSearch ml-3">
             <p>Status for Tracking ID: <span>{this.state.trackingId}</span> is <span>{this.state.data.state}</span></p>
             <br />
