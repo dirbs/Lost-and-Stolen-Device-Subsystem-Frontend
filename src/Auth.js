@@ -102,7 +102,7 @@ class Auth extends Component {
 
 				const tokenDetails = decode(keycloak.token)
 				const groups = getUserGroups(tokenDetails);
-				this.setState({ userRole: groups[1] })
+				this.setState({ userRole: groups.includes("admin") ? "admin" : groups.includes("staff") ? "staff" : null });
 				const pageStatus = isPage401(groups);
 				if (pageStatus) { // is Page401 then show page401
 					keycloak.loadUserInfo().success((userInfo) => {
