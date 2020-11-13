@@ -44,6 +44,8 @@ import switchToggleButton from "../../components/Form/SwitchToggleButton";
 import i18n from "./../../i18n";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import RenderSelect from '../../components/Form/renderSelect';
+import Regions from './_regions';
 const MySwal = withReactContent(Swal);
 
 /**
@@ -62,7 +64,7 @@ class CaseForm extends Component {
       imeiModal: false,
       imeiModalTitle: null,
       imeisWithDeviceDetails: [],
-      msisdnsWithDeviceDetails: [],
+      msisdnsWithDeviceDetails: {},
       imeisWithDeviceDetailsFlags: [],
       msisdnsWithDeviceDetailsFlags: [],
       verifyModal: false,
@@ -168,8 +170,8 @@ class CaseForm extends Component {
   closeShowModal() {
     this.props.setFieldTouched('msisdnInput', false, false)
     this.props.setFieldTouched('retypeMsisdnInput', false, false)
-    this.props.setFieldValue('msisdnInput', '00000000000', false)
-    this.props.setFieldValue('retypeMsisdnInput', '00000000000', false)
+    this.props.setFieldValue('msisdnInput', '000000000000', false)
+    this.props.setFieldValue('retypeMsisdnInput', '000000000000', false)
     this.setState({ msisdnIndex: null, showModal: false })
   }
 
@@ -268,7 +270,7 @@ class CaseForm extends Component {
   }
 
   closeVerifyModal() {
-    this.setState({ verifyModal: false, verifyModalMsisdnIndex: null })
+    this.setState({ verifyModal: false, verifyModalMsisdnIndex: null });
   }
 
   closeVerifyImeiModal() {
@@ -279,14 +281,12 @@ class CaseForm extends Component {
     const {
       values,
       errors,
-      isSubmitting,
-      handleChange,
-      handleBlur,
+      isSubmitting, 
       handleSubmit,
       setFieldValue,
       setFieldTouched,
       dirty,
-      caseSubmitted
+      caseSubmitted,
     } = this.props;
     return (
         <div>
@@ -316,42 +316,8 @@ class CaseForm extends Component {
             values.model_name !== '' &&
             values.physical_description !== '' &&
             <Row>
-                <Col md={values.imei_known === 'yes' ? 12 : 6} xl={4} xs="12">
-                    <Card>
-                        <CardHeader className="min-hei52">
-                            <b>{i18n.t('newCase.imeiKnown')}</b>
-                        </CardHeader>
-                        <CardBody className="p0">
-                          <div className="read-box radio-wrap">
-                            <label className="mr-4 mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="yes"
-                                    checked={values.imei_known === 'yes'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.yes')}
-                            </label>
-                            <label className="mb-0">
-                                <input
-                                    name="imei_known"
-                                    type="radio"
-                                    value="no"
-                                    checked={values.imei_known === 'no'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {' '} {i18n.t('newCase.no')}
-                            </label>
-                            <Field name="imei_known" component={renderError}/>
-                          </div>
-                        </CardBody>
-                    </Card>
-                </Col>
                 {(values.imei_known === 'no' || values.imei_known === 'yes') &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
@@ -383,8 +349,8 @@ class CaseForm extends Component {
                                                 }}><i className="fa fa-trash-o"></i></button>
                                                 <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
                                                     className="fa fa-pencil"></i></Button>{''}
-                                                {(values.imei_known === 'no' &&
-                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>)
+                                                {(values.imei_known && this.props.authDetails.role === 'admin') && 
+                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>
                                                 }
                                             </div>
                                         </div>
@@ -399,7 +365,7 @@ class CaseForm extends Component {
                 </Col>
                 }
                 {values.imei_known === 'yes' &&
-                <Col md={6} xl={4} xs="12">
+                <Col md={6} xs="12">
                     <Card>
                         <CardHeader className="wiri-btn">
                             <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('button.addNew')}</Button>
@@ -443,7 +409,7 @@ class CaseForm extends Component {
                 }
             </Row>
             }
-            {(values.imei_known === 'no' || values.imei_known === 'yes') &&
+            {(values.imei_known === 'no' || values.imei_known === 'yes') && values.brand !== '' && values.model_name !== '' && values.physical_description !== '' &&
             <Row>
                 <Col xs="12">
                     <Card>
@@ -524,6 +490,29 @@ class CaseForm extends Component {
                                     <Field name="incident" component={renderError} />
                                   </FormGroup>
                                 </Col>
+                                <Col md="6" xs="12">
+                                    <FormGroup>
+                                    <Label>{i18n.t('Incident Regions')} <span className="text-danger">*</span></Label>
+                                    <div className="selectbox">
+                                      <Field component="select" name="incident_region" className="form-control">
+                                        <option value="">{i18n.t('Select nature of incident')}</option>
+                                        {Regions.regions.map((region, index) => (
+                                          <optgroup label={region.province} key={index}>
+                                            {region.regions.map((region) => (
+                                              <option key={region} value={region}>{region}</option>
+                                            ))}
+                                          </optgroup>
+                                        ))}
+                                      </Field>
+                                    </div>
+                                    <Field name="incident_region" component={renderError} />
+                                  </FormGroup>
+                                </Col>
+                                {values.incident_region === 'Others' && 
+                                  <Col md="6" xs="12">
+                                    <Field name="other_region" component={renderInput} label={i18n.t('Other Region')} type="text" placeholder={i18n.t('Type other region')} requiredStar />
+                                  </Col>
+                                }
                             </Row>
                         </CardBody>
                     </Card>
@@ -546,39 +535,33 @@ class CaseForm extends Component {
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
-                                    </Col>
-                                </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                                            <RenderDatePicker
-                                                name="dob"
-                                                value={values.dob}
-                                                onChange={setFieldValue}
-                                                onBlur={setFieldTouched}
-                                                curDate={values.dob}
-                                            />
-                                            <Field name="dob" component={renderError} />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6" xs="12">
+                                        <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
+                                        <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                      <br/>
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card body outline color="warning" className="mb-0">
+                                <Row>
+                                    <Col md="6" xs="12">
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
+                                    </Col>
+                                    <Col md="6" xs="12">
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -595,7 +578,6 @@ class CaseForm extends Component {
             </Row>
         </div>
               }
-        <Row>
             <RenderModal show={this.state.showModal}>
               <ModalHeader>{this.state.showModalTitle}</ModalHeader>
               <ModalBody>
@@ -668,7 +650,11 @@ class CaseForm extends Component {
                                         value={details.imei_norm}
                                         checked={values.imeis.includes(details.imei_norm)}
                                         onChange={e => {
-                                          if (e.target.checked) arrayHelpers.push(details.imei_norm);
+                                          if (e.target.checked){ 
+                                            arrayHelpers.push(details.imei_norm);
+                                            this.props.setFieldValue('imeiInput', details.imei_norm)
+                                            this.props.setFieldValue('retypeImeiInput', details.imei_norm)
+                                          }
                                           else {
                                             const idx = values.imeis.indexOf(details.imei_norm);
                                             arrayHelpers.remove(idx);
@@ -715,8 +701,10 @@ class CaseForm extends Component {
             </RenderModal>
 
             <RenderModal show={this.state.verifyImeiModal} className="modal-lg">
-              <ModalHeader>{i18n.t('verifyAssociatedMSISDNsWithIMEI')}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
+              <ModalHeader>{this.props.authDetails.role === 'admin' ? i18n.t('verifyAssociatedMSISDNsWithIMEI') : "Verify associated information with IMEI"}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
               <ModalBody>
+              {this.props.authDetails.role === 'admin' ?
+              <>
                   <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
@@ -780,12 +768,36 @@ class CaseForm extends Component {
                           />
                       </table>
                   </div>
+              </> :
+                <div className="table-responsive">
+                  <h6>GSMA TAC information</h6>
+                  {this.state.msisdnsWithDeviceDetails.gsma ?
+                    <table className="table table-striped table-bordered">
+                      <tbody>
+                        <tr>
+                          <th>Brand</th>
+                          <th>Model Name</th>
+                          <th>Model Number</th>
+                          <th>Device Type</th>
+                        </tr>
+                        <tr>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand: null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name: null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number : null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type : null}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    :
+                    <center><h6>Information Not Found</h6></center>
+                  }
+                </div>
+               }
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
               </ModalFooter>
             </RenderModal>
-          </Row>
         <Row className="justify-content-end mb-1p5rem">
           <Col md="4" xl="3" xs="6">
             <Link className="btn btn-light btn-block"
@@ -795,7 +807,7 @@ class CaseForm extends Component {
             {/*</Button>*/}
           </Col>
           <Col md="4" xl="3" xs="6">
-            <Button color="primary" type="submit" block  disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
+            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
           </Col>
         </Row>
       </Form>
@@ -805,75 +817,101 @@ class CaseForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "brand": "", "model_name": "", "physical_description": "", "imei_known": "", "imeis": [], "imeiInput": "", "retypeImeiInput":"", "msisdns": [], "msisdnInput": "", "retypeMsisdnInput": "",  "address": "", "gin": "", "full_name": "", "dob": "", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "get_blocked": true }),
-
+  mapPropsToValues: () => (
+    { 
+      "brand": "", 
+      "model_name": "", 
+      "physical_description": "", 
+      "imei_known": "yes", 
+      "msisdns": [], 
+      "msisdnInput": "", 
+      "retypeMsisdnInput": "", 
+      "imeis": [], 
+      "imeiInput": "", 
+      "retypeImeiInput":"",  
+      "date_of_incident": "", 
+      "incident": "", 
+      "incident_region": "", 
+      "other_region": "", 
+      "full_name": "", 
+      "father_name":"", 
+      "mother_name":"", 
+      "gin": "", 
+      "landline_number": "", 
+      "email": "", 
+      "number":"", 
+      "district":"", 
+      "address": "", 
+      "get_blocked": true
+    }
+  ),
+  
   // Custom sync validation
   validate: values => {
     let errors = {};
     if (!values.brand) {
         errors.brand = `${i18n.t('forms.fieldError')}`
-    } else if(values.brand.length >= 1000) {
+    } else if (values.brand.length >= 1000) {
       errors.brand = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.brand) === false){
-        errors.brand = i18n.t('forms.langError')
+    } else if (fullNameCheck(values.brand) === false) {
+      errors.brand = i18n.t('forms.langError')
     }
     if (!values.model_name) {
         errors.model_name = `${i18n.t('forms.fieldError')}`
-    } else if(values.model_name.length >= 1000) {
+    } else if (values.model_name.length >= 1000) {
       errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.model_name) === false){
-        errors.model_name = i18n.t('forms.langError')
+    } else if (languageCheck(values.model_name) === false) {
+      errors.model_name = i18n.t('forms.langError')
     }
     if (!values.physical_description) {
         errors.physical_description = `${i18n.t('forms.fieldError')}`
-    } else if(values.physical_description.length >= 1000) {
+    } else if (values.physical_description.length >= 1000) {
       errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
-    }else if (languageCheck(values.physical_description) === false){
-        errors.physical_description = i18n.t('forms.langError')
+    } else if (languageCheck(values.physical_description) === false) {
+      errors.physical_description = i18n.t('forms.langError')
     }
-    if (!values.imei_known) {
-        errors.imei_known = `${i18n.t('forms.selectOption')}`
-    }
+    // if (!values.imei_known) {
+    //     errors.imei_known = `${i18n.t('forms.selectOption')}`
+    // }
+    // MSISDNs Modal Validation
     if (!values.msisdns || !values.msisdns.length) {
         errors.msisdns = `${i18n.t('forms.oneMSISDNmust')}`
     }
-    if (!values.imeis || !values.imeis.length) {
-        errors.imeis = `${i18n.t('forms.oneIMEImust')}`
-    }
     if (!values.msisdnInput) {
       errors.msisdnInput = `${i18n.t('forms.fieldError')}`
-    } else if(isNaN(Number(values.msisdnInput))) {
+    } else if (isNaN(Number(values.msisdnInput))) {
       errors.msisdnInput = `${i18n.t('forms.msisdnMustDigitCharacters')}`
-    } else if(values.msisdnInput.length < 7 || values.msisdnInput.length > 15) {
-      errors.msisdnInput = `${i18n.t('forms.msisdnDigitLimit')}`
+    } else if (values.msisdnInput.length < 7 || values.msisdnInput.length > 15) {
+      errors.msisdnInput = 'Retype MSISDN must consist of 7-15 digit characters only i.e."920123456789"'
     }
 
     if (!values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.fieldError')}`
-    } else if(isNaN(Number(values.retypeMsisdnInput))) {
+    } else if (isNaN(Number(values.retypeMsisdnInput))) {
       errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnMustDigitCharacters')}`
-    } else if(values.retypeMsisdnInput.length < 7 || values.retypeMsisdnInput.length > 15) {
-      errors.retypeMsisdnInput = `${i18n.t('forms.reTypemsisdnDigitLimit')}`
-    } else if(values.msisdnInput !== values.retypeMsisdnInput) {
+    } else if (values.retypeMsisdnInput.length < 7 || values.retypeMsisdnInput.length > 15) {
+      errors.retypeMsisdnInput = 'Retype MSISDN must consist of 7-15 digit characters only i.e."920123456789"'
+    } else if (values.msisdnInput !== values.retypeMsisdnInput) {
       errors.retypeMsisdnInput = `${i18n.t('forms.msisdnNotMatch')}`
     }
     // IMEIs Modal Validation
-    if(values.imei_known === "yes")
-    {
-    if (!values.imeiInput) {
-      errors.imeiInput = `${i18n.t('forms.fieldError')}`
-    } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)){
-      errors.imeiInput = `${i18n.t('forms.imeiDigitCombination')}`
+    if (!values.imeis || !values.imeis.length) {
+      errors.imeis = `${i18n.t('forms.oneIMEImust')}`
     }
-
-    if (!values.retypeImeiInput) {
-      errors.retypeImeiInput = `${i18n.t('forms.fieldError')}`
-    } else if(!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.retypeImeiInput)){
-      errors.retypeImeiInput = `${i18n.t('forms.reTypeimeiDigitCombination')}`
-    } else if(values.imeiInput !== values.retypeImeiInput) {
-      errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
+    if (values.imei_known === 'yes') {
+      if (!values.imeiInput) {
+        errors.imeiInput = `${i18n.t('forms.fieldError')}`
+      } else if (!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.imeiInput)) {
+        errors.imeiInput = `${i18n.t('forms.imeiDigitCombination')}`
+      }
+      if (!values.retypeImeiInput) {
+        errors.retypeImeiInput = `${i18n.t('forms.fieldError')}`
+      } else if (!/^(?=.[a-fA-F]*)(?=.[0-9]*)[a-fA-F0-9]{14,16}$/.test(values.retypeImeiInput)) {
+        errors.retypeImeiInput = `${i18n.t('forms.reTypeimeiDigitCombination')}`
+      } else if (values.imeiInput !== values.retypeImeiInput) {
+        errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
+      }
     }
-  }
     let today = moment().format(Date_Format);
     let paste =  moment('1900-01-01').format(Date_Format);
 
@@ -884,65 +922,82 @@ const MyEnhancedForm = withFormik({
     } else if (paste >= values.date_of_incident) {
       errors.date_of_incident = `${i18n.t('forms.dateIncidentOld')}`;
     }
-
     if (!values.incident) {
         errors.incident = `${i18n.t('forms.fieldError')}`
     }
+    if (!values.incident_region) {
+        errors.incident_region = 'please select incident region.'
+    } else if (values.incident_region === 'Others' && !values.other_region) {
+        errors.other_region = 'please type your region.'
+    }
+
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
-    }else if (fullNameCheck(values.full_name) === false){
-        errors.full_name = i18n.t('forms.fullNameError')
+    } else if (fullNameCheck(values.full_name) === false) {
+      errors.full_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    if (!values.father_name) {
+      errors.father_name= `${i18n.t('forms.fieldError')}`
+    } else if (fullNameCheck(values.father_name)===false) {
+      errors.father_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob) {
-
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
+    if (!values.mother_name) {
+      errors.mother_name = `${i18n.t('forms.fieldError')}`
+    } else if (fullNameCheck(values.mother_name)===false) {
+      errors.mother_name = i18n.t('forms.fullNameError')
     }
-    if (!values.email) {
-
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
-    ) {
+    if (!values.gin) {
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    } else if (!/^[0-9]+$/.test(values.gin)) {
+      errors.gin = i18n.t('forms.notNumberError')
+    } else if (values.gin.length<13) {
+      errors.gin = i18n.t('forms.ginLength')
+    }
+    if (!values.number) {
+      errors.number = `${i18n.t('forms.fieldError')}`
+    } else if (!/^[0-9]+$/.test(values.number)) {
+      errors.number = i18n.t('forms.notNumberError')
+    } else if (values.number.length<11 || values.number.length>11) {
+      errors.number = 'Number should be 11 digit only i.e."03123456789"'
+    }
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    else if (values.address && languageCheck(values.address) === false){
-        errors.address = i18n.t('forms.langError')
+    if (!values.district) {
+      errors.district = `${i18n.t('forms.fieldError')}`
     }
     return errors;
   },
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    if(values.msisdnInput || values.retypeMsisdnInput) {
-      values.msisdnInput = values.retypeMsisdnInput = '00000000000000';
-    }
-    bag.props.callServer(prepareAPIRequest(values));
+    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
   displayName: 'CaseForm', // helps with React DevTools
 })(CaseForm);
 
-function prepareAPIRequest(values) {
+function prepareAPIRequest(values, authDetails) {
    // Validate Values before sending
     const searchParams = {};
     searchParams.loggedin_user = {};
     searchParams.loggedin_user.user_id = getUserInfo().sub;
     searchParams.loggedin_user.username = getUserInfo().preferred_username;
+    searchParams.loggedin_user.role = authDetails.role;
     searchParams.case_status = 1;
     searchParams.incident_details = {};
     searchParams.incident_details.incident_date = values.date_of_incident;
     searchParams.incident_details.incident_nature = values.incident;
+    searchParams.incident_details.region = values.incident_region === "Others" ? values.other_region : values.incident_region;
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
-    if(values.dob) {
-        searchParams.personal_details.dob = values.dob;
+    searchParams.personal_details.father_name = values.father_name;
+    searchParams.personal_details.mother_name = values.mother_name;
+    if(values.district){
+      searchParams.personal_details.district = values.district
+    }
+    if(values.landline_number){
+      searchParams.personal_details.landline_number = values.landline_number
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -950,8 +1005,8 @@ function prepareAPIRequest(values) {
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;
     }
-    if(values.alternate_number) {
-        searchParams.personal_details.number = values.alternate_number;
+    if(values.number) {
+        searchParams.personal_details.number = values.number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;
@@ -1017,7 +1072,7 @@ class NewCase extends Component {
   saveCase(config, values) {
     instance.post('/case', values, config)
           .then(response => {
-              if(response.data.message) {
+              if(response.status === 200) {
                 this.setState({ loading: false, caseSubmitted: true });
                 const statusDetails = {
                   id: response.data.tracking_id,
@@ -1029,13 +1084,20 @@ class NewCase extends Component {
                   pathname: '/case-status',
                   state: { details: statusDetails }
                 });
-              } else {
+              } 
+              else if(response.data.message) {
+                SweetAlert({
+                  title: i18n.t('error'),
+                  message: response.data.message,
+                  type:'error'
+                })
+              }
+              else {
                 SweetAlert({
                   title: i18n.t('error'),
                   message: i18n.t('somethingWentWrong'),
                   type:'error'
                 })
-                //toast.error('something went wrong');
               }
           })
           .catch(error => {
@@ -1045,12 +1107,13 @@ class NewCase extends Component {
 
   render() {
     let kc = this.props.kc;
+    let authDetails = this.props.userDetails;
     return (
         <I18n ns="translations">
         {
           (t, { i18n }) => (
             <div className="new-case-box animated fadeIn">
-              <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
+              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
             </div>
           )
         }

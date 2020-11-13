@@ -24,9 +24,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import React from 'react';
-import {Button} from 'reactstrap';
+import { Button } from 'reactstrap';
 import { Link } from "react-router-dom";
-import {BLOCKED_CASE, RECOVERED_CASE} from "../../utilities/constants";
+import { BLOCKED_CASE, RECOVERED_CASE } from "../../utilities/constants";
 import i18n from './../../i18n';
 
 /**
@@ -39,66 +39,123 @@ import i18n from './../../i18n';
 const CaseBox = (props) => {
     const borderClass =
         (props.info.status === i18n.t('caseStatus.pending'))
-        ?
+            ?
             'casebox case-pending'
-        : (props.info.status === i18n.t('caseStatus.recovered'))
-            ? 'casebox case-recovered'
-            : 'casebox case-blocked';
+            : (props.info.status === "Recovered")
+                ? 'casebox case-recovered'
+                : 'casebox case-blocked';
 
     return (
-        <li className={borderClass}>
-            <div className="case-head">
-                <div className="case-actions">
-                    {(props.info.status === i18n.t('caseStatus.pending')) ?
-                        <div>
-                            <p>
-                                <Link className="btn-sm btn btn-primary" to={`/case-update/${ props.info.tracking_id }`}>{i18n.t('button.update')}</Link>
-                                <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
-                                {props.info.get_blocked === true ?
-                                    <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
-                                    : null}
+        <>
+            {props.info.source === "CPLC" ?
+                <li className={borderClass}>
+                    <div className="case-head">
+                        <div className="case-actions">
+                            {(props.info.status === i18n.t('caseStatus.pending')) ?
+                                <div>
+                                    <p>
+                                        {/* {(props.creator.user_id === props.userDetails.sub || props.userDetails.role === 'admin') && <Link className="btn-sm btn btn-primary" to={`/case-update/${props.info.tracking_id}`}>{i18n.t('button.update')}</Link>}
+                                        {props.userDetails && props.userDetails.role === 'staff' ? null : <React.Fragment>
+                                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
+                                            {props.info.get_blocked === true ?
+                                                <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                                                : null}
+                                        </React.Fragment>} */}
+                                    </p>
+                                </div>
+                                : null
+                            }
+
+                            {(props.info.status === i18n.t('caseStatus.blocked')) && (props.userDetails && props.userDetails.role !== 'staff') ?
+                                <p>
+                                    {/* <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '} */}
+                                </p>
+                                : null
+                            }
+                        </div>
+                        <div className="case-content">
+                            <h2 className="case-title">
+                                {i18n.t('caseBox.caseIdentifier')}: {props.info.tracking_id}
+                            </h2>
+                            <p className="incident-status">
+                                <span className="status">{i18n.t('caseBox.status')} <b>{i18n.t(props.info.status)}</b></span>
                             </p>
                         </div>
-                        : null
-                    }
+                    </div>
+                    <div className="case-footer">
+                        <ul className="more-detail">
+                            <li>
+                                <p>{i18n.t('caseBox.affectedMSISDNs')}<span>{props.info.device_details.msisdns.join(', ')}</span></p>
+                            </li>
+                            <li>
+                                <p>Affected IMEIs<span>{props.info.device_details.imeis.join(', ')}</span></p>
+                            </li>
+                            <li>
+                                <p>Source<span>CPLC</span></p>
+                            </li>
+                            <li>
+                                <p>{i18n.t('caseBox.lastUpdated')}<span>{props.info.updated_at}</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </li> :
+                <li className={borderClass}>
+                    <div className="case-head">
+                        <div className="case-actions">
+                            {(props.info.status === i18n.t('caseStatus.pending')) ?
+                                <div>
+                                    <p>
+                                        {(props.creator.user_id === props.userDetails.sub || props.userDetails.role === 'admin') && <Link className="btn-sm btn btn-primary" to={`/case-update/${props.info.tracking_id}`}>{i18n.t('button.update')}</Link>}
+                                        {props.userDetails && props.userDetails.role === 'staff' ? null : <React.Fragment>
+                                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
+                                            {props.info.get_blocked === true ?
+                                                <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                                                : null}
+                                        </React.Fragment>}
+                                    </p>
+                                </div>
+                                : null
+                            }
 
-                    {(props.info.status === i18n.t('caseStatus.blocked')) ?
-                        <p>
-                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
-                        </p>
-                        : null
-                    }
-                </div>
-                <div className="case-content">
-                    <h2 className="case-title">
-                         <Link to={`/case/${ props.info.tracking_id }`}>{i18n.t('caseBox.caseIdentifier')}: {props.info.tracking_id}</Link>
-                    </h2>
-                    <p className="incident-status">
-                        <span className="incident"><b>{i18n.t(props.info.incident_details.incident_nature)}</b> {i18n.t('at')} {props.info.incident_details.incident_date}</span>
-                        <span className="dot-sep"></span>
-                        <span className="status">{i18n.t('caseBox.status')} <b>{i18n.t(props.info.status)}</b></span>
-                        <span className="dot-sep"></span>
-                        <span className="creater">{i18n.t('caseBox.creator')} <b>{props.info.creator.username}</b></span>
-                    </p>
-                </div>
-            </div>
-            <div className="case-footer">
-                <ul className="more-detail">
-                    <li>
-                        <p>{i18n.t('caseBox.affectedMSISDNs')}<span>{props.info.device_details.msisdns.join(', ')}</span></p>
-                    </li>
-                    <li>
-                        <p>{i18n.t('caseBox.affectedUser')}<span>{props.info.personal_details.full_name}</span></p>
-                    </li>
-                    <li>
-                        <p>{i18n.t('caseBox.modelName')}<span>{props.info.device_details.model_name}</span></p>
-                    </li>
-                    <li>
-                        <p>{i18n.t('caseBox.lastUpdated')}<span>{props.info.updated_at}</span></p>
-                    </li>
-                </ul>
-            </div>
-        </li>
+                            {(props.info.status === i18n.t('caseStatus.blocked')) && (props.userDetails && props.userDetails.role !== 'staff') ?
+                                <p>
+                                    <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
+                                </p>
+                                : null
+                            }
+                        </div>
+                        <div className="case-content">
+                            <h2 className="case-title">
+                                <Link to={`/case/${props.info.tracking_id}`}>{i18n.t('caseBox.caseIdentifier')}: {props.info.tracking_id}</Link>
+                            </h2>
+                            <p className="incident-status">
+                                <span className="incident"><b>{i18n.t(props.info.incident_details.incident_nature)}</b> {i18n.t('at')} {props.info.incident_details.incident_date}</span>
+                                <span className="dot-sep"></span>
+                                <span className="status">{i18n.t('caseBox.status')} <b>{i18n.t(props.info.status)}</b></span>
+                                <span className="dot-sep"></span>
+                                <span className="creater">{i18n.t('caseBox.creator')} <b>{props.info.creator.username}</b></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div className="case-footer">
+                        <ul className="more-detail">
+                            <li>
+                                <p>{i18n.t('caseBox.affectedMSISDNs')}<span>{props.info.device_details.msisdns.join(', ')}</span></p>
+                            </li>
+                            <li>
+                                <p>{i18n.t('caseBox.affectedUser')}<span>{props.info.personal_details.full_name}</span></p>
+                            </li>
+                            <li>
+                                <p>{i18n.t('caseBox.modelName')}<span>{props.info.device_details.model_name}</span></p>
+                            </li>
+                            <li>
+                                <p>{i18n.t('caseBox.lastUpdated')}<span>{props.info.updated_at}</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            }
+        </>
     )
 }
 

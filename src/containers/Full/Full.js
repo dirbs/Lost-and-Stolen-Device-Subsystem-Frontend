@@ -10,14 +10,18 @@ import { I18n, translate } from 'react-i18next';
 import { withFormik, Field } from 'formik';
 import { Form, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import RenderModal from '../../components/Form/RenderModal';
-import renderInput from '../../components/Form/RenderInput'
+import renderInput from '../../components/Form/RenderInput';
 import CaseStatus from '../../components/CaseStatus/CaseStatus';
+import CheckStatus from '../../components/CaseStatus/CheckStatus';
 import Dashboard from '../../views/Dashboard/';
 import NewCase from '../../views/NewCase/';
 import SearchCases from '../../views/SearchCases/';
 import Pending from '../../views/Cases/Pending/';
 import Blocked from '../../views/Cases/Blocked/';
 import Recovered from '../../views/Cases/Recovered/';
+import Block from '../../views/Cplc/Block/Block';
+import Unblock from '../../views/Cplc/Unblock/Unblock';
+import SearchStatus from '../../views/Cplc/SearchStatus/SearchStatus';
 import View from '../../views/Cases/View/';
 import UpdateCase from '../../views/Cases/UpdateCase/';
 import Page401 from '../../views/Errors/Page401';
@@ -152,7 +156,8 @@ class Full extends Component {
             "user_id": getUserInfo().sub,
             "case_comment": values.comments,
             "case_status": status,
-            "username": getUserInfo().preferred_username
+            "username": getUserInfo().preferred_username,
+            "role": this.props.userDetails.role
         }
     }
     // hide modal box and clear textarea input
@@ -232,11 +237,15 @@ class Full extends Component {
                     <Route path="/new-case" name="NewCase"  render={(props) => <NewCase {...this.props} {...props} /> } />
                     <Route path="/search-cases" name="SearchCases" render={(props) => <SearchCases handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-status" name="CaseStatus" component={CaseStatus}/>
+                    <Route path="/check-status" name="CheckStatus" render={(props) => <CheckStatus {...props} /> } />
                     <Route path="/case/:tracking_id" render={(props) => <View handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-update/:tracking_id" name="UpdateCase" render={(props) => <UpdateCase {...this.props} {...props} /> } />
                     <Route path="/cases/pending" name="Pending" render={(props) => <Pending handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/blocked" name="Blocked" render={(props) => <Blocked handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/cases/recovered" name="Recovered" render={(props) => <Recovered handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/block" name="Block" render={(props) => <Block handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/cplc/unblock" name="Unblock" render={(props) => <Unblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/search-status" name="SearchStatus" render={(props) => <SearchStatus handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/unauthorized-access" name="Page401"  component={Page401} />
                     <Redirect from="/" to="/dashboard"/>
                   </Switch>

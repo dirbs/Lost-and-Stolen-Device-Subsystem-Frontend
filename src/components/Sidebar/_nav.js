@@ -53,6 +53,31 @@ export default {
             },
         ]
     },
-
+    {
+        id: 8,
+        name: 'CPLC',
+        url: '/cplc',
+        icon: 'fa fa-copyright',
+        children: [
+            {
+                id: 9,
+                name: 'CPLC Block',
+                url: '/cplc/block',
+                icon: ''
+            },
+            {
+                id: 10,
+                name: 'CPLC Unblock',
+                url: '/cplc/unblock',
+                icon: ''
+            }
+        ]
+    },
+    {
+        id: 11,
+        name: 'searchStatusLink',
+        url: '/search-status',
+        icon: 'fa fa-align-center'
+    }
   ]
 };

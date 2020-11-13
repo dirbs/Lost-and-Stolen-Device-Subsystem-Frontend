@@ -2,7 +2,7 @@
   "name": "lsds",
   "version": "1.0.0",
   "private": true,
-  "homepage": "http://192.168.100.20/lsds",
+  "homepage": "http://192.168.100.20/ptalsds",
   "dependencies": {
     "airbnb-browser-shims": "^3.2.0",
     "axios": "^0.18.0",

@@ -23,7 +23,7 @@
   "version": "Versi",
 
   "button.update": "Memperbarui",
-  "button.recover": "Memulihkan",
+  "button.recover": "Buka blokir",
   "button.block": "Blok",
   "button.addNew": "Tambah baru",
   "button.fetchIMEIs": "Ambil IMEI(s)",
@@ -99,7 +99,7 @@
   "pagetitle.updateCase": "Perbarui kasus",
   "newCase.deviceDescription": "Deskripsi perangkat",
   "newCase.deviceBrand": "Merek",
-  "newCase.deviceModelName": "Nama model",
+  "newCase.deviceModelName": "Model/Nama Pemasaran",
   "newCase.devicePhysical": "Deskripsi Fisik",
   "newCase.imeiKnown": "IMEI dikenal",
   "newCase.yes": "Iya nih",
@@ -126,10 +126,14 @@
   "input.reTypeIMEI": "Ketik ulang IMEI",
 
   "userProfile.fullName": "Nama lengkap",
+  "userProfile.fatherName": "Nama ayah",
+  "userProfile.motherName": "Nama ibu",
+  "userProfile.alternateLandline": "Alternatif Darat no.",
+  "userProfile.district": "Kabupaten/Kota",
   "userProfile.dob": "Tanggal lahir",
   "userProfile.gin": "Pemerintah identifikasi no.",
   "userProfile.ginum": "Pemerintah nomor identifikasi",
-  "userProfile.alternatePhoneNo": "Nomor telepon alternatif.",
+  "userProfile.alternatePhoneNo": "Nomor ponsel alternatif.",
   "userProfile.email": "Alamat email",
   "userProfile.address": "Alamat",
 
@@ -146,7 +150,7 @@
   "comments.typeYourFindings": "Ketikkan temuan anda!",
 
   "forms.fieldError": "Bagian ini diperlukan",
-  "forms.oneFieldRequired": "Salah satu bidang wajib diisi",
+  "forms.oneFieldRequired": "Semua bidang yang diperlukan",
   "forms.dobErrorFuture": "Tanggal lahir tidak boleh di masa depan",
   "forms.dobErrorOld": "Tanggal lahir tidak boleh setua itu",
   "forms.emailInvalid": "Alamat email salah",
@@ -166,6 +170,9 @@
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
   "forms.langError": "Bahasa tidak didukung",
   "forms.fullNameError": "Bahasa yang tidak didukung atau tidak dapat berisi Digit atau Karakter khusus kecuali ruang",
+  "forms.notNumberError" : "Bukan angka yang valid",
+  "forms.ginLength" : "Pemerintah Identifikasi no harus terdiri dari 13 digit",
+  "form.alternateNumbers": "Jumlahnya harus lebih besar dari 7 dan kurang dari 15",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 
@@ -218,12 +225,12 @@
   "language": "Bahasa",
 
   "dashboard.instructions": "Instruksi",
-  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang/dicuri, pengguna harus mengetahui MSISDN(s) yang terpengaruh atau keduanya MSISDN(s) yang terkena dampak dan IMEI(s) yang terpengaruh.",
+  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang / dicuri, pengguna harus mengetahui MSISDN yang terkena dampak dan IMEI yang terpengaruh.",
   "dashboard.instructions.li2": "Pengguna dapat meminta informasi pembaruan saat kasus dalam “Kasus menunggu”.",
   "dashboard.instructions.li3": "Pengguna dapat meminta hanya memblokir perangkat dalam “Kasus menunggu”, jika opsi “Blokir” diaktifkan.",
   "dashboard.instructions.li4": "Hanya “Kasus yang menunggu keputusan” dan “Kasus yang diblokir” yang dapat dipulihkan.",
   "dashboard.instructions.li5": "Pengguna tidak dapat meminta untuk melakukan tindakan apa pun pada “Kasus yang dipulihkan” yang dipulihkan dapat dilaporkan sebagai “Kasus baru”.",
-  "dashboard.instructions.li6": "Dalam perincian pribadi (Tanggal lahir, No. identifikasi pemerintah, Nomor telepon alternatif. Alamat e-mail, alamat), setiap informasi tunggal cukup untuk pendaftaran kasus.",
+  "dashboard.instructions.li6": "Dalam perincian pribadi, semua bidang diperlukan untuk pendaftaran kasus.",
 
   "multiSelectNoResult": "Tidak ada hasil yang ditemukan",
   "multiSelectNewCreate": "Buat Opsi"

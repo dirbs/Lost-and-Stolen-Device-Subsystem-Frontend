@@ -23,7 +23,7 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
 import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
@@ -93,7 +93,7 @@ class View extends Component {
         (status === i18n.t('caseStatus.pending'))
         ?
             'text-primary'
-        : (status === i18n.t('caseStatus.recovered'))
+        : (status === "Recovered")
             ? 'text-success'
             : 'text-danger';
         view_case = <div key={tracking_id}>
@@ -106,14 +106,18 @@ class View extends Component {
               <Col xs="12" lg="4">
                   {(status === i18n.t('caseStatus.pending')) ?
                       <div className="text-right pb-4">
-                        <Link className="btn-sm btn btn-primary"
+                        {(creator.user_id === this.props.userDetails.sub || this.props.userDetails.role === 'admin') && <Fragment>
+                            <Link className="btn-sm btn btn-primary"
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
-                        <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
-                        {get_blocked === true ?
+                            </Fragment>}
+                        {this.props.userDetails.role === 'admin' && <Fragment>
+                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
+                        {' '}</Fragment>}
+                        {(get_blocked === true && this.props.userDetails.role === 'admin') ?
                             <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
                             : ''}
                       </div>
-                      : (status === i18n.t('caseStatus.blocked')) ?
+                      : (status === i18n.t('caseStatus.blocked') && this.props.userDetails.role === 'admin') ?
                           <div className="text-right pb-4">
                             <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
                           </div>
@@ -203,6 +207,10 @@ class View extends Component {
                                     <th>{i18n.t('newCase.incidentNature')}</th>
                                     <td>{i18n.t(incident_details.incident_nature)}</td>
                                 </tr>
+                                <tr>
+                                    <th>Incident region</th>
+                                    <td>{incident_details.region}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </CardBody>
@@ -221,12 +229,16 @@ class View extends Component {
                                     <td>{personal_details.full_name}</td>
                                 </tr>
                                 <tr>
-                                    <th>{i18n.t('userProfile.email')}</th>
-                                    <td>{personal_details.email}</td>
+                                    <th>{i18n.t('userProfile.fatherName')}</th>
+                                    <td>{personal_details.father_name}</td>
                                 </tr>
                                 <tr>
-                                    <th>{i18n.t('userProfile.dob')}</th>
-                                    <td>{personal_details.dob}</td>
+                                    <th>{i18n.t('userProfile.motherName')}</th>
+                                    <td>{personal_details.mother_name}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.email')}</th>
+                                    <td>{personal_details.email}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.gin')}</th>
@@ -235,6 +247,14 @@ class View extends Component {
                                 <tr>
                                     <th>{i18n.t('userProfile.alternatePhoneNo')}</th>
                                     <td>{personal_details.number}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.alternateLandline')}</th>
+                                    <td>{personal_details.landline_number}</td>
+                                </tr>
+                                <tr>
+                                    <th>{i18n.t('userProfile.district')}</th>
+                                    <td>{personal_details.district}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.address')}</th>

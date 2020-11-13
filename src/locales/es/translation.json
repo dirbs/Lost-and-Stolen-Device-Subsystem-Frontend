@@ -23,7 +23,7 @@
   "version": "Versión",
 
   "button.update": "Actualizar",
-  "button.recover": "Recuperar",
+  "button.recover": "Desatascar",
   "button.block": "Bloquear",
   "button.addNew": "Añadir nuevo",
   "button.fetchIMEIs": "Ha podido recuperar IMEI(s)",
@@ -99,7 +99,7 @@
   "pagetitle.updateCase": "Actualizar caso",
   "newCase.deviceDescription": "Descripción del aparato",
   "newCase.deviceBrand": "Marca",
-  "newCase.deviceModelName": "Nombre del modelo",
+  "newCase.deviceModelName": "Modelo/Nombre de comercialización",
   "newCase.devicePhysical": "Descripción física",
   "newCase.imeiKnown": "IMEI conocido",
   "newCase.yes": "Sí",
@@ -126,10 +126,14 @@
   "input.reTypeIMEI": "Vuelva a escribir IMEI",
 
   "userProfile.fullName": "Nombre completo",
+  "userProfile.fatherName": "Nombre del Padre",
+  "userProfile.motherName": "Nombre de la madre",
+  "userProfile.alternateLandline": "Línea fija alternativa no.",
+  "userProfile.district": "Distrito/ciudad",
   "userProfile.dob": "Fecha de nacimiento",
   "userProfile.gin": "Gobierno Número de identificación.",
   "userProfile.ginum": "Gobierno número de identificación",
-  "userProfile.alternatePhoneNo": "Teléfono alternativo.",
+  "userProfile.alternatePhoneNo": "Móvil alternativo no.",
   "userProfile.email": "Dirección de correo electrónico",
   "userProfile.address": "Dirección",
 
@@ -146,7 +150,7 @@
   "comments.typeYourFindings": "Escriba sus hallazgos!",
 
   "forms.fieldError": "Este campo es requerido",
-  "forms.oneFieldRequired": "Uno de los campos es obligatorio.",
+  "forms.oneFieldRequired": "Todos los campos son obligatorios",
   "forms.dobErrorFuture": "La fecha de nacimiento no puede ser en el futuro.",
   "forms.dobErrorOld": "La fecha de nacimiento no puede ser tan antigua.",
   "forms.emailInvalid": "Dirección de correo electrónico no válida",
@@ -166,6 +170,9 @@
   "forms.dateIncidentOld": "La fecha del incidente no puede ser tan antigua.",
   "forms.langError": "Idioma no soportado",
   "forms.fullNameError": "Idioma no admitido o no puede contener dígitos o caracteres especiales, excepto el espacio",
+  "forms.notNumberError" : "No es un numero valido",
+  "forms.ginLength" : "Gobierno identificación no debe ser de 13 dígitos",
+  "form.alternateNumbers": "El número debe ser mayor que 7 y menor que 15",
 
   "confirmation.delItem": "¿Estás seguro de que deseas eliminar este elemento?",
 
@@ -218,12 +225,12 @@
   "language": "Idioma",
 
   "dashboard.instructions": "Instrucciones",
-  "dashboard.instructions.li1": "Para informar sobre dispositivos perdidos/robados, el usuario debe tener conocidos MSISDN(s) afectados o ambos MSISDN(s) afectados y IMEI(s) afectados.",
+  "dashboard.instructions.li1": "Para informar sobre dispositivos perdidos / robados, el usuario debe haber conocido los MSISDN afectados y los IMEI afectados.",
   "dashboard.instructions.li2": "El usuario puede solicitar información actualizada mientras el caso se encuentra en “Caso pendiente”.",
   "dashboard.instructions.li3": "El usuario puede solicitar solo los dispositivos de bloqueo en “Caso pendiente”, si la opción “Bloquear” está habilitada.",
   "dashboard.instructions.li4": "Solo se pueden recuperar los “casos pendientes” y los “casos bloqueados”.",
   "dashboard.instructions.li5": "El usuario no puede solicitar realizar ninguna acción en los “casos recuperados”. Los dispositivos recuperados pueden ser reportados como un “caso nuevo” nuevamente.",
-  "dashboard.instructions.li6": "En los datos personales (fecha de nacimiento, número de identificación del gobierno, número de teléfono alternativo, dirección de correo electrónico, dirección), cualquier información individual es suficiente para el registro del caso.",
+  "dashboard.instructions.li6": "En detalles personales, todos los campos son obligatorios para el registro de casos.",
 
   "multiSelectNoResult": "No se han encontrado resultados",
   "multiSelectNewCreate": "Opción de creación"

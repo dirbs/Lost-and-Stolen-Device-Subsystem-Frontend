@@ -23,18 +23,48 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-const routes = {
-  '/': 'homeLink',
-  '/dashboard': 'dashboardLink',
-  '/new-case': 'newCaseLink',
-  '/case/:tracking_id': 'viewCaseLink',
-  '/case-update/:tracking_id': 'updateCaseLink',
-  '/search-cases': 'searchCaseLink',
-  '/cases': 'allCasesLink',
-  '/cases/pending': 'pendingCaseLink',
-  '/cases/blocked': 'blockedCaseLink',
-  '/cases/recovered': 'recoveredCaseLink',
-  '/case-status': 'CaseStatusLink',
-  '/search-status': 'SearchStatusLink'
-};
-export default routes;
+import React, { Component } from "react";
+import { FormGroup, Label } from 'reactstrap';
+import { Field } from 'formik';
+import renderError from './RenderError';
+import i18n from './../../i18n'
+
+class RenderFileInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fileLength: false
+    }
+  }
+  handleChange = (event) => {
+    if (event.currentTarget.files[0].name.length) {
+      this.setState({fileLength: true});
+    }
+    this.props.onChange(this.props.name, event.currentTarget.files[0]);
+  }
+  handleRemoveFile = (event) => {
+    event.preventDefault();
+    this.fileInput.value = "";
+    this.props.onChange(this.props.name, '');
+    this.setState({fileLength: false});
+  }
+  handleBlur = () => {
+    this.props.onBlur(this.props.name, true);
+  }
+  render() {
+    const { error, inputClass, inputClassError } = this.props;
+    return (
+      <FormGroup>
+        <Label className="d-block">{i18n.t(this.props.label)} {this.props.requiredStar && <span className="text-danger">*</span>} {this.props.warningStar && <span className="text-warning">*</span>}</Label>
+        <div className={(error) ? inputClassError : inputClass}>
+          <input name={this.props.name} type={this.props.type} placeholder={this.props.placeholder} onChange={this.handleChange}
+            onBlur={this.handleBlur} ref={ref => this.fileInput = ref} />
+          {this.state.fileLength && <button className="btn btn-link btn-sm text-danger" onClick={this.handleRemoveFile}><i className="fa fa-close"></i></button>}
+        </div>
+        <Field name={this.props.name} component={renderError} />
+      </FormGroup>
+    )
+  }
+}
+
+export default RenderFileInput;

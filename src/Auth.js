@@ -53,7 +53,8 @@ class Auth extends Component {
 			readyToRedirect: false,
 			redirectToFull : false,
 			userDetails: null,
-			tokenDetails: null
+			tokenDetails: null,
+			userRole: ""
 		};
 	}
 
@@ -71,6 +72,7 @@ class Auth extends Component {
 
 				const tokenDetails = decode(keycloak.token)
 				const groups = getUserGroups(tokenDetails);
+				this.setState({ userRole: groups.includes("admin") ? "admin" : groups.includes("staff") ? "staff" : null });
 				const pageStatus = isPage401(groups);
 				if (pageStatus) { // is Page401 then show page401
 					keycloak.loadUserInfo().success((userInfo) => {
@@ -87,9 +89,13 @@ class Auth extends Component {
 				} else { // User has permission and therefore, allowed to access it.
 					keycloak.loadUserInfo().success( (userInfo) => {
 						localStorage.setItem('userInfo', Base64.encode(JSON.stringify(userInfo)));
+						let userInfoWithRole = {
+							...userInfo,
+							role: this.state.userRole
+						}
 						this.setState({
 							redirectToFull : true,
-							userDetails: userInfo,
+							userDetails: userInfoWithRole,
 							keycloak: keycloak,
 							tokenDetails:tokenDetails
 						},()=>{

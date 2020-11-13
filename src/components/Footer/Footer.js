@@ -23,24 +23,21 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import React, {Component} from 'react';
+import React from 'react';
 import i18n from './../../i18n';
 
 /**
- * A stateful component which generate a footer text.
+ * A functional component which generate a footer text.
  */
-class Footer extends Component {
-  showCurrentYear() {
-    return new Date().getFullYear();
-  }
-  render() {
-    return (
-      <footer className="app-footer">
-        <div>&copy; {i18n.t('copyRight')} 2018-2019 {i18n.t('DIRBS')}. {i18n.t('allRightsReserved')}.</div>
-        <div><b>{i18n.t('version')}: </b>1.0.0</div>
-      </footer>
-    )
-  }
+function Footer() {
+  let currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="app-footer">
+      <div><b>{i18n.t('copyRight')} &copy; {currentYear} PTA. {i18n.t('allRightsReserved')}.</b></div>
+      <div><b>{i18n.t('version')}: </b>1.0.0</div>
+    </footer>
+  )
 }
 
 export default Footer;

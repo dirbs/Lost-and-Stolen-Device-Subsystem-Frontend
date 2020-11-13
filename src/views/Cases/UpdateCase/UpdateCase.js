@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
-import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
+import {instance, errors, getAuthHeader, fullNameCheck} from './../../../utilities/helpers';
 import {Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody } from 'reactstrap';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import { withFormik, Field } from 'formik';
@@ -41,6 +41,7 @@ import {getUserInfo, languageCheck} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
 import switchToggleButton from "../../../components/Form/SwitchToggleButton";
 import i18n from './../../../i18n';
+import RenderSelect from '../../../components/Form/renderSelect';
 
 /**
  * This Stateful component Provides an update functionality of Personal Details related with Case.
@@ -154,6 +155,10 @@ class UpdateForm extends Component {
                                     <th>{i18n.t('newCase.incidentNature')}</th>
                                     <td>{i18n.t(values.incident_nature)}</td>
                                 </tr>
+                               <tr>
+                                    <th>Incident region</th>
+                                    <td>{values.incident_region}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </CardBody>
@@ -173,43 +178,37 @@ class UpdateForm extends Component {
                             <b>{i18n.t('newCase.personalDetails')}</b>
                         </CardHeader>
                         <CardBody className="p-2">
-                            <Card body outline color="secondary" className="mb-2">
+                        <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
-                                    </Col>
-                                </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                                            <RenderDatePicker
-                                                name="dob"
-                                                value={values.dob}
-                                                onChange={setFieldValue}
-                                                onBlur={setFieldTouched}
-                                                curDate={values.dob}
-                                            />
-                                            <Field name="dob" component={renderError} />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6" xs="12">
+                                        <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
+                                        <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                     <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                      <br/>
+                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card body outline color="warning" className="mb-0">
+                                <Row>
+                                    <Col md="6" xs="12">
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
+                                    </Col>
+                                    <Col md="6" xs="12">
+                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -269,12 +268,16 @@ const MyEnhancedUpdateForm = withFormik({
       msisdns: props.info.device_details.msisdns || [],
       incident_date: props.info.incident_details.incident_date || '',
       incident_nature: props.info.incident_details.incident_nature || '',
+      incident_region: props.info.incident_details.region || '',
       address: props.info.personal_details.address === 'N/A' ? '': props.info.personal_details.address || '',
       gin: props.info.personal_details.gin === 'N/A' ? '': props.info.personal_details.gin || '',
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',
-      dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
-      alternate_number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
+      father_name: props.info.personal_details.father_name === 'N/A' ? '' : props.info.personal_details.father_name || '',
+      mother_name: props.info.personal_details.mother_name === 'N/A' ? '' : props.info.personal_details.mother_name || '',
+      number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
+      landline_number: props.info.personal_details.landline_number === 'N/A' ? '' : props.info.personal_details.landline_number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
+      district: props.info.personal_details.district === 'N/A' ? '' : props.info.personal_details.district || '',
       get_blocked: props.info.get_blocked,
       case_comment: ''
     };
@@ -288,33 +291,35 @@ const MyEnhancedUpdateForm = withFormik({
         errors.full_name= `${i18n.t('forms.fieldError')}`
     }else if (languageCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
+    }if(!values.father_name){
+      errors.father_name= `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.father_name)===false){
+      errors.father_name = i18n.t('forms.fullNameError')
     }
-    if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
+    if(!values.mother_name){
+      errors.mother_name = `${i18n.t('forms.fieldError')}`
+    }else if(fullNameCheck(values.mother_name)===false){
+      errors.mother_name = i18n.t('forms.fullNameError')
     }
-    let today = moment().format(Date_Format);
-    let paste =  moment('1900-01-01').format(Date_Format);
-    if (!values.dob) {
-
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
-    if (!values.email) {
-
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
-    ) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    if(!values.address){
-
+    if(!values.gin){
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.gin)){
+      errors.gin = i18n.t('forms.notNumberError')
+    }else if(values.gin.length<13){
+      errors.gin = i18n.t('forms.ginLength')
     }
-    else if (languageCheck(values.address) === false){
-        errors.address = i18n.t('forms.langError')
+    if(!values.number){
+      errors.number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.number)){
+      errors.number = i18n.t('forms.notNumberError')
+    }else if(values.number.length<7 || values.number.length>15){
+      errors.number = i18n.t('form.alternateNumbers')
+    }
+    if(!values.district){
+      errors.district = `${i18n.t('forms.fieldError')}`
     }
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
@@ -328,25 +333,28 @@ const MyEnhancedUpdateForm = withFormik({
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    bag.props.callServer(prepareAPIRequest(values));
+    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
   displayName: 'UpdateForm', // helps with React DevTools
 })(UpdateForm);
 
-function prepareAPIRequest(values) {
+function prepareAPIRequest(values, authDetails) {
     // Validate Values before sending
     const searchParams = {};
     searchParams.status_args = {};
     searchParams.status_args.user_id = getUserInfo().sub;
     searchParams.status_args.username = getUserInfo().preferred_username;
+    searchParams.status_args.role = authDetails.role;
     if(values.case_comment) {
         searchParams.status_args.case_comment = values.case_comment;
     }
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
-    if(values.dob) {
-        searchParams.personal_details.dob = values.dob;
+    searchParams.personal_details.father_name = values.father_name;
+    searchParams.personal_details.mother_name = values.mother_name;
+    if(values.district){
+      searchParams.personal_details.district = values.district
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
@@ -354,8 +362,11 @@ function prepareAPIRequest(values) {
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;
     }
-    if(values.alternate_number) {
-        searchParams.personal_details.number = values.alternate_number;
+    if(values.landline_number) {
+      searchParams.personal_details.landline_number = values.landline_number;
+  }
+    if(values.number) {
+        searchParams.personal_details.number = values.number;
     }
     if(values.email) {
         searchParams.personal_details.email = values.email;
@@ -446,6 +457,7 @@ class UpdateCase extends Component {
   }
 
   render() {
+    let authDetails = this.props.userDetails;
     return (
         <I18n ns="translations">
         {
@@ -463,7 +475,7 @@ class UpdateCase extends Component {
                             </div>
                         )
                         :
-                        <MyEnhancedUpdateForm callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
+                        <MyEnhancedUpdateForm  authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
                 }
                 </ul>
             </div>
