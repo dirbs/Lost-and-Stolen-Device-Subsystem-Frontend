@@ -55,20 +55,20 @@ export default {
     },
     {
         id: 8,
-        name: 'CPLC',
-        url: '/cplc',
+        name: 'Bulk',
+        url: '/bulk',
         icon: 'fa fa-copyright',
         children: [
             {
                 id: 9,
-                name: 'CPLC Block',
-                url: '/cplc/block',
+                name: 'Bulk Block',
+                url: '/bulk/block',
                 icon: ''
             },
             {
                 id: 10,
-                name: 'CPLC Unblock',
-                url: '/cplc/unblock',
+                name: 'Bulk Unblock',
+                url: '/bulk/unblock',
                 icon: ''
             }
         ]

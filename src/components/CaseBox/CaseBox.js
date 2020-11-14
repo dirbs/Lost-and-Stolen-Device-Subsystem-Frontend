@@ -47,7 +47,7 @@ const CaseBox = (props) => {
 
     return (
         <>
-            {props.info.source === "CPLC" ?
+            {props.info.source === "bulk" ?
                 <li className={borderClass}>
                     <div className="case-head">
                         <div className="case-actions">
@@ -91,7 +91,7 @@ const CaseBox = (props) => {
                                 <p>Affected IMEIs<span>{props.info.device_details.imeis.join(', ')}</span></p>
                             </li>
                             <li>
-                                <p>Source<span>CPLC</span></p>
+                                <p>Source<span>Bulk</span></p>
                             </li>
                             <li>
                                 <p>{i18n.t('caseBox.lastUpdated')}<span>{props.info.updated_at}</span></p>

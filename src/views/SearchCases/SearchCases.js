@@ -195,7 +195,7 @@ class SearchForm extends Component {
               <div className="selectbox">
                 <Field component="select" name="source" className="form-control">
                   <option value="LSDS">LSDS</option>
-                  <option value="CPLC">CPLC</option>
+                  <option value="bulk">Bulk</option>
                 </Field>
               </div>
             </FormGroup>

@@ -5,7 +5,7 @@ import i18n from "./../../../i18n";
 import RenderFileInput from './../../../components/Form/RenderFileInput';
 import { instance, getAuthHeader, errors, SweetAlert } from './../../../utilities/helpers';
 
-class CaseCPLCForm extends Component {
+class CaseBulkForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +25,7 @@ class CaseCPLCForm extends Component {
           onBlur={setFieldTouched}
           name="block_imeis_file"
           type="file"
-          label="Upload CPLC file"
+          label="Upload Bulk file"
           inputClass="asitfield"
           inputClassError="asitfield is-invalid"
           requiredStar
@@ -63,8 +63,8 @@ const MyEnhancedForm = withFormik({
     bag.props.callServer(prepareAPIRequest(values));
   },
 
-  displayName: 'CaseCPLCForm', // helps with React DevTools
-})(CaseCPLCForm);
+  displayName: 'CaseBulkForm', // helps with React DevTools
+})(CaseBulkForm);
 
 function prepareAPIRequest(values) {
   const formData = new FormData();
@@ -105,7 +105,7 @@ class Block extends Component {
   }
 
   saveCase = (config, values) => {
-    instance.post('/cplc_block', values, config)
+    instance.post('/bulk_block', values, config)
       .then(response => {
         if (response.data) {
           this.setState({ loading: false, cplcStatus: response.data });
@@ -160,7 +160,7 @@ class Block extends Component {
         let a = document.createElement("a");
         let file = new Blob([response.data], {type: 'text/plain'});
         a.href = URL.createObjectURL(file);
-        a.download = 'cplc_failed_imeis';
+        a.download = 'bulk_failed_imeis';
         a.click();
       } else {
         SweetAlert({
