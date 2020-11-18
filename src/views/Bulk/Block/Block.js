@@ -105,7 +105,7 @@ class Block extends Component {
   }
 
   saveCase = (config, values) => {
-    instance.post('/bulk_block', values, config)
+    instance.post('/bulk', values, config)
       .then(response => {
         if (response.data) {
           this.setState({ loading: false, cplcStatus: response.data });
