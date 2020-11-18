@@ -34,8 +34,8 @@ function Footer() {
 
   return (
     <footer className="app-footer">
-      <div><b>{i18n.t('copyRight')} &copy; {currentYear} PTA. {i18n.t('allRightsReserved')}.</b></div>
-      <div><b>{i18n.t('version')}: </b>1.0.0</div>
+      <div> &copy; {i18n.t('copyRight')} 2018-{currentYear} DIRBS. {i18n.t('allRightsReserved')}.</div>
+      <div><b>{i18n.t('version')}: </b>2.0.0</div>
     </footer>
   )
 }

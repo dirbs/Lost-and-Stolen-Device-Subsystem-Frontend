@@ -535,8 +535,6 @@ class CaseForm extends Component {
                                 <Row>
                                     <Col md="12" xs="12">
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
-                                        <Field name="father_name" component={renderInput} label={i18n.t('userProfile.fatherName')} type="text" placeholder={i18n.t('userProfile.fatherName')} requiredStar />
-                                        <Field name="mother_name" component={renderInput} label={i18n.t('userProfile.motherName')} type="text" placeholder={i18n.t('userProfile.motherName')} requiredStar />
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
@@ -544,19 +542,25 @@ class CaseForm extends Component {
                                     <Col md="6" xs="12">
                                         <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
-                                    <Col md="6" xs="12">
-                                      <br/>
-                                        <Field name="district" component={RenderSelect} label={i18n.t('userProfile.district')} type="text" placeholder={i18n.t('userProfile.district')} warningStar />
-                                    </Col>
-                                </Row>
+                        <Col md="6" xs="12">
+                          <FormGroup>
+                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
+                            <RenderDatePicker
+                              name="dob"
+                              value={values.dob}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                              curDate={values.dob}
+                            />
+                            <Field name="dob" component={renderError} />
+                          </FormGroup>
+                        </Col>
+                      </Row>
                             </Card>
                             <Card body outline color="warning" className="mb-0">
                                 <Row>
-                                    <Col md="6" xs="12">
+                                    <Col md="12" xs="12">
                                         <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
-                                    </Col>
-                                    <Col md="6" xs="12">
-                                        <Field name="landline_number" component={renderInput} label={i18n.t('userProfile.alternateLandline')} type="text" placeholder={i18n.t('userProfile.alternateLandline')}  />
                                     </Col>
                                 </Row>
                                 <Row>
@@ -834,13 +838,10 @@ const MyEnhancedForm = withFormik({
       "incident_region": "", 
       "other_region": "", 
       "full_name": "", 
-      "father_name":"", 
-      "mother_name":"", 
       "gin": "", 
-      "landline_number": "", 
       "email": "", 
       "number":"", 
-      "district":"", 
+      "dob":"", 
       "address": "", 
       "get_blocked": true
     }
@@ -869,6 +870,13 @@ const MyEnhancedForm = withFormik({
       errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
     } else if (languageCheck(values.physical_description) === false) {
       errors.physical_description = i18n.t('forms.langError')
+    }
+    if (!values.dob) {
+      errors.dob = `${i18n.t('forms.fieldError')}`
+    } else if (today < values.dob) {
+      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
+    } else if (paste >= values.dob) {
+      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
     }
     // if (!values.imei_known) {
     //     errors.imei_known = `${i18n.t('forms.selectOption')}`
@@ -936,16 +944,6 @@ const MyEnhancedForm = withFormik({
     } else if (fullNameCheck(values.full_name) === false) {
       errors.full_name = i18n.t('forms.fullNameError')
     }
-    if (!values.father_name) {
-      errors.father_name= `${i18n.t('forms.fieldError')}`
-    } else if (fullNameCheck(values.father_name)===false) {
-      errors.father_name = i18n.t('forms.fullNameError')
-    }
-    if (!values.mother_name) {
-      errors.mother_name = `${i18n.t('forms.fieldError')}`
-    } else if (fullNameCheck(values.mother_name)===false) {
-      errors.mother_name = i18n.t('forms.fullNameError')
-    }
     if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
     } else if (!/^[0-9]+$/.test(values.gin)) {
@@ -962,9 +960,6 @@ const MyEnhancedForm = withFormik({
     }
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
-    }
-    if (!values.district) {
-      errors.district = `${i18n.t('forms.fieldError')}`
     }
     return errors;
   },
@@ -984,20 +979,14 @@ function prepareAPIRequest(values, authDetails) {
     searchParams.loggedin_user.user_id = getUserInfo().sub;
     searchParams.loggedin_user.username = getUserInfo().preferred_username;
     searchParams.loggedin_user.role = authDetails.role;
-    searchParams.case_status = 1;
     searchParams.incident_details = {};
     searchParams.incident_details.incident_date = values.date_of_incident;
     searchParams.incident_details.incident_nature = values.incident;
     searchParams.incident_details.region = values.incident_region === "Others" ? values.other_region : values.incident_region;
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
-    searchParams.personal_details.father_name = values.father_name;
-    searchParams.personal_details.mother_name = values.mother_name;
-    if(values.district){
-      searchParams.personal_details.district = values.district
-    }
-    if(values.landline_number){
-      searchParams.personal_details.landline_number = values.landline_number
+    if(values.dob) {
+      searchParams.personal_details.dob = values.dob;
     }
     if(values.address) {
         searchParams.personal_details.address = values.address;
