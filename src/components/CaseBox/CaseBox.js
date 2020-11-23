@@ -47,7 +47,7 @@ const CaseBox = (props) => {
 
     return (
         <>
-            {props.info.source === "bulk" ?
+            {props.info.source === "Bulk" ?
                 <li className={borderClass}>
                     <div className="case-head">
                         <div className="case-actions">
