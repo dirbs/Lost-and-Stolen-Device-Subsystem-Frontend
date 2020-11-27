@@ -30,22 +30,17 @@ import {Collapse, Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, Ca
 import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
-import RenderDatePicker from "../../components/Form/RenderDatePicker";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../utilities/helpers";
-import RenderModal from '../../components/Form/RenderModal';
-import renderError from '../../components/Form/RenderError';
-import doubleEntryInput from '../../components/Form/DoubleEntryInput';
-import renderInput from '../../components/Form/RenderInput';
+import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../../utilities/helpers";
+import RenderModal from '../../../components/Form/RenderModal';
+import renderError from '../../../components/Form/RenderError';
+import doubleEntryInput from '../../../components/Form/DoubleEntryInput';
 import update from 'immutability-helper';
 import moment from "moment";
-import {Date_Format} from "../../utilities/constants";
 import { Prompt } from 'react-router'
-import switchToggleButton from "../../components/Form/SwitchToggleButton";
-import i18n from "./../../i18n";
+import i18n from "./../../../i18n";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import RenderSelect from '../../components/Form/renderSelect';
-import Regions from './_regions';
+import { RECOVERED_CASE } from './../../../utilities/constants'
 const MySwal = withReactContent(Swal);
 
 /**
@@ -283,38 +278,12 @@ class CaseForm extends Component {
       errors,
       isSubmitting, 
       handleSubmit,
-      setFieldValue,
-      setFieldTouched,
       dirty,
       caseSubmitted,
     } = this.props;
     return (
         <div>
-            <Prompt
-              when={dirty && !caseSubmitted}
-              message={i18n.t('unsavedChangesLeave')}
-            />
             <Form onSubmit={handleSubmit}>
-          <Card>
-            <CardHeader>
-              <b>{i18n.t('newCase.deviceDescription')}</b>
-            </CardHeader>
-            <CardBody>
-              <Row>
-                 <Col md="6" xs="12">
-                     <Field name="brand" component={renderInput} label={i18n.t('newCase.deviceBrand')} type="text" placeholder={i18n.t('newCase.deviceBrand')} requiredStar />
-                     <div className="txtarehei"></div>
-                     <Field name="model_name" component={renderInput} label={i18n.t('newCase.deviceModelName')} type="text" placeholder={i18n.t('newCase.deviceModelName')} requiredStar />
-                 </Col>
-                 <Col md="6" xs="12">
-                     <Field name="physical_description" component={renderInput} label={i18n.t('newCase.devicePhysical')} type="textarea" placeholder={i18n.t('newCase.devicePhysical')} requiredStar helpText={i18n.t('newCase.devicePhysicalHelp')} />
-                 </Col>
-              </Row>
-            </CardBody>
-          </Card>
-            {values.brand !== '' &&
-            values.model_name !== '' &&
-            values.physical_description !== '' &&
             <Row>
                 {(values.imei_known === 'no' || values.imei_known === 'yes') &&
                 <Col md={6} xs="12">
@@ -408,167 +377,7 @@ class CaseForm extends Component {
                 </Col>
                 }
             </Row>
-            }
-            {(values.imei_known === 'no' || values.imei_known === 'yes') && values.brand !== '' && values.model_name !== '' && values.physical_description !== '' &&
-            <Row>
-                <Col xs="12">
-                    <Card>
-                        <CardHeader>
-                            <b>{i18n.t('newCase.selectedIMEIs')}</b>
-                        </CardHeader>
-                        <CardBody className="p0">
-                          <div className="read-box">
-                            <ul className="listing">
-                              {(values.imeis.length > 0 && values.imeis.map((imei, i) => (
-                                <li key={i}>
-                                  <div className="dflex">
-                                    <div className="fitem">{imei}</div>
-                                    <div className="fitem">
-                                        <button className="btn btn-link p-0"
-                                                onClick={(e) => {
-                                                  e.preventDefault();
-                                                  MySwal.fire({
-                                                      title: i18n.t('alert.warning'),
-                                                      text: i18n.t('confirmation.delItem'),
-                                                      type: 'question',
-                                                      showCancelButton: true,
-                                                      confirmButtonText: i18n.t('button.delete'),
-                                                      cancelButtonText: i18n.t('button.cancel')
-                                                  }).then((result) => {
-                                                      if (result.value) {
-                                                          this.handleIMEIdelete(i);
-                                                      }
-                                                  })
-                                              }}><i
-                                            className="fa fa-trash-o"></i></button>
-                                    </div>
-                                  </div>
-                                </li>
-                              )
-                              ))}
-                              {values.imeis.length === 0 && <Field name="imeis" component={renderError}/>}
-                            </ul>
-                          </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-            }
-            {values.imeis.length > 0 &&
-          <div className="device-confirmed">
-            <Row>
-                <Col xl="6" xs="12">
-                    <Card>
-                        <CardHeader>
-                            <b>{i18n.t('newCase.incidentDetails')}</b>
-                        </CardHeader>
-                        <CardBody>
-                            <Row>
-                                <Col md="6" xs="12">
-                                    <FormGroup>
-                                        <Label>{i18n.t('newCase.incidentDate')} <span className="text-danger">*</span></Label>
-                                        <RenderDatePicker
-                                            name="date_of_incident"
-                                            value={values.date_of_incident}
-                                            onChange={setFieldValue}
-                                            onBlur={setFieldTouched}
-                                            curDate={values.date_of_incident}
-                                        />
-                                        <Field name="date_of_incident" component={renderError} />
-                                    </FormGroup>
-                                </Col>
-                                <Col md="6" xs="12">
-                                    <FormGroup>
-                                    <Label>{i18n.t('newCase.incidentNature')} <span className="text-danger">*</span></Label>
-                                    <div className="selectbox">
-                                      <Field component="select" name="incident" className="form-control">
-                                        <option value="">{i18n.t('incidentNature.selectNature')}</option>
-                                        <option value="2">{i18n.t('incidentNature.lost')}</option>
-                                        <option value="1">{i18n.t('incidentNature.stolen')}</option>
-                                      </Field>
-                                    </div>
-                                    <Field name="incident" component={renderError} />
-                                  </FormGroup>
-                                </Col>
-                                <Col md="6" xs="12">
-                                    <FormGroup>
-                                    <Label>{i18n.t('Incident Regions')} <span className="text-danger">*</span></Label>
-                                    <div className="selectbox">
-                                      <Field component="select" name="incident_region" className="form-control">
-                                        <option value="">{i18n.t('Select nature of incident')}</option>
-                                        {Regions.regions.map((region, index) => (
-                                          <optgroup label={region.province} key={index}>
-                                            {region.regions.map((region) => (
-                                              <option key={region} value={region}>{region}</option>
-                                            ))}
-                                          </optgroup>
-                                        ))}
-                                      </Field>
-                                    </div>
-                                    <Field name="incident_region" component={renderError} />
-                                  </FormGroup>
-                                </Col>
-                                {values.incident_region === 'Others' && 
-                                  <Col md="6" xs="12">
-                                    <Field name="other_region" component={renderInput} label={i18n.t('Other Region')} type="text" placeholder={i18n.t('Type other region')} requiredStar />
-                                  </Col>
-                                }
-                            </Row>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <b>{i18n.t('newCase.blockStatus')}</b>
-                        </CardHeader>
-                        <CardBody>
-                            <Field name="get_blocked" component={switchToggleButton} label={i18n.t('blockSwitch.label')} dataBefore={i18n.t('blockSwitch.dataBefore')} dataAfter={i18n.t('blockSwitch.dataAfter')} value={true} />
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xl="6" xs="12">
-                    <Card>
-                        <CardHeader>
-                            <b>{i18n.t('newCase.personalDetails')}</b>
-                        </CardHeader>
-                        <CardBody className="p-2">
-                            <Card body outline color="secondary" className="mb-2">
-                                <Row>
-                                    <Col md="12" xs="12">
-                                        <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
-                                        <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md="6" xs="12">
-                                        <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
-                                    </Col>
-                      </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="12" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
-                                    </Col>
-                                </Row>
-                                <Field name="oneOfFields" render={({
-                                  field, // { name, value, onChange, onBlur }
-                                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                  ...props
-                                }) => (
-                                    <div> {errors['oneOfFields'] && <span className="invalid-feedback text-warning" style={{display: 'block'}}>* {errors[field.name]}</span>} </div>
-                                )} />
-                            </Card>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-        </div>
-              }
+
             <RenderModal show={this.state.showModal}>
               <ModalHeader>{this.state.showModalTitle}</ModalHeader>
               <ModalBody>
@@ -600,23 +409,6 @@ class CaseForm extends Component {
             <RenderModal show={this.state.verifyModal} className="modal-lg">
               <ModalHeader>{i18n.t('verifyAssociatedIMEIsWithMSISDN')}: {values.msisdns[this.state.verifyModalMsisdnIndex]}</ModalHeader>
               <ModalBody>
-                  <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
-                  <div className="table-responsive">
-                      <table className="table table-striped table-bordered">
-                          <tbody>
-                          <tr>
-                              <th>{i18n.t('newCase.deviceBrand')}</th>
-                              <th>{i18n.t('newCase.deviceModelName')}</th>
-                              <th>{i18n.t('newCase.devicePhysical')}</th>
-                          </tr>
-                          <tr>
-                              <td>{values.brand}</td>
-                              <td>{values.model_name}</td>
-                              <td>{values.physical_description}</td>
-                          </tr>
-                          </tbody>
-                      </table>
-                  </div>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
                           <thead>
@@ -696,23 +488,6 @@ class CaseForm extends Component {
               <ModalBody>
               {this.props.authDetails.role === 'admin' ?
               <>
-                  <h6>{i18n.t('caseReporterDeviceDescription')}</h6>
-                  <div className="table-responsive">
-                      <table className="table table-striped table-bordered">
-                          <tbody>
-                          <tr>
-                              <th>{i18n.t('newCase.deviceBrand')}</th>
-                              <th>{i18n.t('newCase.deviceModelName')}</th>
-                              <th>{i18n.t('newCase.devicePhysical')}</th>
-                          </tr>
-                          <tr>
-                              <td>{values.brand}</td>
-                              <td>{values.model_name}</td>
-                              <td>{values.physical_description}</td>
-                          </tr>
-                          </tbody>
-                      </table>
-                  </div>
                   <div className="table-responsive">
                       <table className="table table-striped table-bordered">
                           <thead>
@@ -798,7 +573,7 @@ class CaseForm extends Component {
             {/*</Button>*/}
           </Col>
           <Col md="4" xl="3" xs="6">
-            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.submit')}</Button>
+            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.recover')}</Button>
           </Col>
         </Row>
       </Form>
@@ -810,9 +585,6 @@ class CaseForm extends Component {
 const MyEnhancedForm = withFormik({
   mapPropsToValues: () => (
     { 
-      "brand": "", 
-      "model_name": "", 
-      "physical_description": "", 
       "imei_known": "yes", 
       "msisdns": [], 
       "msisdnInput": "", 
@@ -820,43 +592,12 @@ const MyEnhancedForm = withFormik({
       "imeis": [], 
       "imeiInput": "", 
       "retypeImeiInput":"",  
-      "date_of_incident": "", 
-      "incident": "", 
-      "incident_region": "", 
-      "other_region": "", 
-      "full_name": "", 
-      "gin": "", 
-      "email": "", 
-      "number":"", 
-      "address": "", 
-      "get_blocked": true
     }
   ),
   
   // Custom sync validation
   validate: values => {
     let errors = {};
-    if (!values.brand) {
-        errors.brand = `${i18n.t('forms.fieldError')}`
-    } else if (values.brand.length >= 1000) {
-      errors.brand = `${i18n.t('forms.charactersWithinTh')}`
-    } else if (fullNameCheck(values.brand) === false) {
-      errors.brand = i18n.t('forms.langError')
-    }
-    if (!values.model_name) {
-        errors.model_name = `${i18n.t('forms.fieldError')}`
-    } else if (values.model_name.length >= 1000) {
-      errors.model_name = `${i18n.t('forms.charactersWithinTh')}`
-    } else if (languageCheck(values.model_name) === false) {
-      errors.model_name = i18n.t('forms.langError')
-    }
-    if (!values.physical_description) {
-        errors.physical_description = `${i18n.t('forms.fieldError')}`
-    } else if (values.physical_description.length >= 1000) {
-      errors.physical_description = `${i18n.t('forms.charactersWithinTh')}`
-    } else if (languageCheck(values.physical_description) === false) {
-      errors.physical_description = i18n.t('forms.langError')
-    }
     // if (!values.imei_known) {
     //     errors.imei_known = `${i18n.t('forms.selectOption')}`
     // }
@@ -899,110 +640,34 @@ const MyEnhancedForm = withFormik({
         errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
       }
     }
-    let today = moment().format(Date_Format);
-    let paste =  moment('1900-01-01').format(Date_Format);
-
-    if (!values.date_of_incident) {
-        errors.date_of_incident = `${i18n.t('forms.fieldError')}`
-    } else if (today < values.date_of_incident) {
-      errors.date_of_incident = `${i18n.t('forms.dateIncidentFuture')}`;
-    } else if (paste >= values.date_of_incident) {
-      errors.date_of_incident = `${i18n.t('forms.dateIncidentOld')}`;
-    }
-    if (!values.incident) {
-        errors.incident = `${i18n.t('forms.fieldError')}`
-    }
-    if (!values.incident_region) {
-        errors.incident_region = 'please select incident region.'
-    } else if (values.incident_region === 'Others' && !values.other_region) {
-        errors.other_region = 'please type your region.'
-    }
-
-    if (!values.full_name) {
-        errors.full_name= `${i18n.t('forms.fieldError')}`
-    } else if (fullNameCheck(values.full_name) === false) {
-      errors.full_name = i18n.t('forms.fullNameError')
-    }
-    if (!values.gin) {
-      errors.gin = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[0-9]+$/.test(values.gin)) {
-      errors.gin = i18n.t('forms.notNumberError')
-    } else if (values.gin.length<13) {
-      errors.gin = i18n.t('forms.ginLength')
-    }
-    if (!values.number) {
-      errors.number = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[0-9]+$/.test(values.number)) {
-      errors.number = i18n.t('forms.notNumberError')
-    } else if (values.number.length<11 || values.number.length>11) {
-      errors.number = 'Number should be 11 digit only i.e."03123456789"'
-    }
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
-      errors.email = `${i18n.t('forms.emailInvalid')}`;
-    }
+   
     return errors;
   },
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
+    bag.props.unBlockCall(null, bag.props.caseDetails.tracking_id, RECOVERED_CASE, prepareAPIRequest(values, bag.props.caseDetails) )
   },
 
   displayName: 'CaseForm', // helps with React DevTools
 })(CaseForm);
 
-function prepareAPIRequest(values, authDetails) {
+function prepareAPIRequest(values, caseDetails) {
    // Validate Values before sending
-    const searchParams = {};
-    searchParams.loggedin_user = {};
-    searchParams.loggedin_user.user_id = getUserInfo().sub;
-    searchParams.loggedin_user.username = getUserInfo().preferred_username;
-    searchParams.loggedin_user.role = authDetails.role;
-    searchParams.incident_details = {};
-    searchParams.incident_details.incident_date = values.date_of_incident;
-    searchParams.incident_details.incident_nature = values.incident;
-    searchParams.incident_details.region = values.incident_region === "Others" ? values.other_region : values.incident_region;
-    searchParams.personal_details = {};
-    searchParams.personal_details.full_name = values.full_name;
-    if(values.address) {
-        searchParams.personal_details.address = values.address;
-    }
-    if(values.gin) {
-        searchParams.personal_details.gin = values.gin;
-    }
-    if(values.number) {
-        searchParams.personal_details.number = values.number;
-    }
-    if(values.email) {
-        searchParams.personal_details.email = values.email;
-    }
-    searchParams.device_details = {};
-    if(values.brand) {
-        searchParams.device_details.brand = values.brand;
-    }
-    if(values.model_name) {
-        searchParams.device_details.model_name = values.model_name;
-    }
-    if(values.physical_description) {
-        searchParams.device_details.description = values.physical_description;
-    }
+    const params = {};
+    params.incident_details = {};
+    params.incident_details.incident_nature = caseDetails.incident_details.incident_nature;
+    params.device_details = {};
     if(values.imeis) {
-        searchParams.device_details.imeis = values.imeis;
+        params.device_details.imeis = values.imeis;
     }
     if(values.msisdns) {
-        searchParams.device_details.msisdns = values.msisdns;
+        params.device_details.msisdns = values.msisdns;
     }
-    searchParams.case_details = {};
-    if(values.get_blocked) {
-        searchParams.case_details.get_blocked = values.get_blocked;
-    }
-    if(!values.get_blocked) {
-        searchParams.case_details.get_blocked = false;
-    }
-    return searchParams;
+    return params;
 }
 
-class NewCase extends Component {
+class CaseUnblock extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -1010,7 +675,6 @@ class NewCase extends Component {
       loading: false,
       caseSubmitted: false
     }
-    this.saveCase = this.saveCase.bind(this);
     this.updateTokenHOC = this.updateTokenHOC.bind(this);
   }
 
@@ -1034,42 +698,6 @@ class NewCase extends Component {
       }
   }
 
-  saveCase(config, values) {
-    instance.post('/case', values, config)
-          .then(response => {
-              if(response.status === 200) {
-                this.setState({ loading: false, caseSubmitted: true });
-                const statusDetails = {
-                  id: response.data.tracking_id,
-                  icon: 'fa fa-check',
-                  status: `${i18n.t('Pending')}`,
-                  action: `${i18n.t('Registered')}`
-                }
-                this.props.history.push({
-                  pathname: '/case-status',
-                  state: { details: statusDetails }
-                });
-              } 
-              else if(response.data.message) {
-                SweetAlert({
-                  title: i18n.t('error'),
-                  message: response.data.message,
-                  type:'error'
-                })
-              }
-              else {
-                SweetAlert({
-                  title: i18n.t('error'),
-                  message: i18n.t('somethingWentWrong'),
-                  type:'error'
-                })
-              }
-          })
-          .catch(error => {
-              errors(this, error);
-          })
-  }
-
   render() {
     let kc = this.props.kc;
     let authDetails = this.props.userDetails;
@@ -1078,7 +706,7 @@ class NewCase extends Component {
         {
           (t, { i18n }) => (
             <div className="new-case-box animated fadeIn">
-              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.saveCase, values)} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
+              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} unBlockCall={this.props.handleCaseStatus} caseDetails={this.props.history.location.state} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
             </div>
           )
         }
@@ -1087,4 +715,4 @@ class NewCase extends Component {
   }
 }
 
-export default translate('translations')(NewCase);
+export default translate('translations')(CaseUnblock);

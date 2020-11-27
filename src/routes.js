@@ -38,6 +38,7 @@ const routes = {
   '/search-status': 'searchStatusLink',
   '/bulk': 'bulk',
   '/bulk/block' : 'button.block',
-  '/bulk/unblock' : 'button.recover'
+  '/bulk/unblock' : 'button.recover',
+  '/case-unblock' : 'button.recover'
 };
 export default routes;

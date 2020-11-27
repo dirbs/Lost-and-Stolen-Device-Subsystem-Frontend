@@ -20,6 +20,7 @@ import Pending from '../../views/Cases/Pending/';
 import Blocked from '../../views/Cases/Blocked/';
 import Recovered from '../../views/Cases/Recovered/';
 import Block from '../../views/Bulk/Block/Block';
+import CaseUnblock from '../../views/Cases/Recovered/CaseUnblock'
 import Unblock from '../../views/Bulk/Unblock/Unblock';
 import SearchStatus from '../../views/Bulk/SearchStatus/SearchStatus';
 import View from '../../views/Cases/View/';
@@ -106,7 +107,8 @@ class Full extends Component {
       showModal: false,
       status: null,
       caseTrackingId: null,
-        lang: 'en'
+        lang: 'en',
+      caseData: {}
     }
     this.changeLanguage = this.changeLanguage.bind(this);
     this.handleCaseStatus = this.handleCaseStatus.bind(this);
@@ -121,11 +123,11 @@ class Full extends Component {
         })
     }
 
-  handleCaseStatus(e, id, status) {
+  handleCaseStatus(e, id, status, data = null) {
     // Display modal box
     this.setState({ showModal: true })
     // Update Tracking ID and Status
-    this.setState({ caseTrackingId: id, status: status})
+    this.setState({ caseTrackingId: id, status: status, caseData: data})
   }
 
   updateTokenHOC(callingFunc, values = null) {
@@ -150,14 +152,17 @@ class Full extends Component {
 
   updateCaseStatus(config, values) {
     // get updated info for the case
-    let {caseTrackingId, status} = this.state;
+    let {caseTrackingId, status, caseData} = this.state;
     const caseDetails = {
         "status_args": {
             "user_id": getUserInfo().sub,
             "case_comment": values.comments,
             "case_status": status,
             "username": getUserInfo().preferred_username,
-            "role": this.props.userDetails.role
+            "role": this.props.userDetails.role,
+            "incident_nature": caseData.incident_details.incident_nature === "Stolen" ? 1 : 2,
+            "imeis": caseData.device_details.imeis,
+            "msisdns": caseData.device_details.msisdns
         }
     }
     // hide modal box and clear textarea input
@@ -236,6 +241,7 @@ class Full extends Component {
                     <Route path="/dashboard" name="Dashboard"  render={(props) => <Dashboard handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/new-case" name="NewCase"  render={(props) => <NewCase {...this.props} {...props} /> } />
                     <Route path="/search-cases" name="SearchCases" render={(props) => <SearchCases handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
+                    <Route path="/case-unblock" name="CaseUnblock" render={(props) => <CaseUnblock handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
                     <Route path="/case-status" name="CaseStatus" component={CaseStatus}/>
                     <Route path="/check-status" name="CheckStatus" render={(props) => <CheckStatus {...props} /> } />
                     <Route path="/case/:tracking_id" render={(props) => <View handleCaseStatus={this.handleCaseStatus} {...this.props} {...props} /> } />
