@@ -111,7 +111,7 @@ class View extends Component {
                             to={`/case-update/${ tracking_id }`}>{i18n.t('button.update')}</Link>{' '}
                             </Fragment>}
                         {this.props.userDetails.role === 'admin' && <Fragment>
-                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
+                            <Button color="success" size="sm" onClick={() => this.props.history.push({ pathname: '/case-unblock', state: this.state.data})}>{i18n.t('button.recover')}</Button>
                         {' '}</Fragment>}
                         {(get_blocked === true && this.props.userDetails.role === 'admin') ?
                             <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
@@ -119,7 +119,7 @@ class View extends Component {
                       </div>
                       : (status === i18n.t('caseStatus.blocked') && this.props.userDetails.role === 'admin') ?
                           <div className="text-right pb-4">
-                            <Button color="success" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>
+                            <Button color="success" size="sm" onClick={() => this.props.history.push({ pathname: '/case-unblock', state: this.state.data})}>{i18n.t('button.recover')}</Button>
                           </div>
                       : ''
                   }
@@ -239,10 +239,6 @@ class View extends Component {
                                 <tr>
                                     <th>{i18n.t('userProfile.alternatePhoneNo')}</th>
                                     <td>{personal_details.number}</td>
-                                </tr>
-                                <tr>
-                                    <th>{i18n.t('userProfile.dob')}</th>
-                                    <td>{personal_details.dob}</td>
                                 </tr>
                                 <tr>
                                     <th>{i18n.t('userProfile.address')}</th>

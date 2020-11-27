@@ -189,19 +189,6 @@ class UpdateForm extends Component {
                                     <Col md="6" xs="12">
                                         <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
-                                    <Col md="6" xs="12">
-                          <FormGroup>
-                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                            <RenderDatePicker
-                              name="dob"
-                              value={values.dob}
-                              onChange={setFieldValue}
-                              onBlur={setFieldTouched}
-                              curDate={values.dob}
-                            />
-                            <Field name="dob" component={renderError} />
-                          </FormGroup>
-                        </Col>
                                 </Row>
                             </Card>
                             <Card body outline color="warning" className="mb-0">
@@ -278,7 +265,6 @@ const MyEnhancedUpdateForm = withFormik({
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',
       number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
-      dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
       get_blocked: props.info.get_blocked,
       case_comment: ''
     };
@@ -293,15 +279,7 @@ const MyEnhancedUpdateForm = withFormik({
     }else if (languageCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
     }
-    let today = moment().format(Date_Format);
-    let past =  moment('1900-01-01').format(Date_Format);
-    if (!values.dob) {
-      errors.dob = `${i18n.t('forms.fieldError')}`
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (past >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
+
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
@@ -351,9 +329,6 @@ function prepareAPIRequest(values, authDetails) {
     searchParams.personal_details.full_name = values.full_name;
     if(values.address) {
         searchParams.personal_details.address = values.address;
-    }
-    if(values.dob) {
-      searchParams.personal_details.dob = values.dob;
     }
     if(values.gin) {
         searchParams.personal_details.gin = values.gin;

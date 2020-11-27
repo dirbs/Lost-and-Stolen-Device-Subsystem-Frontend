@@ -24,6 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { BLOCKED_CASE, RECOVERED_CASE } from "../../utilities/constants";
@@ -107,9 +108,9 @@ const CaseBox = (props) => {
                                     <p>
                                         {(props.creator.user_id === props.userDetails.sub || props.userDetails.role === 'admin') && <Link className="btn-sm btn btn-primary" to={`/case-update/${props.info.tracking_id}`}>{i18n.t('button.update')}</Link>}
                                         {props.userDetails && props.userDetails.role === 'staff' ? null : <React.Fragment>
-                                            <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{''}
+                                            <Button color="success" size="sm" onClick={() => props.history.push({ pathname: '/case-unblock', state: props.info})}>{i18n.t('button.recover')}</Button>{''}
                                             {props.info.get_blocked === true ?
-                                                <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                                                <Button color="danger" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, BLOCKED_CASE, props.info)}>{i18n.t('button.block')}</Button>
                                                 : null}
                                         </React.Fragment>}
                                     </p>
@@ -119,7 +120,7 @@ const CaseBox = (props) => {
 
                             {(props.info.status === i18n.t('caseStatus.blocked')) && (props.userDetails && props.userDetails.role !== 'staff') ?
                                 <p>
-                                    <Button color="success" size="sm" onClick={(e) => props.handleCaseStatus(e, props.info.tracking_id, RECOVERED_CASE)}>{i18n.t('button.recover')}</Button>{' '}
+                                    <Button color="success" size="sm" onClick={() => props.history.push({ pathname: '/case-unblock', state: props.info})}>{i18n.t('button.recover')}</Button>{' '}
                                 </p>
                                 : null
                             }
@@ -160,4 +161,4 @@ const CaseBox = (props) => {
 }
 
 
-export default CaseBox;
+export default withRouter(CaseBox);
