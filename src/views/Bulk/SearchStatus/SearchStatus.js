@@ -195,7 +195,7 @@ class SearchStatus extends Component {
                     <td>{this.state.data.result.failed}</td>
                     <td>{this.state.data.result.notification_failed}</td>
                     <td>
-                      <button onClick={() => this.updateTokenHOC(this.handleDownloadFile)}>{this.state.data.result.report_name}</button>
+                      {this.state.data.result.failed !== 0 && <button onClick={() => this.updateTokenHOC(this.handleDownloadFile)}>{this.state.data.result.report_name}</button>}
                     </td>
                   </tr>
                 </tbody>
