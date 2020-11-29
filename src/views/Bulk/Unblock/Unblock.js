@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, Table } from 'reactstrap';
+import { Row, Col, Form, Button, Table, Card, CardHeader, CardBody } from 'reactstrap';
 import { withFormik } from 'formik';
 import i18n from "./../../../i18n";
 import RenderFileInput from './../../../components/Form/RenderFileInput';
 import { instance, getAuthHeader, errors, SweetAlert } from './../../../utilities/helpers';
+import { CSVLink } from "react-csv";
+
+const csvSampleData = [
+  ["imei", "msisdn", "alternate_number"],
+  ["35965806000001","03337177450","03332660006"],
+  ["35965806000002","03337177451","03332660007"],
+  ["35965806000003","03337177452","03332660008"],
+  ["35965806000004","03337177453","03332660009"],
+  ["35965806000005","03337177454","03332660010"]
+];
 
 class CaseBulkForm extends Component {
   constructor(props) {
@@ -20,17 +30,41 @@ class CaseBulkForm extends Component {
     } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
-        <RenderFileInput
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-          name="unblock_imeis_file"
-          type="file"
-          label="Upload Bulk file"
-          inputClass="asitfield"
-          inputClassError="asitfield is-invalid"
-          requiredStar
-        />
-        <Button type="submit" color="primary">Submit</Button>
+        <div className="row">
+        <div className="col-xl-4 order-xl-12">
+            <div>
+              <div className="alert alert-info"><b> Sample Unblock Bulk file</b><hr/>
+              <CSVLink enclosingCharacter={``} className="btn btn-outline-primary btn-sm" filename="Sample Unblock Bulk.csv" data={csvSampleData}>Download Sample File</CSVLink>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-8">
+            <Card>
+              <CardHeader><b>{i18n.t('bulk') + " " + i18n.t('button.recover')}</b></CardHeader>
+              <CardBody className='steps-loading'>
+                <div className="row">
+                  <div className="col-xs-12 col-sm-6">
+                    <RenderFileInput
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      name="unblock_imeis_file"
+                      type="file"
+                      label="Upload Bulk file"
+                      inputClass="asitfield"
+                      inputClassError="asitfield is-invalid"
+                      requiredStar
+                    />
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+            <div className="text-right">
+              <div className="form-group">
+                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">Submit</Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </Form>
     );
   }
@@ -150,38 +184,33 @@ class Unblock extends Component {
   handleDownloadFile = (config, values) => {
     const reportName = this.state.checkStatus.result.report_name;
     instance.post(`/download/${reportName}`, values, config)
-    .then(response => {
-      if (response.data) {
-        let a = document.createElement("a");
-        let file = new Blob([response.data], {type: 'text/plain'});
-        a.href = URL.createObjectURL(file);
-        a.download = 'bulk_failed_imeis';
-        a.click();
-      } else {
-        SweetAlert({
-          title: i18n.t('error'),
-          message: i18n.t('somethingWentWrong'),
-          type: 'error'
-        })
-      }
-    })
-    .catch(error => {
-      errors(this, error);
-    })
+      .then(response => {
+        if (response.data) {
+          let a = document.createElement("a");
+          let file = new Blob([response.data], { type: 'text/plain' });
+          a.href = URL.createObjectURL(file);
+          a.download = 'bulk_failed_imeis';
+          a.click();
+        } else {
+          SweetAlert({
+            title: i18n.t('error'),
+            message: i18n.t('somethingWentWrong'),
+            type: 'error'
+          })
+        }
+      })
+      .catch(error => {
+        errors(this, error);
+      })
   }
 
   render() {
     const { cplcStatus, checkStatus } = this.state;
     return (
       <article>
-        <Row className="justify-content-center">
-          <Col md={6} lg={4} xl={3}>
-            <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} />
-          </Col>
-        </Row>
         {cplcStatus ?
-          <Row className="justify-content-center">
-            <Col md={8} lg={6} xl={5}>
+          <Row>
+            <Col xl={8}>
               <div className="uploaded-submit-details">
                 <h6>{cplcStatus.message}</h6>
                 <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
@@ -191,14 +220,14 @@ class Unblock extends Component {
               </div>
             </Col>
           </Row>
-          : null
+          : <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} />
         }
         {checkStatus ?
           <Row className="justify-content-center">
             <Col lg={10} xl={8}>
               <div className="check-status-details">
                 {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
-                {checkStatus.result ? 
+                {checkStatus.result ?
                   <div>
                     <Table striped>
                       <thead>
@@ -219,7 +248,7 @@ class Unblock extends Component {
                       </tbody>
                     </Table>
                   </div>
-                : null
+                  : null
                 }
               </div>
             </Col>
