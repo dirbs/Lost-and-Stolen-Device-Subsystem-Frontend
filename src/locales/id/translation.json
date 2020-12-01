@@ -187,7 +187,9 @@
   "title.addMSISDN": "Tambahkan MSISDN",
   "title.updateIMEI": "Perbarui IMEI",
   "title.addIMEI": "Tambahkan IMEI",
-
+  
+  "addMSISDN": "Tambahkan MSISDN",
+  "addIMEI": "Tambahkan IMEI",
   "verifyAssociatedIMEIsWithMSISDN": "Verifikasi IMEI terkait dengan MSISDN",
   "caseReporterDeviceDescription": "Deskripsi perangkat reporter kasus",
   "verify": "Memeriksa",

@@ -26,11 +26,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
-import {Collapse, Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import { Collapse, Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withFormik, Field, FieldArray } from 'formik';
 // Date Picker
 import "react-dates/initialize";
-import {errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck} from "../../../utilities/helpers";
+import { errors, instance, getAuthHeader, getUserInfo, SweetAlert, languageCheck, fullNameCheck } from "../../../utilities/helpers";
 import RenderModal from '../../../components/Form/RenderModal';
 import renderError from '../../../components/Form/RenderError';
 import doubleEntryInput from '../../../components/Form/DoubleEntryInput';
@@ -87,64 +87,64 @@ class CaseForm extends Component {
     this.updateTokenHOC = this.updateTokenHOC.bind(this);
   }
 
-  updateTokenHOC(callingFunc,index) {
-      let config = null;
-      if(this.props.kc.isTokenExpired(0)) {
-          this.props.kc.updateToken(0)
-              .success(() => {
-                  localStorage.setItem('token', this.props.kc.token)
-                  config = {
-                    headers: getAuthHeader(this.props.kc.token)
-                  }
-                  callingFunc(config, index);
-              })
-              .error(() => this.props.kc.logout());
-      } else {
+  updateTokenHOC(callingFunc, index) {
+    let config = null;
+    if (this.props.kc.isTokenExpired(0)) {
+      this.props.kc.updateToken(0)
+        .success(() => {
+          localStorage.setItem('token', this.props.kc.token)
           config = {
-            headers: getAuthHeader()
+            headers: getAuthHeader(this.props.kc.token)
           }
           callingFunc(config, index);
+        })
+        .error(() => this.props.kc.logout());
+    } else {
+      config = {
+        headers: getAuthHeader()
       }
+      callingFunc(config, index);
+    }
   }
 
   handleMSISDNdelete(index) {
-      let all = this.props.values.msisdns.filter((value, i) => {
-          return index !== i
-      })
+    let all = this.props.values.msisdns.filter((value, i) => {
+      return index !== i
+    })
 
-      this.props.setFieldValue('msisdns', all, false);
+    this.props.setFieldValue('msisdns', all, false);
   }
 
   handleIMEIdelete(index) {
-      let all = this.props.values.imeis.filter((value, i) => {
-          return index !== i
-      })
-      this.props.setFieldValue('imeis', all, false);
+    let all = this.props.values.imeis.filter((value, i) => {
+      return index !== i
+    })
+    this.props.setFieldValue('imeis', all, false);
   }
 
   handleVerifyModalSaving() {
-      this.closeVerifyModal();
+    this.closeVerifyModal();
   }
 
   toggle(index) {
     this.setState(update(this.state, {
-      imeisWithDeviceDetailsFlags:  {
-        [index]: {$set: (this.state.imeisWithDeviceDetailsFlags[index] === false ? true: false)}
+      imeisWithDeviceDetailsFlags: {
+        [index]: { $set: (this.state.imeisWithDeviceDetailsFlags[index] === false ? true : false) }
       }
     }));
   }
 
   toggleMSISDNsDeviceDetails(index) {
     this.setState(update(this.state, {
-      msisdnsWithDeviceDetailsFlags:  {
-        [index]: {$set: (this.state.msisdnsWithDeviceDetailsFlags[index] === false ? true: false)}
+      msisdnsWithDeviceDetailsFlags: {
+        [index]: { $set: (this.state.msisdnsWithDeviceDetailsFlags[index] === false ? true : false) }
       }
     }));
   }
 
   handleMsisdnSaving() {
     const index = this.state.msisdnIndex;
-    if(index >= 0 && index !== null) {
+    if (index >= 0 && index !== null) {
       this.props.values.msisdns[index] = this.props.values.msisdnInput
     } else {
       this.props.values.msisdns.push(this.props.values.msisdnInput)
@@ -154,7 +154,7 @@ class CaseForm extends Component {
 
   handleImeiSaving() {
     const index = this.state.imeiIndex;
-    if(index >= 0 && index !== null) {
+    if (index >= 0 && index !== null) {
       this.props.values.imeis[index] = this.props.values.imeiInput
     } else {
       this.props.values.imeis.push(this.props.values.imeiInput)
@@ -183,12 +183,12 @@ class CaseForm extends Component {
   }
 
   handleShowModal(index) {
-    if(index !== null) {
+    if (index !== null) {
       this.setState({ msisdnIndex: index, showModalTitle: `${i18n.t('title.updateMSISDN')}` }, () => {
         const oldValue = this.props.values.msisdns[index];
-        if(oldValue) {
-            this.props.setFieldValue('msisdnInput', oldValue, false)
-            this.props.setFieldValue('retypeMsisdnInput', oldValue, false)
+        if (oldValue) {
+          this.props.setFieldValue('msisdnInput', oldValue, false)
+          this.props.setFieldValue('retypeMsisdnInput', oldValue, false)
         }
       })
     } else {
@@ -200,12 +200,12 @@ class CaseForm extends Component {
   }
 
   handleImeiModal(index) {
-    if(index !== null) {
+    if (index !== null) {
       this.setState({ imeiIndex: index, imeiModalTitle: `${i18n.t('title.updateIMEI')}` }, () => {
         const oldValue = this.props.values.imeis[index];
-        if(oldValue) {
-            this.props.setFieldValue('imeiInput', oldValue, false)
-            this.props.setFieldValue('retypeImeiInput', oldValue, false)
+        if (oldValue) {
+          this.props.setFieldValue('imeiInput', oldValue, false)
+          this.props.setFieldValue('retypeImeiInput', oldValue, false)
         }
       })
     } else {
@@ -217,51 +217,51 @@ class CaseForm extends Component {
   }
 
   getIMEIsSeenWithMSISDN(config, index) {
-      if(index !== null) {
-        const oldValue = this.props.values.msisdns[index];
-        instance.get(`/msisdn/${oldValue}`, config)
-          .then(response => {
-              this.setState({
-                  imeisWithDeviceDetails: response.data.results,
-              }, () => {
-                 const flags = [];
-                 for(let i=0; i < response.data.results.length; i++) {
-                     flags[i] = false;
-                 }
-                 this.setState({ verifyModal: !this.state.verifyModal, imeisWithDeviceDetailsFlags: flags, verifyModalMsisdnIndex: index });
-              });
-              //const button = 'btn'+index;
-          })
-          .catch(error => {
-              errors(this, error);
-          })
-      }
+    if (index !== null) {
+      const oldValue = this.props.values.msisdns[index];
+      instance.get(`/msisdn/${oldValue}`, config)
+        .then(response => {
+          this.setState({
+            imeisWithDeviceDetails: response.data.results,
+          }, () => {
+            const flags = [];
+            for (let i = 0; i < response.data.results.length; i++) {
+              flags[i] = false;
+            }
+            this.setState({ verifyModal: !this.state.verifyModal, imeisWithDeviceDetailsFlags: flags, verifyModalMsisdnIndex: index });
+          });
+          //const button = 'btn'+index;
+        })
+        .catch(error => {
+          errors(this, error);
+        })
+    }
   }
 
   getMSISDNsSeenWithIMEI(config, index) {
-      if(index !== null) {
-        const oldValue = this.props.values.imeis[index];
-        instance.get(`/imei/${oldValue}?seen_with=1`, config)
-          .then(response => {
-              this.setState({
-                  msisdnsWithDeviceDetails: response.data,
-                  verifyImeiModal: !this.state.verifyImeiModal,
-                  verifyModalImeiIndex: index
-              }, () => {
-                 const flags = [];
-                 if(response.data.subscribers.length > 0) {
-                    for(let i=0; i < response.data.subscribers.length; i++) {
-                        flags[i] = false;
-                    }
-                    this.setState({ msisdnsWithDeviceDetailsFlags: flags });
-                 }
-              });
-              //const button = 'btn'+index;
-          })
-          .catch(error => {
-              errors(this, error);
-          })
-      }
+    if (index !== null) {
+      const oldValue = this.props.values.imeis[index];
+      instance.get(`/imei/${oldValue}?seen_with=1`, config)
+        .then(response => {
+          this.setState({
+            msisdnsWithDeviceDetails: response.data,
+            verifyImeiModal: !this.state.verifyImeiModal,
+            verifyModalImeiIndex: index
+          }, () => {
+            const flags = [];
+            if (response.data.subscribers.length > 0) {
+              for (let i = 0; i < response.data.subscribers.length; i++) {
+                flags[i] = false;
+              }
+              this.setState({ msisdnsWithDeviceDetailsFlags: flags });
+            }
+          });
+          //const button = 'btn'+index;
+        })
+        .catch(error => {
+          errors(this, error);
+        })
+    }
   }
 
   closeVerifyModal() {
@@ -276,265 +276,290 @@ class CaseForm extends Component {
     const {
       values,
       errors,
-      isSubmitting, 
+      isSubmitting,
       handleSubmit,
       dirty,
       caseSubmitted,
     } = this.props;
     return (
-        <div>
-            <Form onSubmit={handleSubmit}>
-            <Row>
-                {(values.imei_known === 'no' || values.imei_known === 'yes') &&
-                <Col md={6} xs="12">
-                    <Card>
-                        <CardHeader className="wiri-btn">
-                            <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
-                                        disabled={values.msisdns.length >= 5}>{i18n.t('button.addNew')}</Button>
-                            <div><b>{i18n.t('newCase.affectedMSISDNs')}</b></div>
-                        </CardHeader>
-                        <CardBody className="p0">
-                            <div className="read-box">
-                                <ul className="listing">
-                                {values.msisdns.map((msisdn, i) => (
-                                    <li key={i}>
-                                        <div className="dflex">
-                                            <div className="fitem">{msisdn}</div>
-                                            <div className="fitem">
-                                                <button className="btn btn-link p-0" onClick={(e) => {
-                                                    e.preventDefault();
-                                                    MySwal.fire({
-                                                        title: i18n.t('alert.warning'),
-                                                        text: i18n.t('confirmation.delItem'),
-                                                        type: 'question',
-                                                        showCancelButton: true,
-                                                        confirmButtonText: i18n.t('button.delete'),
-                                                        cancelButtonText: i18n.t('button.cancel')
-                                                    }).then((result)=>{
-                                                        if(result.value){
-                                                            this.handleMSISDNdelete(i);
-                                                        }
-                                                    })
-                                                }}><i className="fa fa-trash-o"></i></button>
-                                                <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
-                                                    className="fa fa-pencil"></i></Button>{''}
-                                                {(values.imei_known && this.props.authDetails.role === 'admin') && 
-                                                    <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>
-                                                }
-                                            </div>
-                                        </div>
-                                    </li>
-                                    )
-                                )}
-                                {values.msisdns.length === 0 && <Field name="msisdns" component={renderError}/>}
-                                </ul>
+      <div>
+        <Form onSubmit={handleSubmit}>
+          <Row>
+            {(values.imei_known === 'no' || values.imei_known === 'yes') &&
+              <Col md={6} xs="12">
+                <Card>
+                  <CardHeader className="wiri-btn">
+                    <Button type="button" onClick={() => this.handleShowModal(null)} size="sm" color="outline-primary"
+                      disabled={values.msisdns.length >= 5}>{i18n.t('addMSISDN')}</Button>
+                    <div><b>{i18n.t('newCase.affectedMSISDNs')}</b></div>
+                  </CardHeader>
+                  <CardBody className="p0">
+                    <div className="read-box">
+                      <ul className="listing">
+                        {values.msisdns.map((msisdn, i) => (
+                          <li key={i}>
+                            <div className="dflex">
+                              <div className="fitem">{msisdn}</div>
+                              <div className="fitem">
+                                <button className="btn btn-link p-0" onClick={(e) => {
+                                  e.preventDefault();
+                                  MySwal.fire({
+                                    title: i18n.t('alert.warning'),
+                                    text: i18n.t('confirmation.delItem'),
+                                    type: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonText: i18n.t('button.delete'),
+                                    cancelButtonText: i18n.t('button.cancel')
+                                  }).then((result) => {
+                                    if (result.value) {
+                                      this.handleMSISDNdelete(i);
+                                    }
+                                  })
+                                }}><i className="fa fa-trash-o"></i></button>
+                                <Button type="button" onClick={() => this.handleShowModal(i)} color="link" className="p-0"><i
+                                  className="fa fa-pencil"></i></Button>{''}
+                                {(values.imei_known && this.props.authDetails.role === 'admin') &&
+                                  <Button type="button" onClick={() => this.updateTokenHOC(this.getIMEIsSeenWithMSISDN, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.fetchIMEIs')}</Button>
+                                }
+                              </div>
                             </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-                }
-                {values.imei_known === 'yes' &&
-                <Col md={6} xs="12">
-                    <Card>
-                        <CardHeader className="wiri-btn">
-                            <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('button.addNew')}</Button>
-                            <div><b>{i18n.t('newCase.affectedIMEIs')}</b></div>
-                        </CardHeader>
-                        <CardBody className="p0">
-                            <div className="read-box">
-                                <ul className="listing">
-                                {values.imeis.length > 0 && values.imeis.map((imei, i) =>
-                                    <li key={i}>
-                                        <div className="dflex">
-                                            <div className="fitem">{imei}</div>
-                                            <div className="fitem">
-                                              <button className="btn btn-link p-0" onClick={(e) => {
-                                                  e.preventDefault();
-                                                  MySwal.fire({
-                                                      title: i18n.t('alert.warning'),
-                                                      text: i18n.t('confirmation.delItem'),
-                                                      type: 'question',
-                                                      showCancelButton: true,
-                                                      confirmButtonText: i18n.t('button.delete'),
-                                                      cancelButtonText: i18n.t('button.cancel')
-                                                  }).then((result) => {
-                                                      if (result.value) {
-                                                          this.handleIMEIdelete(i);
-                                                      }
-                                                  })
-                                              }}><i className="fa fa-trash-o"></i></button>
-                                              <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
-                                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                )}
-                                {values.imeis.length === 0 && <Field name="imeis" component={renderError}/>}
-                                </ul>
+                          </li>
+                        )
+                        )}
+                        {values.msisdns.length === 0 && <Field name="msisdns" component={renderError} />}
+                      </ul>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            }
+            <Col md={6} xs="12"> 
+             <div>
+              <div className="alert alert-info"><b> Information Required!</b>
+              <ul>
+                <li>IMEI, MSISDN and Incident Nature is required to cross check with information provided during case submition.</li>
+              </ul>
+              </div>
+            </div>
+            </Col>
+          </Row>
+          <Row>
+          {values.imei_known === 'yes' &&
+            <Col md={6} xs="12">
+              <Card>
+                <CardHeader className="wiri-btn">
+                  <Button type="button" onClick={() => this.handleImeiModal(null)} size="sm" color="outline-primary" disabled={values.imeis.length >= 5}>{i18n.t('addIMEI')}</Button>
+                  <div><b>{i18n.t('newCase.affectedIMEIs')}</b></div>
+                </CardHeader>
+                <CardBody className="p0">
+                  <div className="read-box">
+                    <ul className="listing">
+                      {values.imeis.length > 0 && values.imeis.map((imei, i) =>
+                        <li key={i}>
+                          <div className="dflex">
+                            <div className="fitem">{imei}</div>
+                            <div className="fitem">
+                              <button className="btn btn-link p-0" onClick={(e) => {
+                                e.preventDefault();
+                                MySwal.fire({
+                                  title: i18n.t('alert.warning'),
+                                  text: i18n.t('confirmation.delItem'),
+                                  type: 'question',
+                                  showCancelButton: true,
+                                  confirmButtonText: i18n.t('button.delete'),
+                                  cancelButtonText: i18n.t('button.cancel')
+                                }).then((result) => {
+                                  if (result.value) {
+                                    this.handleIMEIdelete(i);
+                                  }
+                                })
+                              }}><i className="fa fa-trash-o"></i></button>
+                              <Button type="button" onClick={() => this.handleImeiModal(i)} color="link" className="p-0"><i className="fa fa-pencil"></i></Button>{''}
+                              <Button type="button" onClick={() => this.updateTokenHOC(this.getMSISDNsSeenWithIMEI, i)} ref={'button' + i} size="xs" color="secondary">{i18n.t('button.getDetails')}</Button>
                             </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-                }
-            </Row>
-
-            <RenderModal show={this.state.showModal}>
-              <ModalHeader>{this.state.showModalTitle}</ModalHeader>
-              <ModalBody>
-                <FormGroup>
-                  <Field name="msisdnInput" component={doubleEntryInput} label={i18n.t('input.typeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex} maxLength={15} />
-                  <Field name="retypeMsisdnInput" component={doubleEntryInput} label={i18n.t('input.reTypeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex}  maxLength={15} />
-                </FormGroup>
-              </ModalBody>
-              <ModalFooter>
-                  <Button color="primary" onClick={this.handleMsisdnSaving} disabled={((errors['msisdnInput'] || errors['retypeMsisdnInput']) || values['msisdnInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
-                <Button color="secondary" onClick={this.closeShowModal}>{i18n.t('button.cancel')}</Button>
-              </ModalFooter>
-            </RenderModal>
-
-            <RenderModal show={this.state.imeiModal}>
-              <ModalHeader>{this.state.imeiModalTitle}</ModalHeader>
-              <ModalBody>
-                <FormGroup>
-                  <Field name="imeiInput" component={doubleEntryInput} label={i18n.t('input.typeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16} />
-                  <Field name="retypeImeiInput" component={doubleEntryInput} label={i18n.t('input.reTypeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex}  maxLength={16}/>
-                </FormGroup>
-              </ModalBody>
-              <ModalFooter>
-                  <Button color="primary" onClick={this.handleImeiSaving} disabled={((errors['imeiInput'] || errors['retypeImeiInput']) || values['imeiInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
-                <Button color="secondary" onClick={this.closeImeiModal}>{i18n.t('button.cancel')}</Button>
-              </ModalFooter>
-            </RenderModal>
-
-            <RenderModal show={this.state.verifyModal} className="modal-lg">
-              <ModalHeader>{i18n.t('verifyAssociatedIMEIsWithMSISDN')}: {values.msisdns[this.state.verifyModalMsisdnIndex]}</ModalHeader>
-              <ModalBody>
-                  <div className="table-responsive">
-                      <table className="table table-striped table-bordered">
-                          <thead>
-                          <tr>
-                              <th>{i18n.t('verify')}</th>
-                              <th>{i18n.t('imeis')}</th>
-                              <th align="right">{i18n.t('deviceDetails')}</th>
-                          </tr>
-                          </thead>
-                          <FieldArray
-                            name="imeis"
-                            render={arrayHelpers => (
-                              <tbody>
-                              {this.state.imeisWithDeviceDetails.length > 0 ?
-                                this.state.imeisWithDeviceDetails.map((details, i) => (
-                                  <tr key={i}>
-                                      <td>
-                                    <label>
-                                      <input
-                                        name="imeis"
-                                        type="checkbox"
-                                        value={details.imei_norm}
-                                        checked={values.imeis.includes(details.imei_norm)}
-                                        onChange={e => {
-                                          if (e.target.checked){ 
-                                            arrayHelpers.push(details.imei_norm);
-                                            this.props.setFieldValue('imeiInput', details.imei_norm)
-                                            this.props.setFieldValue('retypeImeiInput', details.imei_norm)
-                                          }
-                                          else {
-                                            const idx = values.imeis.indexOf(details.imei_norm);
-                                            arrayHelpers.remove(idx);
-                                          }
-                                        }}
-                                      />{" "}
-                                    </label>
-                                      </td>
-                                      <td>{details.imei_norm}</td>
-                                      <td align="right">
-                                          <Button color="primary" onClick={() => this.toggle(i)} style={{ marginBottom: '1rem' }}>{(this.state.imeisWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}`: `${i18n.t('hideDeviceDetails')}`}</Button>
-                                          <Collapse isOpen={this.state.imeisWithDeviceDetailsFlags[i]}>
-                                              <ul className="dd-list">
-                                                  <li>{i18n.t('newCase.deviceBrand')}: <b>{(details.gsma) ? (details.gsma.brand ? details.gsma.brand: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('newCase.deviceModelName')}: <b>{(details.gsma) ? (details.gsma.model_name ? details.gsma.model_name: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('deviceModelNumber')}: <b>{(details.gsma) ? (details.gsma.model_number ? details.gsma.model_number: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('deviceType')}: <b>{(details.gsma) ? (details.gsma.device_type ? details.gsma.device_type: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('operatingSystem')}: <b>{(details.gsma) ? (details.gsma.operating_system ? details.gsma.operating_system: 'N/A') : 'N/A'}</b></li>
-                                                  <li>{i18n.t('radioAccessTechnology')}: <b>{(details.gsma) ? (details.gsma.radio_access_technology ? details.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
-                                              </ul>
-                                          </Collapse>
-                                      </td>
-                                  </tr>
-                                ))
-                                  : <tr>
-                                      <td colSpan="3">
-                                          <span className="text-danger">{i18n.t('noRecordFound')}</span>
-                                      </td>
-                                    </tr>
-                              }
-                              </tbody>
-                            )}
-                          />
-                      </table>
+                          </div>
+                        </li>
+                      )}
+                      {values.imeis.length === 0 && <Field name="imeis" component={renderError} />}
+                    </ul>
                   </div>
-              </ModalBody>
-              <ModalFooter className={this.state.imeisWithDeviceDetails.length > 0 ? 'justify-content-between': ''}>
-                  {this.state.imeisWithDeviceDetails.length > 0 &&
+                </CardBody>
+              </Card>
+            </Col>
+          }
+          </Row>
+          <Row>          
+          <Col md="6" xs="12">
+            <FormGroup>
+              <Label>{i18n.t('newCase.incidentNature')} <span className="text-danger">*</span></Label>
+              <div className="selectbox">
+                <Field component="select" name="incident" className="form-control">
+                  <option value="">{i18n.t('incidentNature.selectNature')}</option>
+                  <option value="Lost">{i18n.t('incidentNature.lost')}</option>
+                  <option value="Stolen">{i18n.t('incidentNature.stolen')}</option>
+                </Field>
+              </div>
+              <Field name="incident" component={renderError} />
+            </FormGroup>
+          </Col>
+          </Row>
+          <RenderModal show={this.state.showModal}>
+            <ModalHeader>{this.state.showModalTitle}</ModalHeader>
+            <ModalBody>
+              <FormGroup>
+                <Field name="msisdnInput" component={doubleEntryInput} label={i18n.t('input.typeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex} maxLength={15} />
+                <Field name="retypeMsisdnInput" component={doubleEntryInput} label={i18n.t('input.reTypeMSISDN')} type="text" placeholder="" selectedKey={this.state.msisdnIndex} maxLength={15} />
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handleMsisdnSaving} disabled={((errors['msisdnInput'] || errors['retypeMsisdnInput']) || values['msisdnInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
+              <Button color="secondary" onClick={this.closeShowModal}>{i18n.t('button.cancel')}</Button>
+            </ModalFooter>
+          </RenderModal>
+
+          <RenderModal show={this.state.imeiModal}>
+            <ModalHeader>{this.state.imeiModalTitle}</ModalHeader>
+            <ModalBody>
+              <FormGroup>
+                <Field name="imeiInput" component={doubleEntryInput} label={i18n.t('input.typeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex} maxLength={16} />
+                <Field name="retypeImeiInput" component={doubleEntryInput} label={i18n.t('input.reTypeIMEI')} type="text" placeholder="" selectedKey={this.state.imeiIndex} maxLength={16} />
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handleImeiSaving} disabled={((errors['imeiInput'] || errors['retypeImeiInput']) || values['imeiInput'].length === 0) ? true : false}>{i18n.t('button.save')}</Button>
+              <Button color="secondary" onClick={this.closeImeiModal}>{i18n.t('button.cancel')}</Button>
+            </ModalFooter>
+          </RenderModal>
+
+          <RenderModal show={this.state.verifyModal} className="modal-lg">
+            <ModalHeader>{i18n.t('verifyAssociatedIMEIsWithMSISDN')}: {values.msisdns[this.state.verifyModalMsisdnIndex]}</ModalHeader>
+            <ModalBody>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>{i18n.t('verify')}</th>
+                      <th>{i18n.t('imeis')}</th>
+                      <th align="right">{i18n.t('deviceDetails')}</th>
+                    </tr>
+                  </thead>
+                  <FieldArray
+                    name="imeis"
+                    render={arrayHelpers => (
+                      <tbody>
+                        {this.state.imeisWithDeviceDetails.length > 0 ?
+                          this.state.imeisWithDeviceDetails.map((details, i) => (
+                            <tr key={i}>
+                              <td>
+                                <label>
+                                  <input
+                                    name="imeis"
+                                    type="checkbox"
+                                    value={details.imei_norm}
+                                    checked={values.imeis.includes(details.imei_norm)}
+                                    onChange={e => {
+                                      if (e.target.checked) {
+                                        arrayHelpers.push(details.imei_norm);
+                                        this.props.setFieldValue('imeiInput', details.imei_norm)
+                                        this.props.setFieldValue('retypeImeiInput', details.imei_norm)
+                                      }
+                                      else {
+                                        const idx = values.imeis.indexOf(details.imei_norm);
+                                        arrayHelpers.remove(idx);
+                                      }
+                                    }}
+                                  />{" "}
+                                </label>
+                              </td>
+                              <td>{details.imei_norm}</td>
+                              <td align="right">
+                                <Button color="primary" onClick={() => this.toggle(i)} style={{ marginBottom: '1rem' }}>{(this.state.imeisWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}` : `${i18n.t('hideDeviceDetails')}`}</Button>
+                                <Collapse isOpen={this.state.imeisWithDeviceDetailsFlags[i]}>
+                                  <ul className="dd-list">
+                                    <li>{i18n.t('newCase.deviceBrand')}: <b>{(details.gsma) ? (details.gsma.brand ? details.gsma.brand : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('newCase.deviceModelName')}: <b>{(details.gsma) ? (details.gsma.model_name ? details.gsma.model_name : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('deviceModelNumber')}: <b>{(details.gsma) ? (details.gsma.model_number ? details.gsma.model_number : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('deviceType')}: <b>{(details.gsma) ? (details.gsma.device_type ? details.gsma.device_type : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('operatingSystem')}: <b>{(details.gsma) ? (details.gsma.operating_system ? details.gsma.operating_system : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('radioAccessTechnology')}: <b>{(details.gsma) ? (details.gsma.radio_access_technology ? details.gsma.radio_access_technology : 'N/A') : 'N/A'}</b></li>
+                                    <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
+                                  </ul>
+                                </Collapse>
+                              </td>
+                            </tr>
+                          ))
+                          : <tr>
+                            <td colSpan="3">
+                              <span className="text-danger">{i18n.t('noRecordFound')}</span>
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    )}
+                  />
+                </table>
+              </div>
+            </ModalBody>
+            <ModalFooter className={this.state.imeisWithDeviceDetails.length > 0 ? 'justify-content-between' : ''}>
+              {this.state.imeisWithDeviceDetails.length > 0 &&
                 <div className="text-danger">* {i18n.t('byCheckingCheckboxESYouAreAddingIMEIsToTheCase')}</div>}
-                {/*<Button color="primary" onClick={this.handleVerifyModalSaving}>Add Selected IMEIs To Case</Button>*/}
-                <Button color="secondary" type="button" onClick={this.closeVerifyModal}>{i18n.t('button.ok')}</Button>
-              </ModalFooter>
-            </RenderModal>
+              {/*<Button color="primary" onClick={this.handleVerifyModalSaving}>Add Selected IMEIs To Case</Button>*/}
+              <Button color="secondary" type="button" onClick={this.closeVerifyModal}>{i18n.t('button.ok')}</Button>
+            </ModalFooter>
+          </RenderModal>
 
-            <RenderModal show={this.state.verifyImeiModal} className="modal-lg">
-              <ModalHeader>{this.props.authDetails.role === 'admin' ? i18n.t('verifyAssociatedMSISDNsWithIMEI') : "Verify associated information with IMEI"}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
-              <ModalBody>
+          <RenderModal show={this.state.verifyImeiModal} className="modal-lg">
+            <ModalHeader>{this.props.authDetails.role === 'admin' ? i18n.t('verifyAssociatedMSISDNsWithIMEI') : "Verify associated information with IMEI"}: {values.imeis[this.state.verifyModalImeiIndex]}</ModalHeader>
+            <ModalBody>
               {this.props.authDetails.role === 'admin' ?
-              <>
+                <>
                   <div className="table-responsive">
-                      <table className="table table-striped table-bordered">
-                          <thead>
-                          <tr>
-                              <th>{i18n.t('msisdn')}</th>
-                              <th align="right">{i18n.t('deviceDetails')}</th>
-                          </tr>
-                          </thead>
-                          <FieldArray
-                            name="imeis"
-                            render={arrayHelpers => (
-                              <tbody>
-                              {this.state.msisdnsWithDeviceDetails.subscribers.length > 0 ?
-                                this.state.msisdnsWithDeviceDetails.subscribers.map((details, i) => (
-                                  <tr key={i}>
-                                      <td>
-                                         {details.msisdn}
-                                      </td>
-                                      <td align="right">
-                                          <Button color="primary" onClick={() => this.toggleMSISDNsDeviceDetails(i)} style={{ marginBottom: '1rem' }}>{(this.state.msisdnsWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}`: `${i18n.t('hideDeviceDetails')}`}</Button>
-                                          <Collapse isOpen={this.state.msisdnsWithDeviceDetailsFlags[i]}>
-                                              <ul className="dd-list">
-                                                  <li>{i18n.t('newCase.deviceBrand')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : 'N/A') : 'N/A'}</b></li>
-                                                  <li>{i18n.t('newCase.deviceModelName')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name : 'N/A') : 'N/A'}</b></li>
-                                                  <li>{i18n.t('deviceModelNumber')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('deviceType')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('operatingSystem')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.operating_system ? this.state.msisdnsWithDeviceDetails.gsma.operating_system : 'N/A') : 'N/A'}</b></li>
-                                                  <li>{i18n.t('radioAccessTechnology')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology ? this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology: 'N/A'): 'N/A'}</b></li>
-                                                  <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
-                                              </ul>
-                                          </Collapse>
-                                      </td>
-                                  </tr>
-                                ))
-                                  :
-                                  <tr>
-                                      <td colSpan="3">
-                                          <span className="text-danger">{i18n.t('noRecordFound')}</span>
-                                      </td>
-                                  </tr>
-                              }
-                              </tbody>
-                            )}
-                          />
-                      </table>
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>{i18n.t('msisdn')}</th>
+                          <th align="right">{i18n.t('deviceDetails')}</th>
+                        </tr>
+                      </thead>
+                      <FieldArray
+                        name="imeis"
+                        render={arrayHelpers => (
+                          <tbody>
+                            {this.state.msisdnsWithDeviceDetails.subscribers.length > 0 ?
+                              this.state.msisdnsWithDeviceDetails.subscribers.map((details, i) => (
+                                <tr key={i}>
+                                  <td>
+                                    {details.msisdn}
+                                  </td>
+                                  <td align="right">
+                                    <Button color="primary" onClick={() => this.toggleMSISDNsDeviceDetails(i)} style={{ marginBottom: '1rem' }}>{(this.state.msisdnsWithDeviceDetailsFlags[i] === false) ? `${i18n.t('showDeviceDetails')}` : `${i18n.t('hideDeviceDetails')}`}</Button>
+                                    <Collapse isOpen={this.state.msisdnsWithDeviceDetailsFlags[i]}>
+                                      <ul className="dd-list">
+                                        <li>{i18n.t('newCase.deviceBrand')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('newCase.deviceModelName')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('deviceModelNumber')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('deviceType')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('operatingSystem')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.operating_system ? this.state.msisdnsWithDeviceDetails.gsma.operating_system : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('radioAccessTechnology')}: <b>{this.state.msisdnsWithDeviceDetails.gsma ? (this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology ? this.state.msisdnsWithDeviceDetails.gsma.radio_access_technology : 'N/A') : 'N/A'}</b></li>
+                                        <li>{i18n.t('lastSeenDate')}: <b>{moment(details.last_seen).format('MM-DD-YYYY')}</b></li>
+                                      </ul>
+                                    </Collapse>
+                                  </td>
+                                </tr>
+                              ))
+                              :
+                              <tr>
+                                <td colSpan="3">
+                                  <span className="text-danger">{i18n.t('noRecordFound')}</span>
+                                </td>
+                              </tr>
+                            }
+                          </tbody>
+                        )}
+                      />
+                    </table>
                   </div>
-              </> :
+                </> :
                 <div className="table-responsive">
                   <h6>GSMA TAC information</h6>
                   {this.state.msisdnsWithDeviceDetails.gsma ?
@@ -547,8 +572,8 @@ class CaseForm extends Component {
                           <th>Device Type</th>
                         </tr>
                         <tr>
-                          <td>{this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand: null}</td>
-                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name: null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : null}</td>
+                          <td>{this.state.msisdnsWithDeviceDetails.gsma.model_name ? this.state.msisdnsWithDeviceDetails.gsma.model_name : null}</td>
                           <td>{this.state.msisdnsWithDeviceDetails.gsma.model_number ? this.state.msisdnsWithDeviceDetails.gsma.model_number : null}</td>
                           <td>{this.state.msisdnsWithDeviceDetails.gsma.device_type ? this.state.msisdnsWithDeviceDetails.gsma.device_type : null}</td>
                         </tr>
@@ -558,43 +583,44 @@ class CaseForm extends Component {
                     <center><h6>Information Not Found</h6></center>
                   }
                 </div>
-               }
-              </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
-              </ModalFooter>
-            </RenderModal>
-        <Row className="justify-content-end mb-1p5rem">
-          <Col md="4" xl="3" xs="6">
-            <Link className="btn btn-light btn-block"
-                            to={'/search-cases'}>{i18n.t('button.cancel')}</Link>
-            {/*<Button color="default" onClick={handleReset} disabled={!dirty || isSubmitting} block>*/}
+              }
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" type="button" onClick={this.closeVerifyImeiModal}>{i18n.t('button.close')}</Button>
+            </ModalFooter>
+          </RenderModal>
+          <Row className="justify-content-start mt-5">
+            <Col md="4" xl="3" xs="6">
+              <Link className="btn btn-light btn-block"
+                to={'/search-cases'}>{i18n.t('button.cancel')}</Link>
+              {/*<Button color="default" onClick={handleReset} disabled={!dirty || isSubmitting} block>*/}
               {/*Reset*/}
-            {/*</Button>*/}
-          </Col>
-          <Col md="4" xl="3" xs="6">
-            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.recover')}</Button>
-          </Col>
-        </Row>
-      </Form>
-        </div>
+              {/*</Button>*/}
+            </Col>
+            <Col md="4" xl="3" xs="6">
+              <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.recover')}</Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     );
   }
 }
 
 const MyEnhancedForm = withFormik({
   mapPropsToValues: () => (
-    { 
-      "imei_known": "yes", 
-      "msisdns": [], 
-      "msisdnInput": "", 
-      "retypeMsisdnInput": "", 
-      "imeis": [], 
-      "imeiInput": "", 
-      "retypeImeiInput":"",  
+    {
+      "imei_known": "yes",
+      "msisdns": [],
+      "msisdnInput": "",
+      "retypeMsisdnInput": "",
+      "imeis": [],
+      "imeiInput": "",
+      "retypeImeiInput": "",
+      "incident": ""
     }
   ),
-  
+
   // Custom sync validation
   validate: values => {
     let errors = {};
@@ -603,7 +629,7 @@ const MyEnhancedForm = withFormik({
     // }
     // MSISDNs Modal Validation
     if (!values.msisdns || !values.msisdns.length) {
-        errors.msisdns = `${i18n.t('forms.oneMSISDNmust')}`
+      errors.msisdns = `${i18n.t('forms.oneMSISDNmust')}`
     }
     if (!values.msisdnInput) {
       errors.msisdnInput = `${i18n.t('forms.fieldError')}`
@@ -640,31 +666,34 @@ const MyEnhancedForm = withFormik({
         errors.retypeImeiInput = `${i18n.t('forms.imeiNotMatch')}`
       }
     }
-   
+    if (!values.incident) {
+      errors.incident = `${i18n.t('forms.fieldError')}`
+    }
+
     return errors;
   },
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    bag.props.unBlockCall(null, bag.props.caseDetails.tracking_id, RECOVERED_CASE, prepareAPIRequest(values, bag.props.caseDetails) )
+    bag.props.unBlockCall(null, bag.props.caseDetails.tracking_id, RECOVERED_CASE, prepareAPIRequest(values, bag.props.caseDetails))
   },
 
   displayName: 'CaseForm', // helps with React DevTools
 })(CaseForm);
 
 function prepareAPIRequest(values, caseDetails) {
-   // Validate Values before sending
-    const params = {};
-    params.incident_details = {};
-    params.incident_details.incident_nature = caseDetails.incident_details.incident_nature;
-    params.device_details = {};
-    if(values.imeis) {
-        params.device_details.imeis = values.imeis;
-    }
-    if(values.msisdns) {
-        params.device_details.msisdns = values.msisdns;
-    }
-    return params;
+  // Validate Values before sending
+  const params = {};
+  params.incident_details = {};
+  params.incident_details.incident_nature = values.incident;
+  params.device_details = {};
+  if (values.imeis) {
+    params.device_details.imeis = values.imeis;
+  }
+  if (values.msisdns) {
+    params.device_details.msisdns = values.msisdns;
+  }
+  return params;
 }
 
 class CaseUnblock extends Component {
@@ -679,38 +708,38 @@ class CaseUnblock extends Component {
   }
 
   updateTokenHOC(callingFunc, values = null) {
-      let config = null;
-      if(this.props.kc.isTokenExpired(0)) {
-          this.props.kc.updateToken(0)
-              .success(() => {
-                  localStorage.setItem('token', this.props.kc.token)
-                  config = {
-                    headers: getAuthHeader(this.props.kc.token)
-                  }
-                  callingFunc(config, values);
-              })
-              .error(() => this.props.kc.logout());
-      } else {
+    let config = null;
+    if (this.props.kc.isTokenExpired(0)) {
+      this.props.kc.updateToken(0)
+        .success(() => {
+          localStorage.setItem('token', this.props.kc.token)
           config = {
-            headers: getAuthHeader()
+            headers: getAuthHeader(this.props.kc.token)
           }
           callingFunc(config, values);
+        })
+        .error(() => this.props.kc.logout());
+    } else {
+      config = {
+        headers: getAuthHeader()
       }
+      callingFunc(config, values);
+    }
   }
 
   render() {
     let kc = this.props.kc;
     let authDetails = this.props.userDetails;
     return (
-        <I18n ns="translations">
+      <I18n ns="translations">
         {
           (t, { i18n }) => (
             <div className="new-case-box animated fadeIn">
-              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} unBlockCall={this.props.handleCaseStatus} caseDetails={this.props.history.location.state} caseSubmitted={this.state.caseSubmitted} kc={kc}/>
+              <MyEnhancedForm isSubmitting="true" authDetails={authDetails} unBlockCall={this.props.handleCaseStatus} caseDetails={this.props.history.location.state} caseSubmitted={this.state.caseSubmitted} kc={kc} />
             </div>
           )
         }
-        </I18n>
+      </I18n>
     )
   }
 }
