@@ -190,6 +190,8 @@
   "title.updateIMEI": "Update an IMEI",
   "title.addIMEI": "Add an IMEI",
 
+  "addIMEI": "Add IMEI",
+  "addMSISDN": "Add MSISDN",
   "verifyAssociatedIMEIsWithMSISDN": "Verify associated IMEIs with MSISDN",
   "caseReporterDeviceDescription": "Case reporter device description",
   "verify": "Verify",
