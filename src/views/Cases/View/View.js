@@ -114,7 +114,7 @@ class View extends Component {
                             <Button color="success" size="sm" onClick={() => this.props.history.push({ pathname: '/case-unblock', state: this.state.data})}>{i18n.t('button.recover')}</Button>
                         {' '}</Fragment>}
                         {(get_blocked === true && this.props.userDetails.role === 'admin') ?
-                            <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE)}>{i18n.t('button.block')}</Button>
+                            <Button color="danger" size="sm" onClick={(e) => this.props.handleCaseStatus(e, tracking_id, BLOCKED_CASE, this.state.data)}>{i18n.t('button.block')}</Button>
                             : ''}
                       </div>
                       : (status === i18n.t('caseStatus.blocked') && this.props.userDetails.role === 'admin') ?
