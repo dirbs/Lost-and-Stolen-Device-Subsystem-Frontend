@@ -189,7 +189,7 @@ class Pending extends Component {
                                     <Card className="mb-3">
                                         <CardHeader className={this.props.userDetails.role === 'admin' ? 'border-bottom-0 flkx jc-space-between' : 'border-bottom-0'}>
                                             <div><b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('pendingCasesRecord.casesFound')}`: `${this.state.totalCases} ${i18n.t('pendingCasesRecord.caseFound')}`}</b></div>
-                                            {this.props.userDetails.role === 'admin' && <div><Button color="danger" size="sm" onClick={() => this.updateTokenHOC(this.handleBlockAll)}>{i18n.t('Block all')}</Button></div>}
+                                            {/* {this.props.userDetails.role === 'admin' && <div><Button color="danger" size="sm" onClick={() => this.updateTokenHOC(this.handleBlockAll)}>{i18n.t('Block all')}</Button></div>} */}
                                         </CardHeader>
                                     </Card>
                                     {pending_cases}
