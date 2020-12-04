@@ -495,7 +495,7 @@ class CaseForm extends Component {
                                     <Label>{i18n.t('Incident Regions')} <span className="text-danger">*</span></Label>
                                     <div className="selectbox">
                                       <Field component="select" name="incident_region" className="form-control">
-                                        <option value="">{i18n.t('Select nature of incident')}</option>
+                                        <option value="">{i18n.t('Select Incident Region')}</option>
                                         {Regions.regions.map((region, index) => (
                                           <optgroup label={region.province} key={index}>
                                             {region.regions.map((region) => (
