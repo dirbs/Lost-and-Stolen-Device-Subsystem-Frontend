@@ -244,5 +244,21 @@
   "dashboard.instructions.li6": "En detalles personales, todos los campos son obligatorios para el registro de casos.",
 
   "multiSelectNoResult": "No se han encontrado resultados",
-  "multiSelectNewCreate": "Opción de creación"
+  "multiSelectNewCreate": "Opción de creación",
+
+  "uploadBulkFile": "Subir archivo masivo",
+  "success": "éxito",
+  "failed": "fallido",
+  "failedIMEISFile": "Archivo IMEI fallido",
+  "sampleUnblockBulkFile": "sencilla Desbloquear archivo masivo",
+  "enterTrackingID": "Ingrese el ID de seguimiento",
+  "StatusForTrackingID": "Estado del ID de seguimiento",
+  "is": "es",
+  "notified": "Notificado",
+  "reportFile": "Archivo de informe",
+  "informationRequired": "Informacion requerida!",
+  "IMEIMSISDNandIncidentNatureIsRequired": "Se requiere que IMEI, MSISDN e Incident Nature se verifiquen con la información proporcionada durante la presentación del caso",
+  "GSMATACInformation": "Información de GSMA TAC",
+  "checkStatus": "Comprobar estado",
+  "button.clear": "Claro"
 }

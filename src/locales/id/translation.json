@@ -244,6 +244,22 @@
   "dashboard.instructions.li6": "Dalam perincian pribadi, semua bidang diperlukan untuk pendaftaran kasus.",
 
   "multiSelectNoResult": "Tidak ada hasil yang ditemukan",
-  "multiSelectNewCreate": "Buat Opsi"
+  "multiSelectNewCreate": "Buat Opsi",
+
+  "uploadBulkFile": "Unggah file Massal",
+  "success": "Keberhasilan",
+  "failed": "Gagal",
+  "failedIMEISFile": "File IMEI gagal",
+  "sampleUnblockBulkFile": " Contoh Buka Blokir file Massal",
+  "enterTrackingID": "Masukkan ID Pelacakan",
+  "StatusForTrackingID": "Status ID Pelacakan",
+  "is": "adalah",
+  "notified": "diberitahu",
+  "reportFile": "Laporkan File",
+  "informationRequired": "Informasi dibutuhkan!",
+  "IMEIMSISDNandIncidentNatureIsRequired": "IMEI, MSISDN dan Incident Nature diwajibkan untuk melakukan pemeriksaan silang dengan informasi yang diberikan selama pengajuan kasus",
+  "GSMATACInformation": "Informasi GSMA TAC",
+  "checkStatus": "periksa status",
+  "button.clear": "Jelas"
 
 }
