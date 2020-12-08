@@ -284,7 +284,6 @@ const MyEnhancedUpdateForm = withFormik({
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
     var regexp = new RegExp(GIN_REGEX, 'gm');
-
     if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
     } else if (!regexp.exec(values.gin)) {

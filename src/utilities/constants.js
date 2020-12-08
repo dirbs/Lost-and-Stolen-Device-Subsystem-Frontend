@@ -80,4 +80,4 @@ export const INDONESIAN_REGEX = /^\S+[0-9A-Z-a-zé$@$!%*?:"/{}=|<>~`*&#^_. ,+()\
 export const ENGLISH_FULL_NAME = /^\S+[A-Za-z ]+$/i;
 export const SPANISH_FULL_NAME = /^\S+[A-Za-zñáéíóúü ]+$/i;
 export const INDONESIAN_FULL_NAME = /^\S+[A-Za-zé ]+$/i;
-export const GIN_REGEX = ginRegex;
+export const GIN_REGEX = ginRegex !== undefined ? ginRegex : "^\\d{5}\\-?\\d{7}\\-?\\d$";
