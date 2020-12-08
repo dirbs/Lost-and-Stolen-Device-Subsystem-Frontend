@@ -50,7 +50,7 @@ class CaseBulkForm extends Component {
                       onBlur={setFieldTouched}
                       name="block_imeis_file"
                       type="file"
-                      label="Upload Bulk file"
+                      label={i18n.t('uploadBulkFile')}
                       inputClass="asitfield"
                       inputClassError="asitfield is-invalid"
                       requiredStar
@@ -217,9 +217,9 @@ class Block extends Component {
                     <Table striped>
                       <thead>
                         <tr>
-                          <th>Success</th>
-                          <th>Failed</th>
-                          <th>Failed IMEIs File</th>
+                          <th>{i18n.t('success')}</th>
+                          <th>{i18n.t('failed')}</th>
+                          <th>{i18n.t('failedIMEISFile')}</th>
                         </tr>
                       </thead>
                       <tbody>

@@ -33,7 +33,7 @@ class CaseBulkForm extends Component {
         <div className="row">
         <div className="col-xl-4 order-xl-12">
             <div>
-              <div className="alert alert-info"><b> Sample Unblock Bulk file</b><hr/>
+              <div className="alert alert-info"><b>{i18n.t('sampleUnblockBulkFile')}</b><hr/>
               <CSVLink enclosingCharacter={``} className="btn btn-outline-primary btn-sm" filename="Sample Unblock Bulk.csv" data={csvSampleData}>Download Sample File</CSVLink>
               </div>
             </div>
@@ -49,7 +49,7 @@ class CaseBulkForm extends Component {
                       onBlur={setFieldTouched}
                       name="unblock_imeis_file"
                       type="file"
-                      label="Upload Bulk file"
+                      label={i18n.t('uploadBulkFile')}
                       inputClass="asitfield"
                       inputClassError="asitfield is-invalid"
                       requiredStar
@@ -60,7 +60,7 @@ class CaseBulkForm extends Component {
             </Card>
             <div className="text-right">
               <div className="form-group">
-                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">Submit</Button>
+                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">{i18n.t('button.submit')}</Button>
               </div>
             </div>
           </div>
@@ -213,9 +213,9 @@ class Unblock extends Component {
             <Col xl={8}>
               <div className="uploaded-submit-details">
                 <h6>{cplcStatus.message}</h6>
-                <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
+                <p>{i18n.t('trackingIdIs')}<b>{cplcStatus.task_id}</b>{i18n.t('andStatusIs')}<b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
                 <div className="link-box">
-                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Copy Tracking ID to Clipboard</Button>
+                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>{i18n.t('copyTracking')}</Button>
                 </div>
               </div>
             </Col>
@@ -232,9 +232,9 @@ class Unblock extends Component {
                     <Table striped>
                       <thead>
                         <tr>
-                          <th>Success</th>
-                          <th>Failed</th>
-                          <th>Failed IMEIs File</th>
+                          <th>{i18n.t('success')}</th>
+                          <th>{i18n.t('failed')}</th>
+                          <th>{i18n.t('failedIMEISFile')}</th>
                         </tr>
                       </thead>
                       <tbody>

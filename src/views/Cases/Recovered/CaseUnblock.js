@@ -335,9 +335,9 @@ class CaseForm extends Component {
             }
             <Col md={6} xs="12"> 
              <div>
-              <div className="alert alert-info"><b> Information Required!</b>
+              <div className="alert alert-info"><b>{i18n.t('informationRequired')}</b>
               <ul>
-                <li>IMEI, MSISDN and Incident Nature is required to cross check with information provided during case submition.</li>
+                <li>{i18n.t('IMEIMSISDNandIncidentNatureIsRequired')}</li>
               </ul>
               </div>
             </div>
@@ -561,15 +561,15 @@ class CaseForm extends Component {
                   </div>
                 </> :
                 <div className="table-responsive">
-                  <h6>GSMA TAC information</h6>
+                  <h6>{i18n.t('GSMATACInformation')}</h6>
                   {this.state.msisdnsWithDeviceDetails.gsma ?
                     <table className="table table-striped table-bordered">
                       <tbody>
                         <tr>
-                          <th>Brand</th>
-                          <th>Model Name</th>
-                          <th>Model Number</th>
-                          <th>Device Type</th>
+                          <th>{i18n.t('newCase.deviceBrand')}</th>
+                          <th>{i18n.t('caseBox.modelName')}</th>
+                          <th>{i18n.t('deviceModelNumber')}</th>
+                          <th>{i18n.t('deviceType')}</th>
                         </tr>
                         <tr>
                           <td>{this.state.msisdnsWithDeviceDetails.gsma.brand ? this.state.msisdnsWithDeviceDetails.gsma.brand : null}</td>
@@ -580,7 +580,7 @@ class CaseForm extends Component {
                       </tbody>
                     </table>
                     :
-                    <center><h6>Information Not Found</h6></center>
+                    <center><h6>{i18n.t('noRecordFound')}</h6></center>
                   }
                 </div>
               }

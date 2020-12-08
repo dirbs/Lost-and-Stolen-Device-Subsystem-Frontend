@@ -159,7 +159,7 @@ class SearchStatus extends Component {
       <div>
           <Col xs={12} sm={12} xl={6}>
           <br/>
-          <Label>Enter Tracking ID<span className="text-danger">*</span></Label>
+          <Label>{i18n.t('enterTrackingID')}<span className="text-danger">*</span></Label>
           <Input value={this.state.trackingId} onChange={(e) => {
             this.handleTextChange(e)
           }} type="text" name="trkId" />
@@ -168,25 +168,25 @@ class SearchStatus extends Component {
           <br/>
           <Row className="ml-1">
           <div className="link-box ml-3">
-            <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Check Status</Button>
+            <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>{i18n.t('checkStatus')}</Button>
           </div>
           <div className="link-box ml-3">
-            <Button color="danger" onClick={this.handleClear}>Clear</Button>
+            <Button color="danger" onClick={this.handleClear}>{i18n.t('button.clear')}</Button>
           </div>
           </Row>
           <br/>
           {(this.state.data && this.state.trackingId) && 
           <div className="msgSearch ml-3">
-            <p>Status for Tracking ID: <span>{this.state.trackingId}</span> is <span>{this.state.data.state}</span></p>
+            <p>{i18n.t('StatusForTrackingID')} : <span>{this.state.trackingId}</span> {i18n.t('is')} <span>{this.state.data.state}</span></p>
             <br />
             {this.state.data.result && 
               <Table striped>
                 <thead>
                   <tr>
-                    <th>Success</th>
-                    <th>Failed</th>
-                    <th>Notified</th>
-                    <th>Report File</th>
+                    <th>{i18n.t('success')}</th>
+                    <th>{i18n.t('failed')}</th>
+                    <th>{i18n.t('notified')}</th>
+                    <th>{i18n.t('reportFile')}</th>
                   </tr>
                 </thead>
                 <tbody>

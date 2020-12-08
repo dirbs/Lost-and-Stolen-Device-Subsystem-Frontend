@@ -246,5 +246,21 @@
   "dashboard.instructions.li6": "In personal details, all fields are required for case registration.",
 
   "multiSelectNoResult": "No results found",
-  "multiSelectNewCreate": "Create Option"
+  "multiSelectNewCreate": "Create Option",
+  
+  "uploadBulkFile": "Upload Bulk file",
+  "success": "Success",
+  "failed": "Failed",
+  "failedIMEISFile": "Failed IMEIs File",
+  "sampleUnblockBulkFile": " Sample Unblock Bulk file",
+  "enterTrackingID": "Enter Tracking ID",
+  "StatusForTrackingID": "Status for Tracking ID",
+  "is": "is",
+  "notified": "Notified",
+  "reportFile": "Report File",
+  "informationRequired": "Information Required!",
+  "IMEIMSISDNandIncidentNatureIsRequired": "IMEI, MSISDN and Incident Nature is required to cross check with information provided during case submition",
+  "GSMATACInformation": "GSMA TAC information",
+  "checkStatus": "Check Status",
+  "button.clear": "Clear"
 }
