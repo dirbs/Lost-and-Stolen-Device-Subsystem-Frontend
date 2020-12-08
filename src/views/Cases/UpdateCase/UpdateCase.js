@@ -35,7 +35,7 @@ import renderInput from "../../../components/Form/RenderInput";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import moment from "moment";
-import {Date_Format} from "./../../../utilities/constants";
+import {Date_Format, GIN_REGEX} from "./../../../utilities/constants";
 import renderError from "../../../components/Form/RenderError";
 import {getUserInfo, languageCheck} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
@@ -283,13 +283,12 @@ const MyEnhancedUpdateForm = withFormik({
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    if(!values.gin){
+    var regexp = new RegExp(GIN_REGEX, 'gm');
+    if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
-    }else if(!/^[0-9]+$/.test(values.gin)){
-      errors.gin = i18n.t('forms.notNumberError')
-    }else if(values.gin.length<13){
-      errors.gin = i18n.t('forms.ginLength')
-    }
+    } else if (!regexp.exec(values.gin)) {
+      errors.gin = i18n.t('forms.ginFormat')
+    } 
     if(!values.number){
       errors.number = `${i18n.t('forms.fieldError')}`
     }else if(!/^[0-9]+$/.test(values.number)){

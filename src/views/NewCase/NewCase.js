@@ -38,7 +38,7 @@ import doubleEntryInput from '../../components/Form/DoubleEntryInput';
 import renderInput from '../../components/Form/RenderInput';
 import update from 'immutability-helper';
 import moment from "moment";
-import {Date_Format} from "../../utilities/constants";
+import {Date_Format, GIN_REGEX} from "../../utilities/constants";
 import { Prompt } from 'react-router'
 import switchToggleButton from "../../components/Form/SwitchToggleButton";
 import i18n from "./../../i18n";
@@ -923,13 +923,12 @@ const MyEnhancedForm = withFormik({
     } else if (fullNameCheck(values.full_name) === false) {
       errors.full_name = i18n.t('forms.fullNameError')
     }
+    var regexp = new RegExp(GIN_REGEX, 'gm');
     if (!values.gin) {
       errors.gin = `${i18n.t('forms.fieldError')}`
-    } else if (!/^[0-9]+$/.test(values.gin)) {
-      errors.gin = i18n.t('forms.notNumberError')
-    } else if (values.gin.length<13) {
-      errors.gin = i18n.t('forms.ginLength')
-    }
+    } else if (!regexp.exec(values.gin)) {
+      errors.gin = i18n.t('forms.ginFormat')
+    } 
     if (!values.number) {
       errors.number = `${i18n.t('forms.fieldError')}`
     } else if (!/^[0-9]+$/.test(values.number)) {
