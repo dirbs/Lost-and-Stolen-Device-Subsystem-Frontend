@@ -133,8 +133,8 @@
   "userProfile.alternateLandline": "Alternate Landline no.",
   "userProfile.district": "District/City",
   "userProfile.dob": "Date of birth",
-  "userProfile.gin": "CNIC no.",
-  "userProfile.ginum": "CNIC no.",
+  "userProfile.gin": "National Identification No.",
+  "userProfile.ginum": "National Identification No.",
   "userProfile.alternatePhoneNo": "Alternate mobile no.",
   "userProfile.email": "E-mail address",
   "userProfile.address": "Address",
@@ -173,7 +173,7 @@
   "forms.langError": "Unsupported Language",
   "forms.fullNameError": "Unsupported Language or cannot contain Digits or Special characters except space",
   "forms.notNumberError" : "Not a valid number",
-  "forms.ginLength" : "Govt. identification no should be of 13 digits",
+  "forms.ginFormat" : "Govt. identification no should be in correct format.",
   "form.alternateNumbers": "Number should be greater than 7 and less than 15",
 
 
