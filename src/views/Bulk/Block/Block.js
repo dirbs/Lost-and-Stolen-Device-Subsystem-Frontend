@@ -34,8 +34,8 @@ class CaseBulkForm extends Component {
         <div className="row">
           <div className="col-xl-4 order-xl-12">
             <div>
-              <div className="alert alert-info"><b> Sample Block Bulk file</b><hr/>
-              <CSVLink enclosingCharacter={``} className="btn btn-outline-primary btn-sm" filename="Sample Block Bulk.csv" data={csvSampleData}>Download Sample File</CSVLink>
+              <div className="alert alert-info"><b>{i18n.t('sampleBlockBulkFile')}</b><hr/>
+              <CSVLink enclosingCharacter={``} className="btn btn-outline-primary btn-sm" filename="Sample Block Bulk.csv" data={csvSampleData}>{i18n.t('downloadSampleFile')}</CSVLink>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@ class CaseBulkForm extends Component {
             </Card>
             <div className="text-right">
               <div className="form-group">
-                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">Submit</Button>
+                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">{i18n.t('button.submit')}</Button>
               </div>
             </div>
           </div>
@@ -77,14 +77,14 @@ const MyEnhancedForm = withFormik({
   validate: values => {
     let errors = {};
     if (!values.block_imeis_file) {
-      errors.block_imeis_file = 'please upload .csv file only.';
+      errors.block_imeis_file = i18n.t('csvOnly');
     }
     else if (values.block_imeis_file) {
       const validExts = [".csv"];
       let fileExt = values.block_imeis_file.name;
       fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
       if (validExts.indexOf(fileExt) < 0) {
-        errors.block_imeis_file = "Invalid file selected, valid files are of " + validExts.toString() + " types.";
+        errors.block_imeis_file = i18n.t('invalidFormat') + validExts.toString() + i18n.t('type');
       }
     }
     else {
@@ -144,10 +144,6 @@ class Block extends Component {
       .then(response => {
         if (response.data) {
           this.setState({ loading: false, cplcStatus: response.data });
-          // this.props.history.push({
-          //   pathname: '/case-status',
-          //   state: { details: statusDetails }
-          // });
         } else {
           SweetAlert({
             title: i18n.t('error'),
@@ -168,23 +164,6 @@ class Block extends Component {
     textField.select()
     document.execCommand('copy')
     textField.remove()
-
-    // const checkStatusId = this.state.cplcStatus.task_id;
-    // instance.post(`/status/${checkStatusId}`, values, config)
-    // .then(response => {
-    //   if (response.data) {
-    //     this.setState({ checkStatus: response.data })
-    //   } else {
-    //     SweetAlert({
-    //       title: i18n.t('error'),
-    //       message: i18n.t('somethingWentWrong'),
-    //       type: 'error'
-    //     })
-    //   }
-    // })
-    // .catch(error => {
-    //   errors(this, error);
-    // })
   }
 
   handleDownloadFile = (config, values) => {
@@ -219,9 +198,9 @@ class Block extends Component {
             <Col xl={8}>
               <div className="uploaded-submit-details">
                 <h6>{cplcStatus.message}</h6>
-                <p>Tracking ID is <b>{cplcStatus.task_id}</b> and status is <b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
+                <p>{i18n.t('trackingIdIs')}<b>{cplcStatus.task_id}</b>{i18n.t('andStatusIs')}<b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
                 <div className="link-box">
-                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>Copy Tracking ID to Clipboard</Button>
+                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>{i18n.t('copyTracking')}</Button>
                 </div>
               </div>
             </Col>

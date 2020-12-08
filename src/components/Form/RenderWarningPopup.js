@@ -18,6 +18,7 @@ export default class RenderWarningPopup extends Component {
     yes() {
         this.props.callback(true)
         this.setState({ hidden: true })
+        window.location.reload()
     }
 
     no() {
