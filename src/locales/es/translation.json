@@ -187,7 +187,15 @@
   "title.addMSISDN": "Agrega un MSISDN",
   "title.updateIMEI": "Actualizar un IMEI",
   "title.addIMEI": "Añadir un IMEI",
-  
+
+  "copyTracking": "Copiar ID de seguimiento al portapapeles",
+  "andStatusIs": " y el estado es ",
+  "trackingIdIs": "El ID de seguimiento es ",
+  "type": "tipo.",
+  "invalidFormat": "Archivo no válido seleccionado, los archivos válidos son de ",
+  "csvOnly": "cargue solo el archivo .csv.",
+  "downloadSampleFile": "Descargar archivo de muestra",
+  "sampleBlockBulkFile": "Archivo de muestra de bloque masivo",
   "addIMEI": "Añadir IMEI",
   "addMSISDN": "Agrega MSISDN",
   "verifyAssociatedIMEIsWithMSISDN": "Verifique los IMEI asociados con MSISDN",
