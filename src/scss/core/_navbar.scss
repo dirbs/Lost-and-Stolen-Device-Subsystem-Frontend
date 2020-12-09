@@ -23,11 +23,17 @@
       padding-left: 0.5rem;
     }
 
+    @include media-breakpoint-down(sm) {
+      padding-right: 0rem;
+      padding-left: 0rem;
+    }
+
   }
 
   .navbar-toggler {
-    min-width: 50px;
+    min-width: 40px;
     padding: $navbar-toggler-padding-y 0;
+    padding-top: 0rem;
 
     &:hover .navbar-toggler-icon {
       background-image: $navbar-toggler-icon-hover;
@@ -52,6 +58,20 @@
     padding-right: 15px;
     padding-left: 15px;
 
+    &:first-child{
+      @include media-breakpoint-down(sm) {
+        padding-right: 0px !important;
+        padding-left: 8px !important;
+      }
+    }
+
+    &:last-child{
+      @include media-breakpoint-down(sm) {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+      }
+    }
+
     .dropdown-menu-right {
       margin-right: 0px;
       left: auto;
@@ -61,7 +81,7 @@
     .fa-caret-down {
 
       &:before {
-        width: 18px;
+        width: 12px;
         display: flex;
         justify-content: flex-end;
       }
@@ -353,6 +373,12 @@ app-root {
 
     .dropdown {
 
+      a{
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 3px;
+      }
       .btn {
         text-transform: capitalize;
       }
