@@ -29,7 +29,7 @@ import {HashRouter, Route, Switch} from 'react-router-dom';
 // Containers
 import Full from './containers/Full/';
 
-import {getUserGroups, isPage401} from "./utilities/helpers";
+import {getUserGroups, isPage401, SweetAlert} from "./utilities/helpers";
 import Keycloak from 'keycloak-js';
 import decode from 'jwt-decode';
 import Base64 from 'base-64';
@@ -66,6 +66,15 @@ class Auth extends Component {
 		});
 		keycloak.init({onLoad: 'login-required', 'checkLoginIframe' : false}).success(authenticated => {
 			if(authenticated){
+				let ua = window.navigator.userAgent;
+				let isIE = /MSIE|Trident/.test(ua);
+				if (isIE) {
+					SweetAlert({
+						title: i18n.t('unsupportedBrowserTitle'),
+						message: i18n.t('unsupportedBrowser'),
+						type: 'error'
+					})
+				}
 				this.setState({keycloak: keycloak, authenticated: authenticated})
 				//Set token in local storage
 				localStorage.setItem('token', keycloak.token);

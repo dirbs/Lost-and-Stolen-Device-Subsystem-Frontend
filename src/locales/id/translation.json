@@ -260,6 +260,8 @@
   "IMEIMSISDNandIncidentNatureIsRequired": "IMEI, MSISDN dan Incident Nature diwajibkan untuk melakukan pemeriksaan silang dengan informasi yang diberikan selama pengajuan kasus",
   "GSMATACInformation": "Informasi GSMA TAC",
   "checkStatus": "periksa status",
-  "button.clear": "Jelas"
+  "button.clear": "Jelas",
+  "unsupportedBrowserTitle": "Browser tidak didukung",
+  "unsupportedBrowser": "Silakan gunakan Firefox, Chrome, Safari atau Edge untuk menggunakan semua fungsi sistem ini."
 
 }

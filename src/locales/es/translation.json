@@ -260,5 +260,7 @@
   "IMEIMSISDNandIncidentNatureIsRequired": "Se requiere que IMEI, MSISDN e Incident Nature se verifiquen con la información proporcionada durante la presentación del caso",
   "GSMATACInformation": "Información de GSMA TAC",
   "checkStatus": "Comprobar estado",
-  "button.clear": "Claro"
+  "button.clear": "Claro",
+  "unsupportedBrowserTitle": "Navegador no soportado",
+  "unsupportedBrowser": "Utilice Firefox, Chrome, Safari o Edge para utilizar todas las funciones de este sistema."
 }
