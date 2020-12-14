@@ -262,5 +262,7 @@
   "IMEIMSISDNandIncidentNatureIsRequired": "IMEI, MSISDN and Incident Nature is required to cross check with information provided during case submition",
   "GSMATACInformation": "GSMA TAC information",
   "checkStatus": "Check Status",
-  "button.clear": "Clear"
+  "button.clear": "Clear",
+  "unsupportedBrowserTitle": "Unsupported Browser!",
+  "unsupportedBrowser": "Please use Firefox, Chrome, Safari or Edge to use all functionalities of this system."
 }
