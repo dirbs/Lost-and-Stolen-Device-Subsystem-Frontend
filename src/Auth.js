@@ -74,6 +74,7 @@ class Auth extends Component {
 						message: i18n.t('unsupportedBrowser'),
 						type: 'error'
 					})
+					return null;
 				}
 				this.setState({keycloak: keycloak, authenticated: authenticated})
 				//Set token in local storage
