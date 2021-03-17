@@ -207,10 +207,6 @@ class View extends Component {
                                     <th>{i18n.t('newCase.incidentNature')}</th>
                                     <td>{i18n.t(incident_details.incident_nature)}</td>
                                 </tr>
-                                <tr>
-                                    <th>Incident region</th>
-                                    <td>{incident_details.region}</td>
-                                </tr>
                             </tbody>
                         </table>
                     </CardBody>
