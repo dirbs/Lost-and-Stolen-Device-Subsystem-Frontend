@@ -490,29 +490,6 @@ class CaseForm extends Component {
                                     <Field name="incident" component={renderError} />
                                   </FormGroup>
                                 </Col>
-                                <Col md="6" xs="12">
-                                    <FormGroup>
-                                    <Label>{i18n.t('Incident Regions')} <span className="text-danger">*</span></Label>
-                                    <div className="selectbox">
-                                      <Field component="select" name="incident_region" className="form-control">
-                                        <option value="">{i18n.t('Select Incident Region')}</option>
-                                        {Regions.regions.map((region, index) => (
-                                          <optgroup label={region.province} key={index}>
-                                            {region.regions.map((region) => (
-                                              <option key={region} value={region}>{region}</option>
-                                            ))}
-                                          </optgroup>
-                                        ))}
-                                      </Field>
-                                    </div>
-                                    <Field name="incident_region" component={renderError} />
-                                  </FormGroup>
-                                </Col>
-                                {values.incident_region === 'Others' && 
-                                  <Col md="6" xs="12">
-                                    <Field name="other_region" component={renderInput} label={i18n.t('Other Region')} type="text" placeholder={i18n.t('Type other region')} requiredStar />
-                                  </Col>
-                                }
                             </Row>
                         </CardBody>
                     </Card>
@@ -821,9 +798,7 @@ const MyEnhancedForm = withFormik({
       "imeiInput": "", 
       "retypeImeiInput":"",  
       "date_of_incident": "", 
-      "incident": "", 
-      "incident_region": "", 
-      "other_region": "", 
+      "incident": "",  
       "full_name": "", 
       "gin": "", 
       "email": "", 
@@ -912,12 +887,6 @@ const MyEnhancedForm = withFormik({
     if (!values.incident) {
         errors.incident = `${i18n.t('forms.fieldError')}`
     }
-    if (!values.incident_region) {
-        errors.incident_region = 'please select incident region.'
-    } else if (values.incident_region === 'Others' && !values.other_region) {
-        errors.other_region = 'please type your region.'
-    }
-
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
     } else if (fullNameCheck(values.full_name) === false) {
@@ -960,7 +929,6 @@ function prepareAPIRequest(values, authDetails) {
     searchParams.incident_details = {};
     searchParams.incident_details.incident_date = values.date_of_incident;
     searchParams.incident_details.incident_nature = values.incident;
-    searchParams.incident_details.region = values.incident_region === "Others" ? values.other_region : values.incident_region;
     searchParams.personal_details = {};
     searchParams.personal_details.full_name = values.full_name;
     if(values.address) {
