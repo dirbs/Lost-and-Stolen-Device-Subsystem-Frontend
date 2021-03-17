@@ -44,8 +44,6 @@ import switchToggleButton from "../../components/Form/SwitchToggleButton";
 import i18n from "./../../i18n";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import RenderSelect from '../../components/Form/renderSelect';
-import Regions from './_regions';
 const MySwal = withReactContent(Swal);
 
 /**
