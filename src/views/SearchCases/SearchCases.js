@@ -95,6 +95,10 @@ class SearchForm extends Component {
       case 'source':
         this.props.setFieldValue('source', 'LSDS')
         this.props.delSearchQuery(this.props.currSearchQuery,filter)
+        break;      
+      case 'case_type':
+        this.props.setFieldValue('case_type', 'web')
+        this.props.delSearchQuery(this.props.currSearchQuery,filter)
         break;
       case 'alternate_number':
         this.props.setFieldValue('alternate_number','')
@@ -191,11 +195,11 @@ class SearchForm extends Component {
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>Source</Label>
+              <Label>{i18n.t('Source')}</Label>
               <div className="selectbox">
                 <Field component="select" name="source" className="form-control">
                   <option value="LSDS">LSDS</option>
-                  <option value="bulk">Bulk</option>
+                  <option value="bulk">{i18n.t('bulk')}</option>
                 </Field>
               </div>
             </FormGroup>
@@ -216,6 +220,17 @@ class SearchForm extends Component {
           </Col>
         </Row>
         <Row className={toggle ? 'collapse show' : 'collapse'}>
+        <Col xs={12} sm={6} xl={3}>
+            <FormGroup>
+              <Label>{`${i18n.t('pageRecordLimit.cases')} ${i18n.t('type')}`}</Label>
+              <div className="selectbox">
+                <Field component="select" name="case_type" className="form-control">
+                  <option value="web">Web</option>
+                  <option value="ussd">USSD</option>
+                </Field>
+              </div>
+            </FormGroup>
+          </Col>
         <Col xs={12} sm={6} xl={3}>
             <Field name="tracking_id" component={renderInput} type="text" label={i18n.t('caseBox.caseIdentifier')}
                    placeholder={i18n.t('caseBox.caseIdentifier')}/>
@@ -303,7 +318,7 @@ class SearchForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "LSDS", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
+  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "LSDS", "case_type": "web", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
 
   // Custom sync validation
   validate: values => {
@@ -400,6 +415,9 @@ function prepareAPIRequest(values) {
     }
     if(values.description) {
         searchParams.description = values.description
+    }
+    if(values.case_type) {
+        searchParams.case_type = values.case_type
     }
     return searchParams;
 }
@@ -575,6 +593,10 @@ class SearchCases extends Component {
           case 'source':
             query.push(
                 {name: key, id: index, label: `Source`, value: values[key]})
+            break;
+          case 'case_type':
+            query.push(
+                {name: key, id: index, label: `case_type`, value: values[key]})
             break;
           case 'alternate_number':
             query.push(
