@@ -96,6 +96,7 @@
   "pageRecordLimit.show": "Menunjukkan",
   "pageRecordLimit.cases": "Kasing",
   "pageRecordLimit.itemType": "kasing",
+  "Source": "Sumber",
 
   "pagetitle.updateCase": "Perbarui kasus",
   "newCase.deviceDescription": "Deskripsi perangkat",

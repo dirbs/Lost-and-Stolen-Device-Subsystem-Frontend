@@ -96,6 +96,7 @@
   "pageRecordLimit.show": "Show",
   "pageRecordLimit.cases": "Casos",
   "pageRecordLimit.itemType": "casos",
+  "Source": "Fuente",
 
   "pagetitle.updateCase": "Actualizar caso",
   "newCase.deviceDescription": "Descripción del aparato",
