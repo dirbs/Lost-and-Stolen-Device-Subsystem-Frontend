@@ -144,7 +144,7 @@ const CaseBox = (props) => {
                                 <p>{i18n.t('caseBox.affectedMSISDNs')}<span>{props.info.device_details.msisdns.join(', ')}</span></p>
                             </li>
                             <li>
-                                <p>{i18n.t('caseBox.affectedUser')}<span>{props.info.personal_details.full_name}</span></p>
+                                <p>{props.creator.username !== "N/A" ? i18n.t('caseBox.affectedUser') : i18n.t('caseBox.caseFiled') }<span>{props.info.personal_details.full_name}</span></p>
                             </li>
                             <li>
                                 <p>{i18n.t('caseBox.modelName')}<span>{props.info.device_details.model_name}</span></p>

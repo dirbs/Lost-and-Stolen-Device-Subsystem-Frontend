@@ -100,6 +100,7 @@ class View extends Component {
         get_blocked,
         comments,
         creator,
+        case_type,
       } = this.state.data;
       const statusClass =
         status === i18n.t("caseStatus.pending")
@@ -116,8 +117,15 @@ class View extends Component {
                 <small>
                   {i18n.t("caseBox.status")}{" "}
                   <span className={statusClass}>{i18n.t(status)}</span>
+                </small>{" "}
+                -{" "}
+                <small>
+                  {i18n.t("type").charAt(0).toUpperCase() +
+                    i18n.t("type").slice(1)}{" "}
+                  <span className={statusClass}>{case_type.toUpperCase()}</span>
                 </small>
               </h4>
+
               <p className="last-updated mb-0">
                 {i18n.t("caseBox.creator")}: <b>{creator.username}</b>
               </p>
@@ -291,26 +299,34 @@ class View extends Component {
                 <CardBody>
                   <table className="table table-bordered table-sm mb-0">
                     <tbody>
-                      <tr>
-                        <th>{i18n.t("userProfile.fullName")}</th>
-                        <td>{personal_details.full_name}</td>
-                      </tr>
-                      <tr>
-                        <th>{i18n.t("userProfile.email")}</th>
-                        <td>{personal_details.email}</td>
-                      </tr>
+                      {case_type === "web" && (
+                        <>
+                          <tr>
+                            <th>{i18n.t("userProfile.fullName")}</th>
+                            <td>{personal_details.full_name}</td>
+                          </tr>
+                          <tr>
+                            <th>{i18n.t("userProfile.email")}</th>
+                            <td>{personal_details.email}</td>
+                          </tr>
+                        </>
+                      )}
                       <tr>
                         <th>{i18n.t("userProfile.gin")}</th>
                         <td>{personal_details.gin}</td>
                       </tr>
-                      <tr>
-                        <th>{i18n.t("userProfile.alternatePhoneNo")}</th>
-                        <td>{personal_details.number}</td>
-                      </tr>
-                      <tr>
-                        <th>{i18n.t("userProfile.address")}</th>
-                        <td>{personal_details.address}</td>
-                      </tr>
+                      {case_type === "web" && (
+                        <>
+                          <tr>
+                            <th>{i18n.t("userProfile.alternatePhoneNo")}</th>
+                            <td>{personal_details.number}</td>
+                          </tr>
+                          <tr>
+                            <th>{i18n.t("userProfile.address")}</th>
+                            <td>{personal_details.address}</td>
+                          </tr>
+                        </>
+                      )}
                     </tbody>
                   </table>
                 </CardBody>
@@ -324,19 +340,22 @@ class View extends Component {
                   <b>{i18n.t("comments.title")}</b>
                 </CardHeader>
                 <CardBody className="p0">
-                  {comments.length > 0 ? (
+                  {comments.filter((com) => com.comment !== "N/A").length >
+                  0 ? (
                     <article className="bglite">
-                      {comments.map((comment, index) => (
-                        <div className="comment-item" key={index}>
-                          <h6>{comment.username} :</h6>
-                          <div className="commentbox">
-                            <p className="comment-txt">{comment.comment}</p>
-                            <p className="comment-date">
-                              <span>{comment.comment_date}</span>
-                            </p>
+                      {comments
+                        .filter((com) => com.comment !== "N/A")
+                        .map((comment, index) => (
+                          <div className="comment-item" key={index}>
+                            <h6>{comment.username} :</h6>
+                            <div className="commentbox">
+                              <p className="comment-txt">{comment.comment}</p>
+                              <p className="comment-date">
+                                <span>{comment.comment_date}</span>
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </article>
                   ) : (
                     <p className="nodata"> {i18n.t("comments.noComments")}</p>
