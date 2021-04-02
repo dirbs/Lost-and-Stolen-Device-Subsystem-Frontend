@@ -23,10 +23,21 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import React, { Component } from 'react';
-import { translate, I18n } from 'react-i18next';
-import {Row, Col, Button, Form, Input, Label, FormGroup, Card, CardHeader, CardBody} from 'reactstrap';
-import { withFormik, Field } from 'formik';
+import React, { Component } from "react";
+import { translate, I18n } from "react-i18next";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  Input,
+  Label,
+  FormGroup,
+  Card,
+  CardHeader,
+  CardBody,
+} from "reactstrap";
+import { withFormik, Field } from "formik";
 // Date Picker
 import "react-dates/initialize";
 import RenderDateRangePicker from "../../components/Form/RenderDateRangePicker";
@@ -34,15 +45,25 @@ import RenderDatePicker from "../../components/Form/RenderDatePicker";
 import renderError from "../../components/Form/RenderError";
 import renderInput from "../../components/Form/RenderInput";
 import MultiSelect from "../../components/Form/MultiSelect";
-import {instance, errors, getAuthHeader, languageCheck, fullNameCheck} from "../../utilities/helpers";
-import {Date_Format, PAGE_LIMIT, ITEMS_PER_PAGE} from '../../utilities/constants';
-import BoxLoader from '../../components/BoxLoader/BoxLoader';
+import {
+  instance,
+  errors,
+  getAuthHeader,
+  languageCheck,
+  fullNameCheck,
+} from "../../utilities/helpers";
+import {
+  Date_Format,
+  PAGE_LIMIT,
+  ITEMS_PER_PAGE,
+} from "../../utilities/constants";
+import BoxLoader from "../../components/BoxLoader/BoxLoader";
 import Pagination from "react-js-pagination";
-import CaseBox from '../../components/CaseBox/CaseBox';
+import CaseBox from "../../components/CaseBox/CaseBox";
 import moment from "moment";
-import DataTableInfo from '../../components/DataTable/DataTableInfo';
+import DataTableInfo from "../../components/DataTable/DataTableInfo";
 import SearchFilters from "./SearchFilters";
-import i18n from './../../i18n';
+import i18n from "./../../i18n";
 
 /**
  * This Stateful component generates a list of all Cases with required filters.
@@ -58,87 +79,87 @@ class SearchForm extends Component {
   }
 
   handleReset(filter) {
-    switch(filter.name) {
-      case 'tracking_id':
-        this.props.setFieldValue('tracking_id','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter);
+    switch (filter.name) {
+      case "tracking_id":
+        this.props.setFieldValue("tracking_id", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'status':
-        this.props.setFieldValue('status','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter);
+      case "status":
+        this.props.setFieldValue("status", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'updated_at':
-        this.lastUpdated.resetDate()
-        this.props.setFieldValue('updated_at', '')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "updated_at":
+        this.lastUpdated.resetDate();
+        this.props.setFieldValue("updated_at", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'imeis':
-        this.props.setFieldValue('imeis','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "imeis":
+        this.props.setFieldValue("imeis", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'msisdns':
-        this.props.setFieldValue('msisdns','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "msisdns":
+        this.props.setFieldValue("msisdns", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'address':
-        this.props.setFieldValue('address','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "address":
+        this.props.setFieldValue("address", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'gin':
-        this.props.setFieldValue('gin','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "gin":
+        this.props.setFieldValue("gin", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'full_name':
-        this.props.setFieldValue('full_name','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "full_name":
+        this.props.setFieldValue("full_name", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'source':
-        this.props.setFieldValue('source', 'LSDS')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
-        break;      
-      case 'case_type':
-        this.props.setFieldValue('case_type', 'web')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "source":
+        this.props.setFieldValue("source", "LSDS");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'alternate_number':
-        this.props.setFieldValue('alternate_number','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "case_type":
+        this.props.setFieldValue("case_type", "web");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'email':
-        this.props.setFieldValue('email','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "alternate_number":
+        this.props.setFieldValue("alternate_number", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'incident':
-        this.props.setFieldValue('incident','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "email":
+        this.props.setFieldValue("email", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'date_of_incident':
-        this.incidentDate.resetDate()
-        this.props.setFieldValue('date_of_incident', '')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "incident":
+        this.props.setFieldValue("incident", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'brand':
-        this.props.setFieldValue('brand','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "date_of_incident":
+        this.incidentDate.resetDate();
+        this.props.setFieldValue("date_of_incident", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'model':
-        this.props.setFieldValue('model','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "brand":
+        this.props.setFieldValue("brand", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
-      case 'description':
-        this.props.setFieldValue('description','')
-        this.props.delSearchQuery(this.props.currSearchQuery,filter)
+      case "model":
+        this.props.setFieldValue("model", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
+        break;
+      case "description":
+        this.props.setFieldValue("description", "");
+        this.props.delSearchQuery(this.props.currSearchQuery, filter);
         break;
       default:
         break;
     }
   }
 
-  handleResetForm(){
-    this.incidentDate.resetDate()
-    this.lastUpdated.resetDate()
-    this.props.resetForm()
-    this.props.delSearchQuery(this.props.currSearchQuery,'all')
+  handleResetForm() {
+    this.incidentDate.resetDate();
+    this.lastUpdated.resetDate();
+    this.props.resetForm();
+    this.props.delSearchQuery(this.props.currSearchQuery, "all");
   }
 
   render() {
@@ -153,21 +174,32 @@ class SearchForm extends Component {
       setFieldValue,
       setFieldTouched,
       dirty,
-      currSearchQuery
+      currSearchQuery,
     } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
-        {(currSearchQuery.length > 0) &&
-        <div>
-          <div className='selected-filters-header'>
-            <Button color="link" onClick={() => { this.handleResetForm(); }} disabled={!dirty || isSubmitting}>{i18n.t('button.clearAll')}</Button>
+        {currSearchQuery.length > 0 && (
+          <div>
+            <div className="selected-filters-header">
+              <Button
+                color="link"
+                onClick={() => {
+                  this.handleResetForm();
+                }}
+                disabled={!dirty || isSubmitting}
+              >
+                {i18n.t("button.clearAll")}
+              </Button>
+            </div>
+            <SearchFilters
+              filters={currSearchQuery}
+              handleReset={this.handleReset}
+            />
+            <hr />
           </div>
-          <SearchFilters filters={currSearchQuery} handleReset={this.handleReset}/>
-          <hr />
-        </div>
-        }
+        )}
         <Row className="justify-content-end">
-        <Col xs={12} sm={6} xl={3}>
+          <Col xs={12} sm={6} xl={3}>
             <FormGroup>
               <MultiSelect
                 value={values.imeis}
@@ -176,17 +208,19 @@ class SearchForm extends Component {
                 error={errors.imeis}
                 touched={touched.imeis}
                 fieldName="imeis"
-                label={i18n.t('newCase.affectedIMEIs')}
-                placeholder={i18n.t('imeiInput.placeholder')}
+                label={i18n.t("newCase.affectedIMEIs")}
+                placeholder={i18n.t("imeiInput.placeholder")}
               />
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('caseBox.lastUpdated')}</Label>
+              <Label>{i18n.t("caseBox.lastUpdated")}</Label>
               <RenderDateRangePicker
                 name="updated_at"
-                ref={instance => { this.lastUpdated = instance; }}
+                ref={(instance) => {
+                  this.lastUpdated = instance;
+                }}
                 value={values.updated_at}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -195,11 +229,15 @@ class SearchForm extends Component {
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('Source')}</Label>
+              <Label>{i18n.t("Source")}</Label>
               <div className="selectbox">
-                <Field component="select" name="source" className="form-control">
+                <Field
+                  component="select"
+                  name="source"
+                  className="form-control"
+                >
                   <option value="LSDS">LSDS</option>
-                  <option value="bulk">{i18n.t('bulk')}</option>
+                  <option value="bulk">{i18n.t("bulk")}</option>
                 </Field>
               </div>
             </FormGroup>
@@ -213,59 +251,90 @@ class SearchForm extends Component {
                 error={errors.msisdns}
                 touched={touched.msisdns}
                 fieldName="msisdns"
-                label={i18n.t('newCase.affectedMSISDNs')}
-                placeholder={i18n.t('msisdnInput.placeholder')}
+                label={i18n.t("newCase.affectedMSISDNs")}
+                placeholder={i18n.t("msisdnInput.placeholder")}
               />
             </FormGroup>
           </Col>
         </Row>
-        <Row className={toggle ? 'collapse show' : 'collapse'}>
-        <Col xs={12} sm={6} xl={3}>
+        <Row className={toggle ? "collapse show" : "collapse"}>
+          <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{`${i18n.t('pageRecordLimit.cases')} ${i18n.t('type')}`}</Label>
+              <Label>{`${i18n.t("pageRecordLimit.cases")} ${i18n.t(
+                "type"
+              )}`}</Label>
               <div className="selectbox">
-                <Field component="select" name="case_type" className="form-control">
+                <Field
+                  component="select"
+                  name="case_type"
+                  className="form-control"
+                >
                   <option value="web">Web</option>
                   <option value="ussd">USSD</option>
                 </Field>
               </div>
             </FormGroup>
           </Col>
-        <Col xs={12} sm={6} xl={3}>
-            <Field name="tracking_id" component={renderInput} type="text" label={i18n.t('caseBox.caseIdentifier')}
-                   placeholder={i18n.t('caseBox.caseIdentifier')}/>
-        </Col>
-        <Col xs={12} sm={6} xl={3}>
+          <Col xs={12} sm={6} xl={3}>
+            <Field
+              name="tracking_id"
+              component={renderInput}
+              type="text"
+              label={i18n.t("caseBox.caseIdentifier")}
+              placeholder={i18n.t("caseBox.caseIdentifier")}
+            />
+          </Col>
+          <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('caseBox.caseStatus')}</Label>
+              <Label>{i18n.t("caseBox.caseStatus")}</Label>
               <div className="selectbox">
-                <Field component="select" name="status" className="form-control">
-                  <option value="">{i18n.t('caseStatus.selectStatus')}</option>
-                  <option value="Pending">{i18n.t('caseStatus.pending')}</option>
-                  <option value="Blocked">{i18n.t('caseStatus.blocked')}</option>
-                  <option value="Recovered">{i18n.t('caseStatus.recovered')}</option>
+                <Field
+                  component="select"
+                  name="status"
+                  className="form-control"
+                >
+                  <option value="">{i18n.t("caseStatus.selectStatus")}</option>
+                  <option value="Pending">
+                    {i18n.t("caseStatus.pending")}
+                  </option>
+                  <option value="Blocked">
+                    {i18n.t("caseStatus.blocked")}
+                  </option>
+                  <option value="Recovered">
+                    {i18n.t("caseStatus.recovered")}
+                  </option>
                 </Field>
               </div>
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('newCase.incidentNature')}</Label>
+              <Label>{i18n.t("newCase.incidentNature")}</Label>
               <div className="selectbox">
-                <Field component="select" name="incident" className="form-control">
-                  <option value="">{i18n.t('incidentNature.selectNature')}</option>
-                  <option value="lost">{i18n.t('incidentNature.lost')}</option>
-                  <option value="stolen">{i18n.t('incidentNature.stolen')}</option>
+                <Field
+                  component="select"
+                  name="incident"
+                  className="form-control"
+                >
+                  <option value="">
+                    {i18n.t("incidentNature.selectNature")}
+                  </option>
+                  <option value="lost">{i18n.t("incidentNature.lost")}</option>
+                  <option value="stolen">
+                    {i18n.t("incidentNature.stolen")}
+                  </option>
                 </Field>
               </div>
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
             <FormGroup>
-              <Label>{i18n.t('newCase.incidentDate')}</Label>
+              <Label>{i18n.t("newCase.incidentDate")}</Label>
               <RenderDateRangePicker
                 name="date_of_incident"
-                ref={instance => { this.incidentDate = instance; }}
+                ref={(instance) => {
+                  this.incidentDate = instance;
+                }}
                 value={values.date_of_incident}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -273,43 +342,101 @@ class SearchForm extends Component {
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="full_name" component={renderInput} type="text" label={i18n.t('userProfile.fullName')} placeholder={i18n.t('userProfile.fullName')}/>
+            <Field
+              name="full_name"
+              component={renderInput}
+              type="text"
+              label={i18n.t("userProfile.fullName")}
+              placeholder={i18n.t("userProfile.fullName")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="gin" component={renderInput} type="text" label={i18n.t('userProfile.gin')}
-                   placeholder={i18n.t('userProfile.gin')}/>
+            <Field
+              name="gin"
+              component={renderInput}
+              type="text"
+              label={i18n.t("userProfile.gin")}
+              placeholder={i18n.t("userProfile.gin")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="email" component={renderInput} type="text" label={i18n.t('userProfile.email')}
-                   placeholder={i18n.t('userProfile.email')}/>
+            <Field
+              name="email"
+              component={renderInput}
+              type="text"
+              label={i18n.t("userProfile.email")}
+              placeholder={i18n.t("userProfile.email")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="address" component={renderInput} type="text" label={i18n.t('userProfile.address')} placeholder={i18n.t('userProfile.address')}/>
+            <Field
+              name="address"
+              component={renderInput}
+              type="text"
+              label={i18n.t("userProfile.address")}
+              placeholder={i18n.t("userProfile.address")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="alternate_number" component={renderInput} type="text" label={i18n.t('userProfile.alternatePhoneNo')}
-                   placeholder={i18n.t('userProfile.alternatePhoneNo')}/>
+            <Field
+              name="alternate_number"
+              component={renderInput}
+              type="text"
+              label={i18n.t("userProfile.alternatePhoneNo")}
+              placeholder={i18n.t("userProfile.alternatePhoneNo")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="brand" component={renderInput} type="text" label={i18n.t('newCase.deviceBrand')} placeholder={i18n.t('newCase.deviceBrand')}/>
+            <Field
+              name="brand"
+              component={renderInput}
+              type="text"
+              label={i18n.t("newCase.deviceBrand")}
+              placeholder={i18n.t("newCase.deviceBrand")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="model" component={renderInput} type="text" label={i18n.t('newCase.deviceModelName')} placeholder={i18n.t('newCase.deviceModelName')}/>
+            <Field
+              name="model"
+              component={renderInput}
+              type="text"
+              label={i18n.t("newCase.deviceModelName")}
+              placeholder={i18n.t("newCase.deviceModelName")}
+            />
           </Col>
           <Col xs={12} sm={6} xl={3}>
-            <Field name="description" component={renderInput} type="text" label={i18n.t('newCase.devicePhysical')}
-                   placeholder={i18n.t('newCase.devicePhysical')}/>
+            <Field
+              name="description"
+              component={renderInput}
+              type="text"
+              label={i18n.t("newCase.devicePhysical")}
+              placeholder={i18n.t("newCase.devicePhysical")}
+            />
           </Col>
         </Row>
         <Row className="justify-content-end">
           <Col xs={12} sm={6} md={4} xl={3}>
             <FormGroup>
-              <Button color="default" block
-                      onClick={showFilters} title={toggle ? `${i18n.t('button.hideMoreFilters')}` : `${i18n.t('button.showMoreFilters')}`}>{toggle ? `${i18n.t('button.hideMoreFilters')}` : `${i18n.t('button.showMoreFilters')}`}</Button>
+              <Button
+                color="default"
+                block
+                onClick={showFilters}
+                title={
+                  toggle
+                    ? `${i18n.t("button.hideMoreFilters")}`
+                    : `${i18n.t("button.showMoreFilters")}`
+                }
+              >
+                {toggle
+                  ? `${i18n.t("button.hideMoreFilters")}`
+                  : `${i18n.t("button.showMoreFilters")}`}
+              </Button>
             </FormGroup>
           </Col>
           <Col xs={12} sm={6} md={4} xl={3}>
-            <Button color="primary" type="submit" block disabled={isSubmitting}>{i18n.t('button.searchCases')}</Button>
+            <Button color="primary" type="submit" block disabled={isSubmitting}>
+              {i18n.t("button.searchCases")}
+            </Button>
           </Col>
         </Row>
       </Form>
@@ -318,35 +445,52 @@ class SearchForm extends Component {
 }
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ "tracking_id": "", "status": "", "updated_at": "", "imeis": [], "msisdns": [], "address": "", "gin": "", "full_name": "", "source": "LSDS", "case_type": "web", "alternate_number": "", "email": "", "incident": "", "date_of_incident": "", "brand": "", "model": "", "description": "" }),
+  mapPropsToValues: () => ({
+    tracking_id: "",
+    status: "",
+    updated_at: "",
+    imeis: [],
+    msisdns: [],
+    address: "",
+    gin: "",
+    full_name: "",
+    source: "LSDS",
+    case_type: "web",
+    alternate_number: "",
+    email: "",
+    incident: "",
+    date_of_incident: "",
+    brand: "",
+    model: "",
+    description: "",
+  }),
 
   // Custom sync validation
-  validate: values => {
+  validate: (values) => {
     let errors = {};
     let today = moment().format(Date_Format);
-    let paste =  moment('1900-01-01').format(Date_Format);
+    let paste = moment("1900-01-01").format(Date_Format);
     if (!values.email) {
-
     } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
     ) {
-      errors.email = `${i18n.t('forms.emailInvalid')}`;
+      errors.email = `${i18n.t("forms.emailInvalid")}`;
     }
-    if (values.full_name && fullNameCheck(values.full_name) === false){
-        errors.full_name = i18n.t('forms.langError')
+    if (values.full_name && fullNameCheck(values.full_name) === false) {
+      errors.full_name = i18n.t("forms.langError");
     }
-      if (values.address && languageCheck(values.address) === false){
-          errors.address = i18n.t('forms.langError')
-      }
-      if (values.brand && languageCheck(values.brand) === false){
-          errors.brand = i18n.t('forms.langError')
-      }if (values.model && languageCheck(values.model) === false){
-          errors.model = i18n.t('forms.langError')
-      }if (values.description && languageCheck(values.description) === false){
-          errors.description = i18n.t('forms.langError')
-      }
+    if (values.address && languageCheck(values.address) === false) {
+      errors.address = i18n.t("forms.langError");
+    }
+    if (values.brand && languageCheck(values.brand) === false) {
+      errors.brand = i18n.t("forms.langError");
+    }
+    if (values.model && languageCheck(values.model) === false) {
+      errors.model = i18n.t("forms.langError");
+    }
+    if (values.description && languageCheck(values.description) === false) {
+      errors.description = i18n.t("forms.langError");
+    }
     return errors;
   },
 
@@ -356,70 +500,70 @@ const MyEnhancedForm = withFormik({
     bag.props.searchQuery(prepareAPIRequest(values));
   },
 
-  displayName: 'SearchForm', // helps with React DevTools
+  displayName: "SearchForm", // helps with React DevTools
 })(SearchForm);
 
 function prepareAPIRequest(values) {
-    // Validate Values before sending
-    const searchParams = {};
-    if(values.tracking_id) {
-        searchParams.tracking_id = values.tracking_id
+  // Validate Values before sending
+  const searchParams = {};
+  if (values.tracking_id) {
+    searchParams.tracking_id = values.tracking_id;
+  }
+  if (values.status) {
+    searchParams.status = values.status;
+  }
+  if (values.msisdns.length > 0) {
+    searchParams.msisdns = [];
+    for (let i = 0; i < values.msisdns.length; i++) {
+      searchParams.msisdns[i] = values.msisdns[i].value;
     }
-    if(values.status) {
-        searchParams.status = values.status
+  }
+  if (values.imeis.length > 0) {
+    searchParams.imeis = [];
+    for (let i = 0; i < values.imeis.length; i++) {
+      searchParams.imeis[i] = values.imeis[i].value;
     }
-    if(values.msisdns.length > 0) {
-      searchParams.msisdns = [];
-      for (let i=0; i< values.msisdns.length; i++) {
-        searchParams.msisdns[i] = values.msisdns[i].value;
-      }
-    }
-    if(values.imeis.length > 0) {
-      searchParams.imeis = [];
-      for (let i=0; i< values.imeis.length; i++) {
-        searchParams.imeis[i] = values.imeis[i].value;
-      }
-    }
-    if(values.updated_at) {
-        searchParams.updated_at = values.updated_at
-    }
-    if(values.address) {
-        searchParams.address = values.address
-    }
-    if(values.gin) {
-        searchParams.gin = values.gin
-    }
-    if(values.full_name) {
-        searchParams.full_name = values.full_name
-    }
-    if(values.source) {
-        searchParams.source = values.source
-    }
-    if(values.alternate_number) {
-        searchParams.alternate_number = values.alternate_number
-    }
-    if(values.email) {
-        searchParams.email = values.email
-    }
-    if(values.incident) {
-        searchParams.incident = values.incident
-    }
-    if(values.date_of_incident) {
-        searchParams.date_of_incident = values.date_of_incident
-    }
-    if(values.brand) {
-        searchParams.brand = values.brand
-    }
-    if(values.model) {
-        searchParams.model = values.model
-    }
-    if(values.description) {
-        searchParams.description = values.description
-    }
-    if(values.case_type) {
-        searchParams.case_type = values.case_type
-    }
-    return searchParams;
+  }
+  if (values.updated_at) {
+    searchParams.updated_at = values.updated_at;
+  }
+  if (values.address) {
+    searchParams.address = values.address;
+  }
+  if (values.gin) {
+    searchParams.gin = values.gin;
+  }
+  if (values.full_name) {
+    searchParams.full_name = values.full_name;
+  }
+  if (values.source) {
+    searchParams.source = values.source;
+  }
+  if (values.alternate_number) {
+    searchParams.alternate_number = values.alternate_number;
+  }
+  if (values.email) {
+    searchParams.email = values.email;
+  }
+  if (values.incident) {
+    searchParams.incident = values.incident;
+  }
+  if (values.date_of_incident) {
+    searchParams.date_of_incident = values.date_of_incident;
+  }
+  if (values.brand) {
+    searchParams.brand = values.brand;
+  }
+  if (values.model) {
+    searchParams.model = values.model;
+  }
+  if (values.description) {
+    searchParams.description = values.description;
+  }
+  if (values.case_type && values.source === "LSDS") {
+    searchParams.case_type = values.case_type;
+  }
+  return searchParams;
 }
 
 class SearchCases extends Component {
@@ -436,8 +580,8 @@ class SearchCases extends Component {
       searchQuery: {},
       apiFetched: false,
       currSearchQuery: [],
-      options: ITEMS_PER_PAGE
-    }
+      options: ITEMS_PER_PAGE,
+    };
     this.handleShowFilters = this.handleShowFilters.bind(this);
     this.getSearchCasesFromServer = this.getSearchCasesFromServer.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -454,271 +598,369 @@ class SearchCases extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('scroll', this.handlePagination);
+    document.addEventListener("scroll", this.handlePagination);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.handlePagination);
+    document.removeEventListener("scroll", this.handlePagination);
   }
 
   handlePagination = () => {
-    const wrappedElement = document.getElementById('root');
+    const wrappedElement = document.getElementById("root");
     if (this.isBottom(wrappedElement)) {
-      document.body.classList.remove('pagination-fixed');
+      document.body.classList.remove("pagination-fixed");
     } else {
-      document.body.classList.add('pagination-fixed');
+      document.body.classList.add("pagination-fixed");
     }
   };
 
   updateTokenHOC(callingFunc) {
-      let config = null;
-      if(this.props.kc.isTokenExpired(0)) {
-          this.props.kc.updateToken(0)
-              .success(() => {
-                  localStorage.setItem('token', this.props.kc.token)
-                  config = {
-                    headers: getAuthHeader(this.props.kc.token)
-                  }
-                  callingFunc(config);
-              })
-              .error(() => this.props.kc.logout());
-      } else {
+    let config = null;
+    if (this.props.kc.isTokenExpired(0)) {
+      this.props.kc
+        .updateToken(0)
+        .success(() => {
+          localStorage.setItem("token", this.props.kc.token);
           config = {
-            headers: getAuthHeader()
-          }
+            headers: getAuthHeader(this.props.kc.token),
+          };
           callingFunc(config);
-      }
+        })
+        .error(() => this.props.kc.logout());
+    } else {
+      config = {
+        headers: getAuthHeader(),
+      };
+      callingFunc(config);
+    }
   }
 
   saveSearchQuery(values) {
-    this.setState({ searchQuery: values, loading: true, showAllFilters: false, data: null, apiFetched: true, start: 1, activePage: 1} , () => {
-      this.updateTokenHOC(this.getSearchCasesFromServer);
-	})
+    this.setState(
+      {
+        searchQuery: values,
+        loading: true,
+        showAllFilters: false,
+        data: null,
+        apiFetched: true,
+        start: 1,
+        activePage: 1,
+      },
+      () => {
+        this.updateTokenHOC(this.getSearchCasesFromServer);
+      }
+    );
   }
   handlePageClick(page) {
     let a1 = 1;
     let d = this.state.limit;
-   	let start = a1 + d * (page - 1);
+    let start = a1 + d * (page - 1);
 
-	this.setState({start: start, activePage: page, loading: true}, () => {
-	  this.updateTokenHOC(this.getSearchCasesFromServer);
-	});
+    this.setState({ start: start, activePage: page, loading: true }, () => {
+      this.updateTokenHOC(this.getSearchCasesFromServer);
+    });
   }
 
   handleLimitChange = (e) => {
     e.preventDefault();
     let limit = parseInt(e.target.value);
     let currentPage = Math.ceil(this.state.start / limit);
-    this.setState({limit: limit},()=>{
+    this.setState({ limit: limit }, () => {
       this.handlePageClick(currentPage);
     });
-  }
+  };
 
   getSearchCasesFromServer(config) {
-      let start = this.state.start;
-      let limit = this.state.limit;
-      const searchQuery = this.state.searchQuery;
-      const postSearchData = {
-        "start": start,
-        "limit": limit,
-        "search_args": searchQuery
-      }
-      instance.post('/search?start='+start+'&limit='+limit, postSearchData, config)
-          .then(response => {
-              if(response.data.message) {
-                this.setState({ loading: false });
-              } else {
-                this.setState({ data: response.data, totalCases: (response.data || {}).count, loading: false});
-              }
-          })
-          .catch(error => {
-              errors(this, error);
-          })
+    let start = this.state.start;
+    let limit = this.state.limit;
+    const searchQuery = this.state.searchQuery;
+    const postSearchData = {
+      start: start,
+      limit: limit,
+      search_args: searchQuery,
+    };
+    instance
+      .post(
+        "/search?start=" + start + "&limit=" + limit,
+        postSearchData,
+        config
+      )
+      .then((response) => {
+        if (response.data.message) {
+          this.setState({ loading: false });
+        } else {
+          this.setState({
+            data: response.data,
+            totalCases: (response.data || {}).count,
+            loading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        errors(this, error);
+      });
   }
 
   handleShowFilters() {
-    this.setState({ showAllFilters: !this.state.showAllFilters })
+    this.setState({ showAllFilters: !this.state.showAllFilters });
   }
 
-  setSearchQuery(values){
-    let query = []
-    Object.keys(values).map((key, index)=>{
-        switch(key){
-          case 'tracking_id':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('caseBox.caseIdentifier')}`, value: values[key]})
-            break;
-          case 'status':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('caseBox.caseStatus')}`, value: values[key]})
-            break;
-          case 'updated_at':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('caseBox.lastUpdated')}`, value: values[key]})
-            break;
-          case 'imeis':
-            values[key].map((imei,i)=>{
-              return query.push(
-                  {
-                    name: key,
-                    id: `imei${i}`,
-                    label: `${i18n.t('newCase.affectedIMEIs')} ${i+1}`,
-                    value: values[key][i]
-                  })
-            })
-            break;
-          case 'msisdns':
-            values[key].map((msisdn,i)=>{
-              return query.push(
-                {
-                  name: key,
-                  id: `msisdn${i}`,
-                  label: `${i18n.t('newCase.affectedMSISDNs')} ${i+1}`,
-                  value: values[key][i]
-                })
-            })
-            break;
-          case 'address':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.address')}`, value: values[key]})
-            break;
-          case 'gin':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.gin')}`, value: values[key]})
-            break;
-          case 'full_name':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.fullName')}`, value: values[key]})
-            break;
-          case 'source':
-            query.push(
-                {name: key, id: index, label: `Source`, value: values[key]})
-            break;
-          case 'case_type':
-            query.push(
-                {name: key, id: index, label: `case_type`, value: values[key]})
-            break;
-          case 'alternate_number':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.alternatePhoneNo')}`, value: values[key]})
-            break;
-          case 'email':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('userProfile.email')}`, value: values[key]})
-            break;
-          case 'incident':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('newCase.incidentNature')}`, value: values[key]})
-            break;
-          case 'date_of_incident':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('newCase.incidentDate')}`, value: values[key]})
-            break;
-          case 'brand':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('newCase.deviceBrand')}`, value: values[key]})
-            break;
-          case 'model':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('newCase.deviceModelName')}`, value: values[key]})
-            break;
-          case 'description':
-            query.push(
-                {name: key, id: index, label: `${i18n.t('newCase.devicePhysical')}`, value: values[key]})
-            break;
-          default:
-            break;
-        }
-      return ''
-    })
+  setSearchQuery(values) {
+    let query = [];
+    Object.keys(values).map((key, index) => {
+      switch (key) {
+        case "tracking_id":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("caseBox.caseIdentifier")}`,
+            value: values[key],
+          });
+          break;
+        case "status":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("caseBox.caseStatus")}`,
+            value: values[key],
+          });
+          break;
+        case "updated_at":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("caseBox.lastUpdated")}`,
+            value: values[key],
+          });
+          break;
+        case "imeis":
+          values[key].map((imei, i) => {
+            return query.push({
+              name: key,
+              id: `imei${i}`,
+              label: `${i18n.t("newCase.affectedIMEIs")} ${i + 1}`,
+              value: values[key][i],
+            });
+          });
+          break;
+        case "msisdns":
+          values[key].map((msisdn, i) => {
+            return query.push({
+              name: key,
+              id: `msisdn${i}`,
+              label: `${i18n.t("newCase.affectedMSISDNs")} ${i + 1}`,
+              value: values[key][i],
+            });
+          });
+          break;
+        case "address":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("userProfile.address")}`,
+            value: values[key],
+          });
+          break;
+        case "gin":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("userProfile.gin")}`,
+            value: values[key],
+          });
+          break;
+        case "full_name":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("userProfile.fullName")}`,
+            value: values[key],
+          });
+          break;
+        case "source":
+          query.push({
+            name: key,
+            id: index,
+            label: `Source`,
+            value: values[key],
+          });
+          break;
+        case "case_type":
+          query.push({
+            name: key,
+            id: index,
+            label: `case_type`,
+            value: values[key],
+          });
+          break;
+        case "alternate_number":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("userProfile.alternatePhoneNo")}`,
+            value: values[key],
+          });
+          break;
+        case "email":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("userProfile.email")}`,
+            value: values[key],
+          });
+          break;
+        case "incident":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("newCase.incidentNature")}`,
+            value: values[key],
+          });
+          break;
+        case "date_of_incident":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("newCase.incidentDate")}`,
+            value: values[key],
+          });
+          break;
+        case "brand":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("newCase.deviceBrand")}`,
+            value: values[key],
+          });
+          break;
+        case "model":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("newCase.deviceModelName")}`,
+            value: values[key],
+          });
+          break;
+        case "description":
+          query.push({
+            name: key,
+            id: index,
+            label: `${i18n.t("newCase.devicePhysical")}`,
+            value: values[key],
+          });
+          break;
+        default:
+          break;
+      }
+      return "";
+    });
     this.setState({
-      currSearchQuery: query
-    })
+      currSearchQuery: query,
+    });
   }
 
-  delSearchQuery(filters,selectedFilter) {
-    let searchQuery = this.state.searchQuery
-    if (selectedFilter === 'all') {
+  delSearchQuery(filters, selectedFilter) {
+    let searchQuery = this.state.searchQuery;
+    if (selectedFilter === "all") {
       this.setState({
         currSearchQuery: [],
-        searchQuery:{}
-      })
+        searchQuery: {},
+      });
     } else {
       let query = filters.filter((el) => {
-        return el.id !== selectedFilter.id
-      })
-      delete searchQuery[selectedFilter.value]
+        return el.id !== selectedFilter.id;
+      });
+      delete searchQuery[selectedFilter.value];
       this.setState({
         searchQuery,
-        currSearchQuery: query
-      })
+        currSearchQuery: query,
+      });
     }
   }
 
   render() {
-    const {options} = this.state;
-    const limitOptions = options.map((item)=>{
-      return <option key={item.value} value={item.value}>{item.label}</option>
-    })
+    const { options } = this.state;
+    const limitOptions = options.map((item) => {
+      return (
+        <option key={item.value} value={item.value}>
+          {item.label}
+        </option>
+      );
+    });
     let searched_cases = null;
-    if(((this.state.data || {}).cases || []).length > 0) {
-      searched_cases = this.state.data.cases.map(searched_case => (
-          <CaseBox userDetails={this.props.userDetails} creator={searched_case.creator} info={searched_case} key={searched_case.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
+    if (((this.state.data || {}).cases || []).length > 0) {
+      searched_cases = this.state.data.cases.map((searched_case) => (
+        <CaseBox
+          userDetails={this.props.userDetails}
+          creator={searched_case.creator}
+          info={searched_case}
+          key={searched_case.tracking_id}
+          handleCaseStatus={this.props.handleCaseStatus}
+        />
       ));
     }
     return (
-        <I18n ns="translations">
-        {
-          (t, { i18n }) => (
-            <div className="search-box animated fadeIn">
-              <div className="filters">
-                <Card>
-                  <CardHeader>
-                    <b>{i18n.t('searchPag.searchFilters')}</b>
+      <I18n ns="translations">
+        {(t, { i18n }) => (
+          <div className="search-box animated fadeIn">
+            <div className="filters">
+              <Card>
+                <CardHeader>
+                  <b>{i18n.t("searchPag.searchFilters")}</b>
+                </CardHeader>
+                <CardBody>
+                  <MyEnhancedForm
+                    showFilters={this.handleShowFilters}
+                    toggle={this.state.showAllFilters}
+                    callServer={this.saveSearchQuery}
+                    searchQuery={this.setSearchQuery}
+                    delSearchQuery={this.delSearchQuery}
+                    currSearchQuery={this.state.currSearchQuery}
+                  />
+                </CardBody>
+              </Card>
+            </div>
+            <ul className="listbox">
+              {this.state.loading ? (
+                <div>
+                  <BoxLoader />
+                  <BoxLoader />
+                  <BoxLoader />
+                </div>
+              ) : ((this.state.data || {}).cases || []).length > 0 ? (
+                <div>
+                  <Card className="mb-1">
+                    <CardHeader className="border-bottom-0">
+                      <b className="text-primary">
+                        {this.state.totalCases > 1
+                          ? `${this.state.totalCases} ${i18n.t(
+                              "searchPag.casesFound"
+                            )}`
+                          : `${this.state.totalCases} ${i18n.t(
+                              "searchPag.caseFound"
+                            )}`}
+                      </b>
+                    </CardHeader>
+                  </Card>
+                  {searched_cases}
+                </div>
+              ) : this.state.apiFetched ? (
+                <Card className="mb-1">
+                  <CardHeader className="border-bottom-0">
+                    <b className="text-danger">{i18n.t("searchPag.noCases")}</b>
                   </CardHeader>
-                  <CardBody>
-                    <MyEnhancedForm showFilters={this.handleShowFilters} toggle={this.state.showAllFilters}
-                                    callServer={this.saveSearchQuery} searchQuery={this.setSearchQuery}
-                                    delSearchQuery={this.delSearchQuery}
-                                    currSearchQuery={this.state.currSearchQuery}/>
-                  </CardBody>
                 </Card>
-              </div>
-              <ul className="listbox">
-              {
-                (this.state.loading)
-                    ?
-                    (
-                        <div>
-                            <BoxLoader />
-                            <BoxLoader />
-                            <BoxLoader />
-                        </div>
-                    )
-                    : ((this.state.data || {}).cases || []).length > 0
-                    ? <div>
-                        <Card className="mb-1">
-                            <CardHeader className="border-bottom-0">
-                                <b className="text-primary">{(this.state.totalCases > 1) ? `${this.state.totalCases} ${i18n.t('searchPag.casesFound')}`: `${this.state.totalCases} ${i18n.t('searchPag.caseFound')}`}</b>
-                            </CardHeader>
-                        </Card>
-                        {searched_cases}
-                      </div>
-                    : (this.state.apiFetched)
-                    ?
-                        <Card className="mb-1">
-                            <CardHeader className="border-bottom-0">
-                                <b className="text-danger">{i18n.t('searchPag.noCases')}</b>
-                            </CardHeader>
-                        </Card>
-                        : null
-              }
-              </ul>
+              ) : null}
+            </ul>
 
-              {(((this.state.data || {}).cases || []).length > 0 && this.state.totalCases > PAGE_LIMIT && !(this.state.loading)) &&
-                <article className='data-footer'>
+            {((this.state.data || {}).cases || []).length > 0 &&
+              this.state.totalCases > PAGE_LIMIT &&
+              !this.state.loading && (
+                <article className="data-footer">
                   <Pagination
-                    pageRangeDisplayed={window.matchMedia("(max-width: 767px)").matches ? 4 : 10}
+                    pageRangeDisplayed={
+                      window.matchMedia("(max-width: 767px)").matches ? 4 : 10
+                    }
                     activePage={this.state.activePage}
                     itemsCountPerPage={this.state.limit}
                     totalItemsCount={this.state.totalCases}
@@ -726,27 +968,36 @@ class SearchCases extends Component {
                     innerClass="pagination"
                   />
                   <div className="hand-limit">
-                    <Label>{i18n.t('pageRecordLimit.show')}</Label>
+                    <Label>{i18n.t("pageRecordLimit.show")}</Label>
                     <div className="selectbox">
-                      <Input value={this.state.limit} onChange={(e) => {
-                        this.handleLimitChange(e)
-                      }} type="select" name="select">
+                      <Input
+                        value={this.state.limit}
+                        onChange={(e) => {
+                          this.handleLimitChange(e);
+                        }}
+                        type="select"
+                        name="select"
+                      >
                         {limitOptions}
                       </Input>
                     </div>
-                    <Label>{i18n.t('pageRecordLimit.cases')}</Label>
+                    <Label>{i18n.t("pageRecordLimit.cases")}</Label>
                   </div>
-                  <div className='start-toend'>
-                    <DataTableInfo start={this.state.start} limit={this.state.limit} total={this.state.totalCases} itemType={i18n.t('searchPag.itemType')} />
+                  <div className="start-toend">
+                    <DataTableInfo
+                      start={this.state.start}
+                      limit={this.state.limit}
+                      total={this.state.totalCases}
+                      itemType={i18n.t("searchPag.itemType")}
+                    />
                   </div>
                 </article>
-              }
-            </div>
-          )
-        }
-        </I18n>
-    )
+              )}
+          </div>
+        )}
+      </I18n>
+    );
   }
 }
 
-export default translate('translations')(SearchCases);
+export default translate("translations")(SearchCases);

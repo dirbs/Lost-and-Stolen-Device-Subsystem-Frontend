@@ -177,16 +177,21 @@ class UpdateForm extends Component {
                         <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
+                                    {values.case_type === 'web' &&
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
+                                    }
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
+                                {values.case_type === 'web' &&
                                 <Row>
                                     <Col md="6" xs="12">
                                         <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
                                 </Row>
+                                }
                             </Card>
+                            {values.case_type === 'web' &&
                             <Card body outline color="warning" className="mb-0">
                                 <Row>
                                     <Col md="12" xs="12">
@@ -206,6 +211,7 @@ class UpdateForm extends Component {
                                     <div> {errors['oneOfFields'] && <span className="invalid-feedback text-warning" style={{display: 'block'}}>* {errors[field.name]}</span>} </div>
                                 )} />
                             </Card>
+                            }
                         </CardBody>
                     </Card>
               </Col>
@@ -245,6 +251,7 @@ class UpdateForm extends Component {
 const MyEnhancedUpdateForm = withFormik({
     mapPropsToValues: props => {
     return {
+      case_type: props.info.case_type || '',
       tracking_id: props.info.tracking_id || '',
       username: props.info.creator.username || '',
       updated_at: props.info.updated_at || '',
@@ -268,22 +275,17 @@ const MyEnhancedUpdateForm = withFormik({
   // Custom sync validation
   validate: values => {
     let errors = {};
-
+    
+    if(values.case_type === 'web')
+    {
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
     }else if (languageCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
     }
-
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    var regexp = new RegExp(GIN_REGEX, 'gm');
-    if (!values.gin) {
-      errors.gin = `${i18n.t('forms.fieldError')}`
-    } else if (!regexp.exec(values.gin)) {
-      errors.gin = i18n.t('forms.ginFormat')
-    } 
     if(!values.number){
       errors.number = `${i18n.t('forms.fieldError')}`
     }else if(!/^[0-9]+$/.test(values.number)){
@@ -291,6 +293,13 @@ const MyEnhancedUpdateForm = withFormik({
     }else if(values.number.length<7 || values.number.length>15){
       errors.number = i18n.t('form.alternateNumbers')
     }
+    }
+    var regexp = new RegExp(GIN_REGEX, 'gm');
+    if (!values.gin) {
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    } else if (!regexp.exec(values.gin)) {
+      errors.gin = i18n.t('forms.ginFormat')
+    } 
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
     } else if(values.case_comment.length > 1000) {
@@ -320,18 +329,21 @@ function prepareAPIRequest(values, authDetails) {
         searchParams.status_args.case_comment = values.case_comment;
     }
     searchParams.personal_details = {};
+    if(values.case_type === 'web')
+    {
     searchParams.personal_details.full_name = values.full_name;
     if(values.address) {
         searchParams.personal_details.address = values.address;
     }
-    if(values.gin) {
-        searchParams.personal_details.gin = values.gin;
-    }
     if(values.number) {
-        searchParams.personal_details.number = values.number;
+      searchParams.personal_details.number = values.number;
     }
     if(values.email) {
-        searchParams.personal_details.email = values.email;
+      searchParams.personal_details.email = values.email;
+    }
+    }
+    if(values.gin) {
+        searchParams.personal_details.gin = values.gin;
     }
     searchParams.case_details = {};
     if(values.get_blocked) {
