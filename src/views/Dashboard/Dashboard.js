@@ -102,7 +102,7 @@ class Dashboard extends Component {
     let pending_cases = null;
     if(((this.state.data || {}).cases || []).length > 0) {
         pending_cases = this.state.data.cases.map(pending => (
-            <CaseBox info={pending} key={pending.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
+        <CaseBox userDetails={this.props.userDetails} creator={pending.creator} info={pending} key={pending.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
         ));
     }
     return (
@@ -112,9 +112,7 @@ class Dashboard extends Component {
               <div className="search-box animated fadeIn position-relative">
                   <div className="help help-page">
                       <button onClick={()=>this.infoClickHandler()}>
-                          <svg className="icon-registration">
-                              <use xlinkHref="./img/svg-symbol.svg#helpi"></use>
-                          </svg>
+                        <i className="fa fa-info-circle"></i>
                       </button>
                   </div>
                   <ul className="listbox">

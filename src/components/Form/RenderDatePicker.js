@@ -100,8 +100,6 @@ class RenderDateRangePicker extends Component {
 
 
   render() {
-    console.log(defaultLanguage);
-    console.log(window.innerWidth);
     if (defaultLanguage === "id") {
       moment.updateLocale("id", idLocale);
     } else if (defaultLanguage === "es") {

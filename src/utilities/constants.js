@@ -24,6 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 import settings from '../settings.json';
 const {host: kcHost, port:kcPort, version: kcVersion, use: kcUse} = settings.keycloak;
+const {gin: ginRegex} = settings.appDetails;
 
 
 export let KC_URL = '';
@@ -73,9 +74,10 @@ export const ITEMS_PER_PAGE= [
   { value: 100, label: '100' }
 ]
 
-export const ENGLISH_REGEX = /^[a-zA-Z0-9-$@$!%*?&#^_., +()']+$/;
-export const SPANISH_REGEX = /^[0-9A-Za-z-ñáéíóúü$@$!%*?&#^_. +()']+$/i;
-export const INDONESIAN_REGEX = /^[0-9A-Z-a-zé$@$!%*?&#^_. +()']+$/i;
-export const ENGLISH_FULL_NAME = /^[A-Za-z ]+$/i;
-export const SPANISH_FULL_NAME = /^[A-Za-zñáéíóúü ]+$/i;
-export const INDONESIAN_FULL_NAME = /^[A-Za-zé ]+$/i;
+export const ENGLISH_REGEX = /^\S+[a-zA-Z0-9-$@:$!%*?&#"/{}=|<>~`^ _.,+()\n']+$/;
+export const SPANISH_REGEX = /^\S+[0-9A-Za-z-ñáéíóúü$@:$"/{}=|<>~`*!%*?&#^_. ,+()\n']+$/i;
+export const INDONESIAN_REGEX = /^\S+[0-9A-Z-a-zé$@$!%*?:"/{}=|<>~`*&#^_. ,+()\n']+$/i;
+export const ENGLISH_FULL_NAME = /^\S+[A-Za-z ]+$/i;
+export const SPANISH_FULL_NAME = /^\S+[A-Za-zñáéíóúü ]+$/i;
+export const INDONESIAN_FULL_NAME = /^\S+[A-Za-zé ]+$/i;
+export const GIN_REGEX = ginRegex !== undefined ? ginRegex : "^\\d{5}\\-?\\d{7}\\-?\\d$";

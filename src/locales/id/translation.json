@@ -16,6 +16,7 @@
 
   "hI": "Hai",
   "logOut": "Keluar",
+  "bulk": "jumlah besar",
 
   "copyRight": "Hak cipta",
   "DIRBS": "DIRBS",
@@ -23,7 +24,7 @@
   "version": "Versi",
 
   "button.update": "Memperbarui",
-  "button.recover": "Memulihkan",
+  "button.recover": "Buka blokir",
   "button.block": "Blok",
   "button.addNew": "Tambah baru",
   "button.fetchIMEIs": "Ambil IMEI(s)",
@@ -47,6 +48,7 @@
   "caseBox.affectedUser": "Pengguna yang terpengaruh",
   "caseBox.modelName": "Nama model",
   "caseBox.lastUpdated": "Terakhir diperbarui",
+  "caseBox.caseFiled": "Kasus diajukan oleh",
 
   "caseBox.caseStatus": "Status kasus",
 
@@ -95,11 +97,12 @@
   "pageRecordLimit.show": "Menunjukkan",
   "pageRecordLimit.cases": "Kasing",
   "pageRecordLimit.itemType": "kasing",
+  "Source": "Sumber",
 
   "pagetitle.updateCase": "Perbarui kasus",
   "newCase.deviceDescription": "Deskripsi perangkat",
   "newCase.deviceBrand": "Merek",
-  "newCase.deviceModelName": "Nama model",
+  "newCase.deviceModelName": "Model/Nama Pemasaran",
   "newCase.devicePhysical": "Deskripsi Fisik",
   "newCase.imeiKnown": "IMEI dikenal",
   "newCase.yes": "Iya nih",
@@ -126,10 +129,14 @@
   "input.reTypeIMEI": "Ketik ulang IMEI",
 
   "userProfile.fullName": "Nama lengkap",
+  "userProfile.fatherName": "Nama ayah",
+  "userProfile.motherName": "Nama ibu",
+  "userProfile.alternateLandline": "Alternatif Darat no.",
+  "userProfile.district": "Kabupaten/Kota",
   "userProfile.dob": "Tanggal lahir",
-  "userProfile.gin": "Pemerintah identifikasi no.",
-  "userProfile.ginum": "Pemerintah nomor identifikasi",
-  "userProfile.alternatePhoneNo": "Nomor telepon alternatif.",
+  "userProfile.gin": "Nomor Identifikasi Nasional",
+  "userProfile.ginum": "Nomor Identifikasi Nasional",
+  "userProfile.alternatePhoneNo": "Nomor ponsel alternatif.",
   "userProfile.email": "Alamat email",
   "userProfile.address": "Alamat",
 
@@ -146,7 +153,7 @@
   "comments.typeYourFindings": "Ketikkan temuan anda!",
 
   "forms.fieldError": "Bagian ini diperlukan",
-  "forms.oneFieldRequired": "Salah satu bidang wajib diisi",
+  "forms.oneFieldRequired": "Semua bidang yang diperlukan",
   "forms.dobErrorFuture": "Tanggal lahir tidak boleh di masa depan",
   "forms.dobErrorOld": "Tanggal lahir tidak boleh setua itu",
   "forms.emailInvalid": "Alamat email salah",
@@ -166,6 +173,9 @@
   "forms.dateIncidentOld": "Tanggal kejadian tidak boleh setua itu",
   "forms.langError": "Bahasa tidak didukung",
   "forms.fullNameError": "Bahasa yang tidak didukung atau tidak dapat berisi Digit atau Karakter khusus kecuali ruang",
+  "forms.notNumberError" : "Bukan angka yang valid",
+  "forms.ginFormat" : "Govt. nomor identifikasi harus dalam format yang benar.",
+  "form.alternateNumbers": "Jumlahnya harus lebih besar dari 7 dan kurang dari 15",
 
   "confirmation.delItem": "Anda yakin ingin menghapus item ini?",
 
@@ -180,6 +190,16 @@
   "title.updateIMEI": "Perbarui IMEI",
   "title.addIMEI": "Tambahkan IMEI",
 
+  "copyTracking": "Salin ID Pelacakan ke Papan Klip",
+  "andStatusIs": " dan statusnya ",
+  "trackingIdIs": "Tracking ID adalah ",
+  "type": "Tipe.",
+  "invalidFormat": "File yang tidak valid dipilih, file yang valid adalah dari ",
+  "csvOnly": "silahkan upload file .csv saja.",
+  "downloadSampleFile": "Unduh File Contoh",
+  "sampleBlockBulkFile": "Contoh Block Bulk file",
+  "addIMEI": "Tambahkan IMEI",
+  "addMSISDN": "Tambahkan MSISDN",
   "verifyAssociatedIMEIsWithMSISDN": "Verifikasi IMEI terkait dengan MSISDN",
   "caseReporterDeviceDescription": "Deskripsi perangkat reporter kasus",
   "verify": "Memeriksa",
@@ -218,14 +238,32 @@
   "language": "Bahasa",
 
   "dashboard.instructions": "Instruksi",
-  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang/dicuri, pengguna harus mengetahui MSISDN(s) yang terpengaruh atau keduanya MSISDN(s) yang terkena dampak dan IMEI(s) yang terpengaruh.",
+  "dashboard.instructions.li1": "Untuk melaporkan perangkat yang hilang / dicuri, pengguna harus mengetahui MSISDN yang terkena dampak dan IMEI yang terpengaruh.",
   "dashboard.instructions.li2": "Pengguna dapat meminta informasi pembaruan saat kasus dalam “Kasus menunggu”.",
   "dashboard.instructions.li3": "Pengguna dapat meminta hanya memblokir perangkat dalam “Kasus menunggu”, jika opsi “Blokir” diaktifkan.",
   "dashboard.instructions.li4": "Hanya “Kasus yang menunggu keputusan” dan “Kasus yang diblokir” yang dapat dipulihkan.",
   "dashboard.instructions.li5": "Pengguna tidak dapat meminta untuk melakukan tindakan apa pun pada “Kasus yang dipulihkan” yang dipulihkan dapat dilaporkan sebagai “Kasus baru”.",
-  "dashboard.instructions.li6": "Dalam perincian pribadi (Tanggal lahir, No. identifikasi pemerintah, Nomor telepon alternatif. Alamat e-mail, alamat), setiap informasi tunggal cukup untuk pendaftaran kasus.",
+  "dashboard.instructions.li6": "Dalam perincian pribadi, semua bidang diperlukan untuk pendaftaran kasus.",
 
   "multiSelectNoResult": "Tidak ada hasil yang ditemukan",
-  "multiSelectNewCreate": "Buat Opsi"
+  "multiSelectNewCreate": "Buat Opsi",
+
+  "uploadBulkFile": "Unggah file Massal",
+  "success": "Keberhasilan",
+  "failed": "Gagal",
+  "failedIMEISFile": "File IMEI gagal",
+  "sampleUnblockBulkFile": " Contoh Buka Blokir file Massal",
+  "enterTrackingID": "Masukkan ID Pelacakan",
+  "StatusForTrackingID": "Status ID Pelacakan",
+  "is": "adalah",
+  "notified": "diberitahu",
+  "reportFile": "Laporkan File",
+  "informationRequired": "Informasi dibutuhkan!",
+  "IMEIMSISDNandIncidentNatureIsRequired": "IMEI, MSISDN dan Incident Nature diwajibkan untuk melakukan pemeriksaan silang dengan informasi yang diberikan selama pengajuan kasus",
+  "GSMATACInformation": "Informasi GSMA TAC",
+  "checkStatus": "periksa status",
+  "button.clear": "Jelas",
+  "unsupportedBrowserTitle": "Browser tidak didukung",
+  "unsupportedBrowser": "Silakan gunakan Firefox, Chrome, Safari atau Edge untuk menggunakan semua fungsi sistem ini."
 
 }

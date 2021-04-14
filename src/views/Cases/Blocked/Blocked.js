@@ -138,7 +138,7 @@ class Blocked extends Component {
       let blocked_cases = null;
       if(((this.state.data || {}).cases || []).length > 0) {
         blocked_cases = this.state.data.cases.map(blocked => (
-            <CaseBox info={blocked} key={blocked.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
+            <CaseBox userDetails={this.props.userDetails} creator={blocked.creator} info={blocked} key={blocked.tracking_id} handleCaseStatus={this.props.handleCaseStatus} />
         ));
       }
 

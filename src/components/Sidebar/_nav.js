@@ -53,6 +53,31 @@ export default {
             },
         ]
     },
-
+    {
+        id: 8,
+        name: 'Bulk',
+        url: '/bulk',
+        icon: 'fa fa-copyright',
+        children: [
+            {
+                id: 9,
+                name: 'Bulk Block',
+                url: '/bulk/block',
+                icon: ''
+            },
+            {
+                id: 10,
+                name: 'Bulk Unblock',
+                url: '/bulk/unblock',
+                icon: ''
+            }
+        ]
+    },
+    {
+        id: 11,
+        name: 'searchStatusLink',
+        url: '/search-status',
+        icon: 'fa fa-align-center'
+    }
   ]
 };

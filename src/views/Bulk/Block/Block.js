@@ -1,0 +1,248 @@
+import React, { Component } from 'react';
+import { Row, Col, Form, Button, Table, Card, CardHeader, CardBody } from 'reactstrap';
+import { withFormik } from 'formik';
+import i18n from "./../../../i18n";
+import RenderFileInput from './../../../components/Form/RenderFileInput';
+import { instance, getAuthHeader, errors, SweetAlert } from './../../../utilities/helpers';
+import { CSVLink } from "react-csv";
+
+const csvSampleData = [
+  ['imei', 'msisdn', 'alternate_number'],
+  ["35965806000001","03337177450","03332660006"],
+  ["35965806000002","03337177451","03332660007"],
+  ["35965806000003","03337177452","03332660008"],
+  ["35965806000004","03337177453","03332660009"],
+  ["35965806000005","03337177454","03332660010"]
+];
+
+class CaseBulkForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      setButtonDisabled: true
+    }
+  }
+  render() {
+    const {
+      handleSubmit,
+      setFieldValue,
+      setFieldTouched
+    } = this.props;
+    console.log(this.props)
+    return (
+      <Form onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-xl-4 order-xl-12">
+            <div>
+              <div className="alert alert-info"><b>{i18n.t('sampleBlockBulkFile')}</b><hr/>
+              <CSVLink enclosingCharacter={``} className="btn btn-outline-primary btn-sm" filename="Sample Block Bulk.csv" data={csvSampleData}>{i18n.t('downloadSampleFile')}</CSVLink>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-8">
+            <Card>
+              <CardHeader><b>{i18n.t('bulk') + " " + i18n.t('button.block')}</b></CardHeader>
+              <CardBody className='steps-loading'>
+                <div className="row">
+                  <div className="col-xs-12 col-sm-6">
+                    <RenderFileInput
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      name="block_imeis_file"
+                      type="file"
+                      label={i18n.t('uploadBulkFile')}
+                      inputClass="asitfield"
+                      inputClassError="asitfield is-invalid"
+                      requiredStar
+                    />
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+            <div className="text-right">
+              <div className="form-group">
+                <Button type="submit" className="btn btn-primary btn-next-prev" color="primary">{i18n.t('button.submit')}</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Form>
+    );
+  }
+}
+
+const MyEnhancedForm = withFormik({
+  mapPropsToValues: () => ({ block_imeis_file: "", action: 'block' }),
+
+  validate: values => {
+    let errors = {};
+    if (!values.block_imeis_file) {
+      errors.block_imeis_file = i18n.t('csvOnly');
+    }
+    else if (values.block_imeis_file) {
+      const validExts = [".csv"];
+      let fileExt = values.block_imeis_file.name;
+      fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+      if (validExts.indexOf(fileExt) < 0) {
+        errors.block_imeis_file = i18n.t('invalidFormat') + validExts.toString() + i18n.t('type');
+      }
+    }
+    else {
+      this.setState({ setButtonDisabled: false });
+    }
+    return errors;
+  },
+
+  handleSubmit: (values, bag) => {
+    bag.setSubmitting(false);
+    bag.props.callServer(prepareAPIRequest(values));
+  },
+
+  displayName: 'CaseBulkForm', // helps with React DevTools
+})(CaseBulkForm);
+
+function prepareAPIRequest(values) {
+  const formData = new FormData();
+  formData.append('file', values.block_imeis_file);
+  formData.append('action', values.action);
+  return formData;
+}
+
+class Block extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      caseSubmitted: false,
+      cplcStatus: null,
+      checkStatus: null
+    }
+  }
+
+  updateTokenHOC = (callingFunc, values = null) => {
+    let config = null;
+    if (this.props.kc.isTokenExpired(0)) {
+      this.props.kc.updateToken(0)
+        .success(() => {
+          localStorage.setItem('token', this.props.kc.token)
+          config = {
+            headers: getAuthHeader(this.props.kc.token)
+          }
+          callingFunc(config, values);
+        })
+        .error(() => this.props.kc.logout());
+    } else {
+      config = {
+        headers: getAuthHeader()
+      }
+      callingFunc(config, values);
+    }
+  }
+
+  saveCase = (config, values) => {
+    instance.post('/bulk', values, config)
+      .then(response => {
+        if (response.data) {
+          this.setState({ loading: false, cplcStatus: response.data });
+        } else {
+          SweetAlert({
+            title: i18n.t('error'),
+            message: i18n.t('somethingWentWrong'),
+            type: 'error'
+          })
+        }
+      })
+      .catch(error => {
+        errors(this, error);
+      })
+  }
+
+  handleClick = (config, values) => {
+    var textField = document.createElement('textarea')
+    textField.innerText = this.state.cplcStatus.task_id;
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+  }
+
+  handleDownloadFile = (config, values) => {
+    const reportName = this.state.checkStatus.result.report_name;
+    instance.post(`/download/${reportName}`, values, config)
+      .then(response => {
+        if (response.data) {
+          let a = document.createElement("a");
+          let file = new Blob([response.data], { type: 'text/plain' });
+          a.href = URL.createObjectURL(file);
+          a.download = 'bulk_failed_imeis';
+          a.click();
+        } else {
+          SweetAlert({
+            title: i18n.t('error'),
+            message: i18n.t('somethingWentWrong'),
+            type: 'error'
+          })
+        }
+      })
+      .catch(error => {
+        errors(this, error);
+      })
+  }
+
+  render() {
+    const { cplcStatus, checkStatus } = this.state;
+    return (
+      <article>
+        {cplcStatus ?
+          <Row className="">
+            <Col xl={8}>
+              <div className="uploaded-submit-details">
+                <h6>{cplcStatus.message}</h6>
+                <p>{i18n.t('trackingIdIs')}<b>{cplcStatus.task_id}</b>{i18n.t('andStatusIs')}<b>{!checkStatus ? cplcStatus.state : checkStatus.state}</b></p>
+                <div className="link-box">
+                  <Button color="primary" onClick={() => this.updateTokenHOC(this.handleClick)}>{i18n.t('copyTracking')}</Button>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          : <MyEnhancedForm callServer={(values) => this.updateTokenHOC(this.saveCase, values)} />
+        }
+        {checkStatus ?
+          <Row className="justify-content-center">
+            <Col lg={10} xl={8}>
+              <div className="check-status-details">
+                {checkStatus.result.result && <p>{checkStatus.result.result}</p>}
+                {checkStatus.result ?
+                  <div>
+                    <Table striped>
+                      <thead>
+                        <tr>
+                          <th>{i18n.t('success')}</th>
+                          <th>{i18n.t('failed')}</th>
+                          <th>{i18n.t('failedIMEISFile')}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{checkStatus.result.success}</td>
+                          <td>{checkStatus.result.failed}</td>
+                          <td>
+                            <button onClick={() => this.updateTokenHOC(this.handleDownloadFile)}>{checkStatus.result.report_name}</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
+                  : null
+                }
+              </div>
+            </Col>
+          </Row>
+          : null
+        }
+      </article>
+    );
+  }
+}
+
+export default Block;

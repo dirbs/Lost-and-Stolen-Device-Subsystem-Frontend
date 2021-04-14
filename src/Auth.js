@@ -29,7 +29,7 @@ import {HashRouter, Route, Switch} from 'react-router-dom';
 // Containers
 import Full from './containers/Full/';
 
-import {getUserGroups, isPage401} from "./utilities/helpers";
+import {getUserGroups, isPage401, SweetAlert} from "./utilities/helpers";
 import Keycloak from 'keycloak-js';
 import decode from 'jwt-decode';
 import Base64 from 'base-64';
@@ -53,7 +53,8 @@ class Auth extends Component {
 			readyToRedirect: false,
 			redirectToFull : false,
 			userDetails: null,
-			tokenDetails: null
+			tokenDetails: null,
+			userRole: ""
 		};
 	}
 
@@ -63,14 +64,25 @@ class Auth extends Component {
 			realm:realm,
 			clientId:clientId
 		});
-		keycloak.init({onLoad: 'login-required'}).success(authenticated => {
+		keycloak.init({onLoad: 'login-required', 'checkLoginIframe' : false}).success(authenticated => {
 			if(authenticated){
+				let ua = window.navigator.userAgent;
+				let isIE = /MSIE|Trident/.test(ua);
+				if (isIE) {
+					SweetAlert({
+						title: i18n.t('unsupportedBrowserTitle'),
+						message: i18n.t('unsupportedBrowser'),
+						type: 'error'
+					})
+					return null;
+				}
 				this.setState({keycloak: keycloak, authenticated: authenticated})
 				//Set token in local storage
 				localStorage.setItem('token', keycloak.token);
 
 				const tokenDetails = decode(keycloak.token)
 				const groups = getUserGroups(tokenDetails);
+				this.setState({ userRole: groups.includes("admin") ? "admin" : groups.includes("staff") ? "staff" : null });
 				const pageStatus = isPage401(groups);
 				if (pageStatus) { // is Page401 then show page401
 					keycloak.loadUserInfo().success((userInfo) => {
@@ -87,9 +99,13 @@ class Auth extends Component {
 				} else { // User has permission and therefore, allowed to access it.
 					keycloak.loadUserInfo().success( (userInfo) => {
 						localStorage.setItem('userInfo', Base64.encode(JSON.stringify(userInfo)));
+						let userInfoWithRole = {
+							...userInfo,
+							role: this.state.userRole
+						}
 						this.setState({
 							redirectToFull : true,
-							userDetails: userInfo,
+							userDetails: userInfoWithRole,
 							keycloak: keycloak,
 							tokenDetails:tokenDetails
 						},()=>{

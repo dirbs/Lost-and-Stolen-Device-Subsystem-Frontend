@@ -34,6 +34,11 @@ const routes = {
   '/cases/pending': 'pendingCaseLink',
   '/cases/blocked': 'blockedCaseLink',
   '/cases/recovered': 'recoveredCaseLink',
-  '/case-status': 'CaseStatusLink'
+  '/case-status': 'CaseStatusLink',
+  '/search-status': 'searchStatusLink',
+  '/bulk': 'bulk',
+  '/bulk/block' : 'button.block',
+  '/bulk/unblock' : 'button.recover',
+  '/case-unblock' : 'button.recover'
 };
 export default routes;

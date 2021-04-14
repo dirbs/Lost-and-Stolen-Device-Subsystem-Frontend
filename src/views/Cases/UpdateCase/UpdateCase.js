@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { translate, I18n } from 'react-i18next';
-import {instance, errors, getAuthHeader} from './../../../utilities/helpers';
+import {instance, errors, getAuthHeader, fullNameCheck} from './../../../utilities/helpers';
 import {Row, Col, Button, Form, Label, FormGroup, Card, CardHeader, CardBody } from 'reactstrap';
 import BoxLoader from '../../../components/BoxLoader/BoxLoader';
 import { withFormik, Field } from 'formik';
@@ -35,12 +35,13 @@ import renderInput from "../../../components/Form/RenderInput";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import moment from "moment";
-import {Date_Format} from "./../../../utilities/constants";
+import {Date_Format, GIN_REGEX} from "./../../../utilities/constants";
 import renderError from "../../../components/Form/RenderError";
 import {getUserInfo, languageCheck} from "../../../utilities/helpers";
 import { Prompt } from 'react-router'
 import switchToggleButton from "../../../components/Form/SwitchToggleButton";
 import i18n from './../../../i18n';
+import RenderSelect from '../../../components/Form/renderSelect';
 
 /**
  * This Stateful component Provides an update functionality of Personal Details related with Case.
@@ -173,43 +174,33 @@ class UpdateForm extends Component {
                             <b>{i18n.t('newCase.personalDetails')}</b>
                         </CardHeader>
                         <CardBody className="p-2">
-                            <Card body outline color="secondary" className="mb-2">
+                        <Card body outline color="secondary" className="mb-2">
                                 <Row>
                                     <Col md="12" xs="12">
+                                    {values.case_type === 'web' &&
                                         <Field name="full_name" component={renderInput} label={i18n.t('userProfile.fullName')} type="text" placeholder={i18n.t('userProfile.fullName')} requiredStar />
-                                    </Col>
-                                </Row>
-                            </Card>
-                            <Card body outline color="warning" className="mb-0">
-                                <Row>
-                                    <Col md="6">
-                                        <FormGroup>
-                                            <Label>{i18n.t('userProfile.dob')} <span className="text-warning">*</span></Label>
-                                            <RenderDatePicker
-                                                name="dob"
-                                                value={values.dob}
-                                                onChange={setFieldValue}
-                                                onBlur={setFieldTouched}
-                                                curDate={values.dob}
-                                            />
-                                            <Field name="dob" component={renderError} />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md="6" xs="12">
+                                    }
                                         <Field name="gin" component={renderInput} label={i18n.t('userProfile.gin')} type="text" placeholder={i18n.t('userProfile.ginum')} warningStar />
                                     </Col>
                                 </Row>
+                                {values.case_type === 'web' &&
                                 <Row>
                                     <Col md="6" xs="12">
-                                        <Field name="alternate_number" component={renderInput} label={i18n.t('userProfile.alternatePhoneNo')} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
+                                        <Field name="number" component={renderInput} label={`${i18n.t('userProfile.alternatePhoneNo')} (for future contact/SMS)`} type="text" placeholder={i18n.t('userProfile.alternatePhoneNo')} warningStar />
                                     </Col>
-                                    <Col md="6" xs="12">
-                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} warningStar />
+                                </Row>
+                                }
+                            </Card>
+                            {values.case_type === 'web' &&
+                            <Card body outline color="warning" className="mb-0">
+                                <Row>
+                                    <Col md="12" xs="12">
+                                        <Field name="email" component={renderInput} label={i18n.t('userProfile.email')} type="text" placeholder={i18n.t('userProfile.email')} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md="12" xs="12">
-                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} warningStar />
+                                        <Field name="address" component={renderInput} label={i18n.t('userProfile.address')} type="text" placeholder={i18n.t('userProfile.address')} />
                                     </Col>
                                 </Row>
                                 <Field name="oneOfFields" render={({
@@ -220,6 +211,7 @@ class UpdateForm extends Component {
                                     <div> {errors['oneOfFields'] && <span className="invalid-feedback text-warning" style={{display: 'block'}}>* {errors[field.name]}</span>} </div>
                                 )} />
                             </Card>
+                            }
                         </CardBody>
                     </Card>
               </Col>
@@ -259,6 +251,7 @@ class UpdateForm extends Component {
 const MyEnhancedUpdateForm = withFormik({
     mapPropsToValues: props => {
     return {
+      case_type: props.info.case_type || '',
       tracking_id: props.info.tracking_id || '',
       username: props.info.creator.username || '',
       updated_at: props.info.updated_at || '',
@@ -272,8 +265,7 @@ const MyEnhancedUpdateForm = withFormik({
       address: props.info.personal_details.address === 'N/A' ? '': props.info.personal_details.address || '',
       gin: props.info.personal_details.gin === 'N/A' ? '': props.info.personal_details.gin || '',
       full_name: props.info.personal_details.full_name === 'N/A' ? '' : props.info.personal_details.full_name || '',
-      dob: props.info.personal_details.dob === 'N/A' ? '' : props.info.personal_details.dob || '',
-      alternate_number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
+      number: props.info.personal_details.number === 'N/A' ? '' : props.info.personal_details.number || '',
       email: props.info.personal_details.email === 'N/A' ? '': props.info.personal_details.email || '',
       get_blocked: props.info.get_blocked,
       case_comment: ''
@@ -283,39 +275,31 @@ const MyEnhancedUpdateForm = withFormik({
   // Custom sync validation
   validate: values => {
     let errors = {};
-
+    
+    if(values.case_type === 'web')
+    {
     if (!values.full_name) {
         errors.full_name= `${i18n.t('forms.fieldError')}`
     }else if (languageCheck(values.full_name) === false){
         errors.full_name = i18n.t('forms.langError')
     }
-    if (!values.dob && !values.alternate_number && !values.address && !values.gin && !values.email) {
-        errors.oneOfFields = `${i18n.t('forms.oneFieldRequired')}`
-    }
-    let today = moment().format(Date_Format);
-    let paste =  moment('1900-01-01').format(Date_Format);
-    if (!values.dob) {
-
-    } else if (today < values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorFuture')}`;
-    } else if (paste >= values.dob) {
-      errors.dob = `${i18n.t('forms.dobErrorOld')}`;
-    }
-    if (!values.email) {
-
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-        values.email
-      )
-    ) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email) {
       errors.email = `${i18n.t('forms.emailInvalid')}`;
     }
-    if(!values.address){
-
+    if(!values.number){
+      errors.number = `${i18n.t('forms.fieldError')}`
+    }else if(!/^[0-9]+$/.test(values.number)){
+      errors.number = i18n.t('forms.notNumberError')
+    }else if(values.number.length<7 || values.number.length>15){
+      errors.number = i18n.t('form.alternateNumbers')
     }
-    else if (languageCheck(values.address) === false){
-        errors.address = i18n.t('forms.langError')
     }
+    var regexp = new RegExp(GIN_REGEX, 'gm');
+    if (!values.gin) {
+      errors.gin = `${i18n.t('forms.fieldError')}`
+    } else if (!regexp.exec(values.gin)) {
+      errors.gin = i18n.t('forms.ginFormat')
+    } 
     if (!values.case_comment) {
         errors.case_comment= `${i18n.t('forms.fieldError')}`
     } else if(values.case_comment.length > 1000) {
@@ -328,37 +312,38 @@ const MyEnhancedUpdateForm = withFormik({
 
   handleSubmit: (values, bag) => {
     bag.setSubmitting(false);
-    bag.props.callServer(prepareAPIRequest(values));
+    bag.props.callServer(prepareAPIRequest(values, bag.props.authDetails));
   },
 
   displayName: 'UpdateForm', // helps with React DevTools
 })(UpdateForm);
 
-function prepareAPIRequest(values) {
+function prepareAPIRequest(values, authDetails) {
     // Validate Values before sending
     const searchParams = {};
     searchParams.status_args = {};
     searchParams.status_args.user_id = getUserInfo().sub;
     searchParams.status_args.username = getUserInfo().preferred_username;
+    searchParams.status_args.role = authDetails.role;
     if(values.case_comment) {
         searchParams.status_args.case_comment = values.case_comment;
     }
     searchParams.personal_details = {};
+    if(values.case_type === 'web')
+    {
     searchParams.personal_details.full_name = values.full_name;
-    if(values.dob) {
-        searchParams.personal_details.dob = values.dob;
-    }
     if(values.address) {
         searchParams.personal_details.address = values.address;
     }
-    if(values.gin) {
-        searchParams.personal_details.gin = values.gin;
-    }
-    if(values.alternate_number) {
-        searchParams.personal_details.number = values.alternate_number;
+    if(values.number) {
+      searchParams.personal_details.number = values.number;
     }
     if(values.email) {
-        searchParams.personal_details.email = values.email;
+      searchParams.personal_details.email = values.email;
+    }
+    }
+    if(values.gin) {
+        searchParams.personal_details.gin = values.gin;
     }
     searchParams.case_details = {};
     if(values.get_blocked) {
@@ -446,6 +431,7 @@ class UpdateCase extends Component {
   }
 
   render() {
+    let authDetails = this.props.userDetails;
     return (
         <I18n ns="translations">
         {
@@ -463,7 +449,7 @@ class UpdateCase extends Component {
                             </div>
                         )
                         :
-                        <MyEnhancedUpdateForm callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
+                        <MyEnhancedUpdateForm  authDetails={authDetails} callServer={(values) => this.updateTokenHOC(this.updateCase, values)} info={this.state.data} caseSubmitted={this.state.caseSubmitted} />
                 }
                 </ul>
             </div>
