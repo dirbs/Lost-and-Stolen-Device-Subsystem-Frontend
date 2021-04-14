@@ -5,7 +5,7 @@
   "homepage": "http://192.168.100.20/ptalsds",
   "dependencies": {
     "airbnb-browser-shims": "^3.2.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "base-64": "^0.1.0",
     "bootstrap": "^4.3.1",
